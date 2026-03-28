@@ -7,8 +7,7 @@ export const lesson32QuizData: Lesson32QuizQuestion[] = [
     prompt: "Co quan nao bat dau tieu hoa tinh bot?",
     options: ["Dạ dày", "Miệng", "Ruột già", "Gan"],
     correctAnswerIndex: 1,
-    feedback:
-      "Amylase trong nuoc bot o mieng bat dau phan giai tinh bot.",
+    feedback: "Amylase trong nuoc bot o mieng bat dau phan giai tinh bot.",
     difficulty: "easy",
     relatedSection: "explorer",
   },
@@ -33,8 +32,7 @@ export const lesson32QuizData: Lesson32QuizQuestion[] = [
       "Sở thích âm nhạc",
     ],
     correctAnswerIndex: 0,
-    feedback:
-      "Nhu cau dinh duong phu thuoc do tuoi, suc khoe va muc van dong.",
+    feedback: "Nhu cau dinh duong phu thuoc do tuoi, suc khoe va muc van dong.",
     difficulty: "medium",
     relatedSection: "nutrition",
   },
@@ -98,7 +96,12 @@ export const lesson32QuizData: Lesson32QuizQuestion[] = [
     id: "q8",
     category: "Benh tieu hoa",
     prompt: "Dau hieu nao thuong gap o viem loet da day - ta trang?",
-    options: ["Dau vung thuong vi", "Giam thi luc", "Dau co bap", "Met moi mat ngu"],
+    options: [
+      "Dau vung thuong vi",
+      "Giam thi luc",
+      "Dau co bap",
+      "Met moi mat ngu",
+    ],
     correctAnswerIndex: 0,
     feedback: "Dau vung thuong vi va o chua la dau hieu thuong gap.",
     difficulty: "medium",
