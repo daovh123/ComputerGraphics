@@ -35,41 +35,74 @@ export interface Lesson32OrganData {
 export interface Lesson32DigestionStep {
   id: string;
   order: number;
+  slug: string;
   organId: string;
   title: string;
-  whatHappens: string;
-  mechanical: string;
-  chemical: string;
-  absorption: string;
-  supportingOrgans: string[];
-  visualHint: string;
+  shortDescription: string;
+  mechanicalDigestion: boolean;
+  chemicalDigestion: boolean;
+  absorption: boolean;
+  absorptionNote: string;
+  supportOrgans: string[];
+  summaryBadges: string[];
+  whatHappens?: string;
+  mechanical?: string;
+  chemical?: string;
+  supportingOrgans?: string[];
+  visualHint?: string;
 }
 
 export interface Lesson32Disease {
   id: string;
-  name: string;
+  title: string;
   shortDescription: string;
   causes: string[];
   symptoms: string[];
   prevention: string[];
-  shouldDo: string[];
-  shouldAvoid: string[];
+  doList?: string[];
+  avoidList?: string[];
+}
+
+export interface Lesson32NutrientGroup {
+  id: string;
+  title: string;
+  role: string;
+  examples: string[];
 }
 
 export interface Lesson32NutritionData {
-  nutrientGroups: string[];
+  introSummary: string;
+  nutrientGroups: Lesson32NutrientGroup[];
   nutritionPrinciples: string[];
   factorsAffectingNeeds: string[];
   mealPlanningTips: string[];
+  quickMealIdeas: string[];
   simpleActivities: string[];
 }
 
+export interface Lesson32SafetyClassificationItem {
+  id: string;
+  item: string;
+  isSafe: boolean;
+  reason: string;
+}
+
+export interface Lesson32TrueFalseItem {
+  id: string;
+  statement: string;
+  isTrue: boolean;
+  explanation: string;
+}
+
 export interface Lesson32FoodSafetyData {
+  safeFoodDefinition: string;
   unsafeSources: string[];
   consequences: string[];
   choosingRules: string[];
   storageRules: string[];
   cookingRules: string[];
+  classificationItems: Lesson32SafetyClassificationItem[];
+  trueFalseItems: Lesson32TrueFalseItem[];
   safetyScenarios: Array<{
     id: string;
     prompt: string;
