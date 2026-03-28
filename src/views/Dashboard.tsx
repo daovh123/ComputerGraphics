@@ -1,14 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  Play,
-  Clock,
-  BookOpen,
-  Star,
-  ChevronRight,
-  Calculator,
-  Languages,
-  BookText,
-} from "lucide-react";
+import { Play, Clock, Star, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { SUBJECTS } from "../constants/subjects";
 import { cn } from "../lib/utils";
