@@ -38,7 +38,9 @@ export default function Lesson32FoodSafety() {
 
         <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm space-y-4">
           <div>
-            <h3 className="font-bold text-[#1f2937]">Lựa chọn thực phẩm an toàn</h3>
+            <h3 className="font-bold text-[#1f2937]">
+              Lựa chọn thực phẩm an toàn
+            </h3>
             <ul className="mt-3 space-y-1 text-sm text-[#334155]">
               {foodSafety.choosingRules.map((item) => (
                 <li key={item}>- {item}</li>
@@ -68,7 +70,9 @@ export default function Lesson32FoodSafety() {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm">
-          <h3 className="font-bold text-[#1f2937]">Phân loại nhanh an toàn/không an toàn</h3>
+          <h3 className="font-bold text-[#1f2937]">
+            Phân loại nhanh an toàn/không an toàn
+          </h3>
           <ul className="mt-3 space-y-1 text-sm text-[#334155]">
             {foodSafety.classificationItems.map((item) => (
               <li
@@ -76,7 +80,13 @@ export default function Lesson32FoodSafety() {
                 className="p-2 rounded-lg border border-[#EAF5FF] bg-[#F8FCFF]"
               >
                 {item.item}
-                <span className={item.isSafe ? "text-[#166534] font-bold" : "text-[#991b1b] font-bold"}>
+                <span
+                  className={
+                    item.isSafe
+                      ? "text-[#166534] font-bold"
+                      : "text-[#991b1b] font-bold"
+                  }
+                >
                   {item.isSafe ? " (An toan)" : " (Khong an toan)"}
                 </span>
                 <p className="text-xs text-[#64748B] mt-1">{item.reason}</p>
@@ -103,7 +113,9 @@ export default function Lesson32FoodSafety() {
                 >
                   {item.isTrue ? " (Dung)" : " (Sai)"}
                 </span>
-                <p className="text-xs text-[#64748B] mt-1">{item.explanation}</p>
+                <p className="text-xs text-[#64748B] mt-1">
+                  {item.explanation}
+                </p>
               </li>
             ))}
           </ul>
@@ -111,7 +123,8 @@ export default function Lesson32FoodSafety() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Ghi nho: Chon dung, bao quan dung, che bien dung la 3 buoc quan trong de phong tranh ngo doc thuc pham.
+        Ghi nho: Chon dung, bao quan dung, che bien dung la 3 buoc quan trong de
+        phong tranh ngo doc thuc pham.
       </section>
     </div>
   );
