@@ -1,59 +1,191 @@
 import React, { useMemo, useState } from "react";
-import { lesson32Quiz } from "./content";
+import { lesson32KnowledgeContent } from "../../features/lesson32/data/content";
 
 export default function Lesson32Quiz() {
+  const quizQuestions = lesson32KnowledgeContent.quiz;
+  const finalActivity = lesson32KnowledgeContent.activity;
+
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
+  const [answered, setAnswered] = useState(false);
   const [done, setDone] = useState(false);
 
-  const item = lesson32Quiz[index];
-  const isCorrect = picked === item.answer;
+  const [activitySelections, setActivitySelections] = useState<string[]>([]);
+  const [activitySubmitted, setActivitySubmitted] = useState(false);
+
+  const item = quizQuestions[index];
+  const isCorrect = picked === item.correctAnswerIndex;
+  const progressPercent = ((index + 1) / quizQuestions.length) * 100;
 
   const progressLabel = useMemo(
-    () => `${index + 1}/${lesson32Quiz.length}`,
+    () => `${index + 1}/${quizQuestions.length}`,
     [index],
   );
 
   const onPick = (optionIndex: number) => {
-    if (picked !== null) {
+    if (answered) {
       return;
     }
     setPicked(optionIndex);
-    if (optionIndex === item.answer) {
+  };
+
+  const onCheckAnswer = () => {
+    if (picked === null || answered) {
+      return;
+    }
+    setAnswered(true);
+    if (picked === item.correctAnswerIndex) {
       setScore((prev) => prev + 1);
     }
   };
 
   const onNext = () => {
-    if (index === lesson32Quiz.length - 1) {
+    if (!answered) {
+      return;
+    }
+    if (index === quizQuestions.length - 1) {
       setDone(true);
       return;
     }
     setIndex((prev) => prev + 1);
     setPicked(null);
+    setAnswered(false);
   };
 
   const reset = () => {
     setIndex(0);
     setScore(0);
     setPicked(null);
+    setAnswered(false);
     setDone(false);
+    setActivitySelections([]);
+    setActivitySubmitted(false);
+  };
+
+  const toggleActivitySelection = (itemId: string) => {
+    if (activitySubmitted) {
+      return;
+    }
+    setActivitySelections((prev) => {
+      if (prev.includes(itemId)) {
+        return prev.filter((id) => id !== itemId);
+      }
+      return [...prev, itemId];
+    });
+  };
+
+  const submitActivity = () => {
+    setActivitySubmitted(true);
+  };
+
+  const activityCorrectCount = finalActivity.items.filter((activityItem) => {
+    const selected = activitySelections.includes(activityItem.id);
+    return selected === activityItem.isCorrect;
+  }).length;
+
+  const activityTotalCount = finalActivity.items.length;
+
+  const scoreLabel = useMemo(() => {
+    const percent = (score / quizQuestions.length) * 100;
+    if (percent >= 80) {
+      return "Rat tot - Em da nam kha chac noi dung bai hoc.";
+    }
+    if (percent >= 60) {
+      return "Tot - Em da hieu phan lon noi dung, hay on lai mot vai muc.";
+    }
+    return "Can on tap them - Thu xem lai tung man hoc va lam lai quiz.";
+  }, [quizQuestions.length, score]);
+
+  const feedbackText = item.feedback || item.explanation || "";
+  const promptText = item.prompt || item.question || "";
+
+  const activityResultLabel = useMemo(() => {
+    const percent = (activityCorrectCount / activityTotalCount) * 100;
+    if (percent >= 80) {
+      return "Em da chon rat chinh xac cac thoi quen tot.";
+    }
+    if (percent >= 60) {
+      return "Ket qua kha tot, em can xem lai mot vai thoi quen.";
+    }
+    return "Em nen doc lai goi y va thu lai activity.";
+  }, [activityCorrectCount, activityTotalCount]);
+
+  const renderActivity = () => {
+    return (
+      <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm space-y-4 text-left">
+        <h3 className="text-xl font-extrabold text-[#1f2937]">
+          {finalActivity.title}
+        </h3>
+        <p className="text-sm text-[#556070]">{finalActivity.instruction}</p>
+
+        <div className="space-y-2">
+          {finalActivity.items.map((activityItem) => {
+            const checked = activitySelections.includes(activityItem.id);
+            const showCorrect = activitySubmitted && activityItem.isCorrect;
+            const showWrong = activitySubmitted && checked && !activityItem.isCorrect;
+
+            return (
+              <label
+                key={activityItem.id}
+                className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer ${
+                  showCorrect
+                    ? "border-green-400 bg-green-50"
+                    : showWrong
+                      ? "border-red-400 bg-red-50"
+                      : "border-[#DDEEFF] bg-[#F8FCFF]"
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={activitySubmitted}
+                  onChange={() => toggleActivitySelection(activityItem.id)}
+                  className="mt-1"
+                />
+                <span className="text-sm text-[#334155]">{activityItem.label}</span>
+              </label>
+            );
+          })}
+        </div>
+
+        {!activitySubmitted ? (
+          <button
+            onClick={submitActivity}
+            className="px-5 py-2 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
+          >
+            Cham activity
+          </button>
+        ) : (
+          <div className="space-y-3">
+            <p className="text-sm text-[#334155] font-semibold">
+              Ket qua activity: {activityCorrectCount}/{activityTotalCount} muc dung.
+            </p>
+            <p className="text-sm text-[#475569]">{activityResultLabel}</p>
+            <p className="text-sm text-[#475569]">{finalActivity.feedbackSummary}</p>
+          </div>
+        )}
+      </section>
+    );
   };
 
   if (done) {
     return (
-      <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm text-center space-y-4">
-        <h2 className="text-3xl font-extrabold text-[#333]">Hoàn thành quiz</h2>
-        <p className="text-[#556070]">
-          Bạn đạt {score}/{lesson32Quiz.length} câu đúng.
-        </p>
-        <button
-          onClick={reset}
-          className="px-5 py-2 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
-        >
-          Làm lại
-        </button>
+      <div className="space-y-5">
+        <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm text-center space-y-3">
+          <h2 className="text-3xl font-extrabold text-[#333]">Hoan thanh quiz</h2>
+          <p className="text-[#556070]">
+            Ban dat {score}/{quizQuestions.length} cau dung.
+          </p>
+          <p className="text-sm text-[#334155]">{scoreLabel}</p>
+          <button
+            onClick={reset}
+            className="px-5 py-2 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
+          >
+            Lam lai tu dau
+          </button>
+        </div>
+        {renderActivity()}
       </div>
     );
   }
@@ -66,21 +198,39 @@ export default function Lesson32Quiz() {
           {progressLabel}
         </span>
       </div>
-      <p className="text-lg font-bold text-[#334155]">{item.question}</p>
+
+      <div className="w-full h-2 rounded-full bg-[#E8F3FF] overflow-hidden">
+        <div
+          className="h-full bg-[#00BFFF] transition-all duration-300"
+          style={{ width: `${progressPercent}%` }}
+        />
+      </div>
+
+      <div className="inline-flex px-3 py-1 rounded-lg bg-[#F2FAFF] border border-[#D8F1FF] text-xs font-bold text-[#0369A1]">
+        {item.category}
+      </div>
+
+      <p className="text-lg font-bold text-[#334155]">{promptText}</p>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {item.options.map((option, optionIndex) => {
           const selected = picked === optionIndex;
-          const showCorrect = picked !== null && optionIndex === item.answer;
+          const showCorrect = answered && optionIndex === item.correctAnswerIndex;
+          const showWrong = answered && selected && !showCorrect;
+
           return (
             <button
               key={option}
               onClick={() => onPick(optionIndex)}
+              disabled={answered}
               className={`p-4 rounded-xl border text-left transition-colors ${
                 showCorrect
                   ? "border-green-500 bg-green-50 text-green-700"
-                  : selected
+                  : showWrong
                     ? "border-red-500 bg-red-50 text-red-700"
-                    : "border-[#DCEEFF] hover:border-[#00BFFF] bg-white text-[#475569]"
+                    : selected
+                      ? "border-[#00BFFF] bg-[#F2FAFF] text-[#0F172A]"
+                      : "border-[#DCEEFF] hover:border-[#00BFFF] bg-white text-[#475569]"
               }`}
             >
               {option}
@@ -88,28 +238,58 @@ export default function Lesson32Quiz() {
           );
         })}
       </div>
+
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#64748B]">
           {picked === null
-            ? "Chọn đáp án để tiếp tục"
+            ? "Chon dap an"
+            : !answered
+              ? "Nhan 'Kiem tra' de xem ket qua"
             : isCorrect
-              ? "Chính xác"
-              : "Chưa đúng"}
+              ? "Dung"
+              : "Sai"}
         </p>
-        <button
-          onClick={onNext}
-          disabled={picked === null}
-          className="px-5 py-2 rounded-xl bg-[#00BFFF] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
-        >
-          {index === lesson32Quiz.length - 1 ? "Xem kết quả" : "Câu tiếp"}
-        </button>
+
+        <div className="flex gap-2">
+          <button
+            onClick={onCheckAnswer}
+            disabled={picked === null || answered}
+            className="px-5 py-2 rounded-xl bg-[#0EA5E9] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
+          >
+            Kiem tra
+          </button>
+          <button
+            onClick={onNext}
+            disabled={!answered}
+            className="px-5 py-2 rounded-xl bg-[#00BFFF] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
+          >
+            {index === quizQuestions.length - 1 ? "Xem ket qua" : "Cau tiep"}
+          </button>
+        </div>
       </div>
-      {picked !== null && (
-        <div className="rounded-xl border border-[#DDF0FF] bg-[#F8FCFF] p-3 text-sm text-[#334155]">
-          <span className="font-bold">Giải thích: </span>
-          <span>{item.explanation}</span>
+
+      {answered && (
+        <div className="rounded-xl border border-[#DDF0FF] bg-[#F8FCFF] p-3 text-sm text-[#334155] space-y-1">
+          <p>
+            <span className="font-bold">Ket qua: </span>
+            {isCorrect ? "Dung" : "Sai"}
+          </p>
+          <p>
+            <span className="font-bold">Goi y: </span>
+            {feedbackText}
+          </p>
+          {!isCorrect && (
+            <p>
+              <span className="font-bold">Dap an dung: </span>
+              {item.options[item.correctAnswerIndex]}
+            </p>
+          )}
         </div>
       )}
+
+      <div className="rounded-xl border border-[#EAF5FF] bg-[#F8FCFF] p-3 text-xs text-[#475569]">
+        Bao phu quiz: dinh duong, co quan tieu hoa, qua trinh tieu hoa, benh duong tieu hoa, an toan thuc pham.
+      </div>
     </div>
   );
 }
