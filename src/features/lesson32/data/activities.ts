@@ -18,7 +18,8 @@ export const lesson32ActivitiesData: Lesson32ActivitiesData = {
         id: "habit-2",
         label: "Bo bua sang de giam can nhanh.",
         isCorrect: false,
-        explanation: "Bo bua sang de lam co the thieu nang luong va de an bu tru.",
+        explanation:
+          "Bo bua sang de lam co the thieu nang luong va de an bu tru.",
       },
       {
         id: "habit-3",

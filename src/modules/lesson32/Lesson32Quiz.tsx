@@ -123,7 +123,8 @@ export default function Lesson32Quiz() {
           {finalActivity.items.map((activityItem) => {
             const checked = activitySelections.includes(activityItem.id);
             const showCorrect = activitySubmitted && activityItem.isCorrect;
-            const showWrong = activitySubmitted && checked && !activityItem.isCorrect;
+            const showWrong =
+              activitySubmitted && checked && !activityItem.isCorrect;
 
             return (
               <label
@@ -143,7 +144,9 @@ export default function Lesson32Quiz() {
                   onChange={() => toggleActivitySelection(activityItem.id)}
                   className="mt-1"
                 />
-                <span className="text-sm text-[#334155]">{activityItem.label}</span>
+                <span className="text-sm text-[#334155]">
+                  {activityItem.label}
+                </span>
               </label>
             );
           })}
@@ -159,10 +162,13 @@ export default function Lesson32Quiz() {
         ) : (
           <div className="space-y-3">
             <p className="text-sm text-[#334155] font-semibold">
-              Ket qua activity: {activityCorrectCount}/{activityTotalCount} muc dung.
+              Ket qua activity: {activityCorrectCount}/{activityTotalCount} muc
+              dung.
             </p>
             <p className="text-sm text-[#475569]">{activityResultLabel}</p>
-            <p className="text-sm text-[#475569]">{finalActivity.feedbackSummary}</p>
+            <p className="text-sm text-[#475569]">
+              {finalActivity.feedbackSummary}
+            </p>
           </div>
         )}
       </section>
@@ -173,7 +179,9 @@ export default function Lesson32Quiz() {
     return (
       <div className="space-y-5">
         <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm text-center space-y-3">
-          <h2 className="text-3xl font-extrabold text-[#333]">Hoan thanh quiz</h2>
+          <h2 className="text-3xl font-extrabold text-[#333]">
+            Hoan thanh quiz
+          </h2>
           <p className="text-[#556070]">
             Ban dat {score}/{quizQuestions.length} cau dung.
           </p>
@@ -215,7 +223,8 @@ export default function Lesson32Quiz() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {item.options.map((option, optionIndex) => {
           const selected = picked === optionIndex;
-          const showCorrect = answered && optionIndex === item.correctAnswerIndex;
+          const showCorrect =
+            answered && optionIndex === item.correctAnswerIndex;
           const showWrong = answered && selected && !showCorrect;
 
           return (
@@ -245,9 +254,9 @@ export default function Lesson32Quiz() {
             ? "Chon dap an"
             : !answered
               ? "Nhan 'Kiem tra' de xem ket qua"
-            : isCorrect
-              ? "Dung"
-              : "Sai"}
+              : isCorrect
+                ? "Dung"
+                : "Sai"}
         </p>
 
         <div className="flex gap-2">
@@ -288,7 +297,8 @@ export default function Lesson32Quiz() {
       )}
 
       <div className="rounded-xl border border-[#EAF5FF] bg-[#F8FCFF] p-3 text-xs text-[#475569]">
-        Bao phu quiz: dinh duong, co quan tieu hoa, qua trinh tieu hoa, benh duong tieu hoa, an toan thuc pham.
+        Bao phu quiz: dinh duong, co quan tieu hoa, qua trinh tieu hoa, benh
+        duong tieu hoa, an toan thuc pham.
       </div>
     </div>
   );
