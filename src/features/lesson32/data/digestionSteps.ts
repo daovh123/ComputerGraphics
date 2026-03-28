@@ -64,7 +64,8 @@ export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
     slug: "large-intestine",
     organId: "large-intestine",
     title: "Ruột già",
-    shortDescription: "Hap thu them nuoc, tao phan va day dan ve cuoi ong tieu hoa.",
+    shortDescription:
+      "Hap thu them nuoc, tao phan va day dan ve cuoi ong tieu hoa.",
     mechanicalDigestion: false,
     chemicalDigestion: false,
     absorption: true,
