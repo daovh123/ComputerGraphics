@@ -3,7 +3,7 @@ import { Lesson32Disease } from "./types";
 export const lesson32DiseasesData: Lesson32Disease[] = [
   {
     id: "tooth-decay",
-    name: "Sâu răng",
+    title: "Sâu răng",
     shortDescription:
       "Tổn thương mô răng do vi khuẩn và vệ sinh răng miệng chưa tốt.",
     causes: [
@@ -17,12 +17,12 @@ export const lesson32DiseasesData: Lesson32Disease[] = [
       "Hạn chế đồ ngọt",
       "Khám răng định kỳ",
     ],
-    shouldDo: ["Súc miệng sau ăn", "Dùng chỉ nha khoa"],
-    shouldAvoid: ["Ăn ngọt trước khi ngủ", "Bỏ qua cơn đau răng kéo dài"],
+    doList: ["Súc miệng sau ăn", "Dùng chỉ nha khoa"],
+    avoidList: ["Ăn ngọt trước khi ngủ", "Bỏ qua cơn đau răng kéo dài"],
   },
   {
     id: "gastric-ulcer",
-    name: "Viêm loét dạ dày - tá tràng",
+    title: "Viêm loét dạ dày - tá tràng",
     shortDescription:
       "Tình trạng niêm mạc dạ dày hoặc tá tràng bị viêm và tổn thương.",
     causes: [
@@ -32,7 +32,7 @@ export const lesson32DiseasesData: Lesson32Disease[] = [
     ],
     symptoms: ["Đau vùng thượng vị", "Ợ chua", "Khó tiêu"],
     prevention: ["Ăn đúng giờ", "Giảm căng thẳng", "Không tự ý dùng thuốc"],
-    shouldDo: ["Thăm khám khi đau tái diễn", "Ăn chậm, chia nhỏ bữa"],
-    shouldAvoid: ["Bỏ bữa kéo dài", "Ăn quá cay nóng"],
+    doList: ["Thăm khám khi đau tái diễn", "Ăn chậm, chia nhỏ bữa"],
+    avoidList: ["Bỏ bữa kéo dài", "Ăn quá cay nóng"],
   },
 ];
