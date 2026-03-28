@@ -194,7 +194,9 @@ export default function Lesson32Simulation() {
             <p className="text-xs font-bold uppercase tracking-wider text-[#475569]">
               Ghi chu hap thu
             </p>
-            <p className="mt-1 text-sm text-[#475569]">{currentStep.absorptionNote}</p>
+            <p className="mt-1 text-sm text-[#475569]">
+              {currentStep.absorptionNote}
+            </p>
           </div>
 
           {currentStep.supportOrgans.length > 0 && (
