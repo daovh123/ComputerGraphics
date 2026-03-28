@@ -6,31 +6,31 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 
 interface LibraryProps {
   setCurrentView: (view: View) => void;
-  setSelectedLessonTitle: (title: string) => void;
   goBack: () => void;
-  selectedSubjectId: string;
   setSelectedSubjectId: (id: string) => void;
 }
 
-export default function Library({ 
-  setCurrentView, 
-  setSelectedLessonTitle, 
+export default function Library({
+  setCurrentView,
   goBack,
-  selectedSubjectId,
-  setSelectedSubjectId
+  setSelectedSubjectId,
 }: LibraryProps) {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8 flex items-center gap-4">
-        <button 
+        <button
           onClick={goBack}
           className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <div>
-          <h1 className="text-3xl font-extrabold text-[#005F8F] mb-2">Thư viện học liệu lớp 8</h1>
-          <p className="text-[#666]">Khám phá các môn học và tài liệu học tập dành cho học sinh lớp 8.</p>
+          <h1 className="text-3xl font-extrabold text-[#005F8F] mb-2">
+            Thư viện học liệu lớp 8
+          </h1>
+          <p className="text-[#666]">
+            Khám phá các môn học và tài liệu học tập dành cho học sinh lớp 8.
+          </p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ export default function Library({
             className="bg-white rounded-2xl p-6 shadow-sm border border-[#E0F0FF] hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="flex items-start justify-between mb-4">
-              <div 
+              <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg"
                 style={{ backgroundColor: subject.color }}
               >
@@ -59,11 +59,11 @@ export default function Library({
                 <ChevronRight className="w-5 h-5" />
               </div>
             </div>
-            
+
             <h3 className="text-xl font-bold text-[#333] mb-1 group-hover:text-[#00BFFF] transition-colors">
               {subject.name}
             </h3>
-            
+
             {subject.description && (
               <p className="text-xs text-[#999] mb-3">{subject.description}</p>
             )}

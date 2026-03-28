@@ -168,9 +168,7 @@ export default function App() {
           element={
             <Library
               setCurrentView={navigate}
-              setSelectedLessonTitle={setSelectedLessonTitle}
               goBack={goBack}
-              selectedSubjectId={selectedSubjectId}
               setSelectedSubjectId={setSelectedSubjectId}
             />
           }
@@ -231,7 +229,10 @@ export default function App() {
             </Lesson32Shell>
           }
         />
-        <Route path="/lesson-33/module" element={<Navigate to="/lesson-33" replace />} />
+        <Route
+          path="/lesson-33/module"
+          element={<Navigate to="/lesson-33" replace />}
+        />
         <Route path="/lesson-33" element={<Lesson33Module />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

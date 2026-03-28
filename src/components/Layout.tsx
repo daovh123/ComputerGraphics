@@ -7,7 +7,6 @@ import {
   Library,
   FileText,
   ChevronDown,
-  ChevronUp,
   ChevronRight,
   ChevronLeft,
   Home,
