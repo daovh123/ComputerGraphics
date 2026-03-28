@@ -112,17 +112,41 @@ export interface Lesson32FoodSafetyData {
 
 export interface Lesson32QuizQuestion {
   id: string;
-  topic: string;
-  question: string;
+  prompt: string;
   options: string[];
-  correctAnswer: number;
+  correctAnswerIndex: number;
+  feedback: string;
+  category: string;
+  relatedSection?: string;
+  difficulty?: "easy" | "medium" | "hard";
+  topic?: string;
+  question?: string;
+  correctAnswer?: number;
+  explanation?: string;
+}
+
+export interface Lesson32ActivityItem {
+  id: string;
+  label: string;
+  isCorrect: boolean;
   explanation: string;
-  difficulty: "easy" | "medium" | "hard";
+}
+
+export interface Lesson32FinalActivity {
+  id: string;
+  type: "habit-checklist";
+  title: string;
+  instruction: string;
+  items: Lesson32ActivityItem[];
+  answerKey: string[];
+  feedbackSummary: string;
+  relatedSection?: string;
 }
 
 export interface Lesson32ActivitiesData {
-  projectIntro: string;
-  diseaseSurveyTemplate: string[];
-  foodSafetySurveyTemplate: string[];
-  reflectionQuestions: string[];
+  finalActivity: Lesson32FinalActivity;
+  projectIntro?: string;
+  diseaseSurveyTemplate?: string[];
+  foodSafetySurveyTemplate?: string[];
+  reflectionQuestions?: string[];
 }
