@@ -55,13 +55,15 @@ export const lesson32FoodSafetyData: Lesson32FoodSafetyData = {
       id: "tf-1",
       statement: "Lam nong lai nhieu lan van an toan nhu lan dau.",
       isTrue: false,
-      explanation: "Lam nong lai nhieu lan co the lam giam chat luong va tang nguy co mat an toan.",
+      explanation:
+        "Lam nong lai nhieu lan co the lam giam chat luong va tang nguy co mat an toan.",
     },
     {
       id: "tf-2",
       statement: "Tach thot dao cho do song va do chin giup giam nhiem cheo.",
       isTrue: true,
-      explanation: "Tach rieng dung cu la nguyen tac quan trong de phong nhiem cheo.",
+      explanation:
+        "Tach rieng dung cu la nguyen tac quan trong de phong nhiem cheo.",
     },
   ],
   safetyScenarios: [

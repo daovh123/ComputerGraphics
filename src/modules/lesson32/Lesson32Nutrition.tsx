@@ -10,11 +10,15 @@ export default function Lesson32Nutrition() {
         <h2 className="text-2xl font-extrabold text-[#333]">
           Chế độ dinh dưỡng hợp lý
         </h2>
-        <p className="text-sm text-[#556070] leading-relaxed">{nutrition.introSummary}</p>
+        <p className="text-sm text-[#556070] leading-relaxed">
+          {nutrition.introSummary}
+        </p>
       </header>
 
       <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm space-y-4">
-        <h3 className="font-bold text-[#1f2937]">Nhóm chất dinh dưỡng và vai trò</h3>
+        <h3 className="font-bold text-[#1f2937]">
+          Nhóm chất dinh dưỡng và vai trò
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {nutrition.nutrientGroups.map((group) => (
             <article
@@ -84,7 +88,8 @@ export default function Lesson32Nutrition() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Tong ket: An da dang, dung luong, ket hop van dong va ngu nghi hop ly de giu suc khoe he tieu hoa.
+        Tong ket: An da dang, dung luong, ket hop van dong va ngu nghi hop ly de
+        giu suc khoe he tieu hoa.
       </section>
     </div>
   );

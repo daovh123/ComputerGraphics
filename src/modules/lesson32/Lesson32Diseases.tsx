@@ -11,7 +11,8 @@ export default function Lesson32Diseases() {
           Một số bệnh đường tiêu hóa
         </h2>
         <p className="text-sm text-[#556070] leading-relaxed">
-          Tập trung vào hai bệnh thường gặp ở học sinh: sâu răng và viêm loét dạ dày - tá tràng.
+          Tập trung vào hai bệnh thường gặp ở học sinh: sâu răng và viêm loét dạ
+          dày - tá tràng.
         </p>
       </header>
 
@@ -21,7 +22,9 @@ export default function Lesson32Diseases() {
             key={disease.id}
             className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm space-y-4"
           >
-            <h3 className="text-xl font-bold text-[#1f2937]">{disease.title}</h3>
+            <h3 className="text-xl font-bold text-[#1f2937]">
+              {disease.title}
+            </h3>
             <p className="text-sm text-[#556070]">{disease.shortDescription}</p>
 
             <div>
@@ -84,7 +87,8 @@ export default function Lesson32Diseases() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Ket luan nhanh: Giu ve sinh rang mieng, an uong dieu do va theo doi dau hieu bat thuong de phong tranh benh duong tieu hoa.
+        Ket luan nhanh: Giu ve sinh rang mieng, an uong dieu do va theo doi dau
+        hieu bat thuong de phong tranh benh duong tieu hoa.
       </section>
     </div>
   );
