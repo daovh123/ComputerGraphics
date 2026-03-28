@@ -15,15 +15,19 @@ export interface Lesson32OverviewData {
 export interface Lesson32OrganData {
   id: string;
   slug: string;
+  title: string;
   nameVi: string;
   shortLabel: string;
   order: number;
   isFoodPath: boolean;
+  functionText: string;
+  digestionText: string;
   functionSummary: string;
   mechanicalDigestion: string;
   chemicalDigestion: string;
   healthNote: string;
   sceneTargetName: string;
+  meshKey?: string;
   color: string;
   position: [number, number, number];
 }
