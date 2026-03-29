@@ -37,12 +37,12 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     fallbackView: "lesson-32-overview",
     sections: [
       { id: "lesson-32-overview", label: "Tổng quan", iconKey: "book" },
-      { id: "lesson-32-explorer", label: "Explorer 3D", iconKey: "layers" },
-      { id: "lesson-32-simulation", label: "Simulation", iconKey: "activity" },
-      { id: "lesson-32-diseases", label: "Diseases", iconKey: "clock" },
-      { id: "lesson-32-nutrition", label: "Nutrition", iconKey: "check" },
-      { id: "lesson-32-food-safety", label: "Food Safety", iconKey: "user" },
-      { id: "lesson-32-quiz", label: "Quiz", iconKey: "game" },
+      { id: "lesson-32-explorer", label: "Khám phá 3D", iconKey: "layers" },
+      { id: "lesson-32-simulation", label: "Mô phỏng", iconKey: "activity" },
+      { id: "lesson-32-diseases", label: "Bệnh tiêu hóa", iconKey: "clock" },
+      { id: "lesson-32-nutrition", label: "Dinh dưỡng", iconKey: "check" },
+      { id: "lesson-32-food-safety", label: "An toàn thực phẩm", iconKey: "user" },
+      { id: "lesson-32-quiz", label: "Trắc nghiệm", iconKey: "game" },
     ],
   },
   {
