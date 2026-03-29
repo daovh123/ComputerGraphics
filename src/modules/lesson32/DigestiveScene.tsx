@@ -3,8 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Group } from "three";
-import { lesson32OrgansData } from "../../features/lesson32/data/organs";
-import { Lesson32OrganData } from "../../features/lesson32/data/types";
+import { lesson32OrgansData } from "../../features/lessons/lesson32/data/organs";
+import { Lesson32OrganData } from "../../features/lessons/lesson32/data/types";
 
 interface DigestiveSceneProps {
   selectedOrganId: string;

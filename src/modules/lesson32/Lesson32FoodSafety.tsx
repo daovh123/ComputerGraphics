@@ -1,5 +1,5 @@
 import React from "react";
-import { lesson32KnowledgeContent } from "../../features/lesson32/data/content";
+import { lesson32KnowledgeContent } from "../../features/lessons/lesson32/data/content";
 
 export default function Lesson32FoodSafety() {
   const foodSafety = lesson32KnowledgeContent.foodSafety;

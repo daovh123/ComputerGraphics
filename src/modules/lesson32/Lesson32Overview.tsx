@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { lesson32OverviewData } from "../../features/lesson32/data/overview";
+import { lesson32OverviewData } from "../../features/lessons/lesson32/data/overview";
 
 export default function Lesson32Overview() {
   const firstRoute =

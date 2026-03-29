@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Clock, Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
-import { View } from "../types";
+import { View } from "../../types";
 
 const clockData = [
   { time: "01:00 - 03:00", organ: "Gan", activity: "Thải độc, tái tạo máu", icon: Activity, color: "#CD5C5C" },

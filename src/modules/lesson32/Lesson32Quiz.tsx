@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { lesson32KnowledgeContent } from "../../features/lesson32/data/content";
+import { lesson32KnowledgeContent } from "../../features/lessons/lesson32/data/content";
 
 export default function Lesson32Quiz() {
   const quizQuestions = lesson32KnowledgeContent.quiz;

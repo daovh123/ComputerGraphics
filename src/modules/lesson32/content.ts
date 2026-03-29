@@ -1,5 +1,5 @@
-import { lesson32OrgansData } from "../../features/lesson32/data/organs";
-import { lesson32QuizData } from "../../features/lesson32/data/quiz";
+import { lesson32OrgansData } from "../../features/lessons/lesson32/data/organs";
+import { lesson32QuizData } from "../../features/lessons/lesson32/data/quiz";
 
 export interface DigestiveOrgan {
   id: string;

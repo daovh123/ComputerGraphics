@@ -13,13 +13,14 @@ import {
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./views/Dashboard";
-import LessonDetail from "./views/LessonDetail";
-import BodyParts from "./views/BodyParts";
-import Coordination from "./views/Coordination";
-import BiologicalClock from "./views/BiologicalClock";
-import Summary from "./views/Summary";
-import Challenge from "./views/Challenge";
-import Characteristics from "./views/Characteristics";
+import Lesson30Shell from "./modules/lesson30/Lesson30Shell";
+import Lesson30Overview from "./modules/lesson30/Lesson30Overview";
+import Lesson30BodyParts from "./modules/lesson30/Lesson30BodyParts";
+import Lesson30Coordination from "./modules/lesson30/Lesson30Coordination";
+import Lesson30BiologicalClock from "./modules/lesson30/Lesson30BiologicalClock";
+import Lesson30Summary from "./modules/lesson30/Lesson30Summary";
+import Lesson30Challenge from "./modules/lesson30/Lesson30Challenge";
+import Lesson30Characteristics from "./modules/lesson30/Lesson30Characteristics";
 import LessonPlaceholder from "./views/LessonPlaceholder";
 import Library from "./views/Library";
 import { View } from "./types";
@@ -31,21 +32,28 @@ import Lesson32Quiz from "./modules/lesson32/Lesson32Quiz";
 import Lesson32Diseases from "./modules/lesson32/Lesson32Diseases";
 import Lesson32Nutrition from "./modules/lesson32/Lesson32Nutrition";
 import Lesson32FoodSafety from "./modules/lesson32/Lesson32FoodSafety";
-import Lesson30Module from "./modules/lesson30/Lesson30Module";
+// import Lesson30Module from "./modules/lesson30/Lesson30Module";
 import Lesson31Module from "./modules/lesson31/Lesson31Module";
 import Lesson33Module from "./modules/lesson33/Lesson33Module";
 
 const VIEW_PATHS: Record<View, string> = {
   dashboard: "/dashboard",
-  "lesson-overview": "/lesson-overview",
-  "body-parts": "/body-parts",
-  coordination: "/coordination",
-  "biological-clock": "/biological-clock",
-  summary: "/summary",
-  challenge: "/challenge",
-  characteristics: "/characteristics",
+  "lesson-overview": "/lesson-30",
+  "body-parts": "/lesson-30/body-parts",
+  coordination: "/lesson-30/coordination",
+  "biological-clock": "/lesson-30/biological-clock",
+  summary: "/lesson-30/summary",
+  challenge: "/lesson-30/challenge",
+  characteristics: "/lesson-30/characteristics",
   "lesson-placeholder": "/lesson-placeholder",
   library: "/library",
+  "lesson-32-overview": "/lesson-32",
+  "lesson-32-explorer": "/lesson-32/explorer",
+  "lesson-32-simulation": "/lesson-32/simulation",
+  "lesson-32-diseases": "/lesson-32/diseases",
+  "lesson-32-nutrition": "/lesson-32/nutrition",
+  "lesson-32-food-safety": "/lesson-32/food-safety",
+  "lesson-32-quiz": "/lesson-32/quiz",
 };
 
 const getViewFromPath = (pathname: string): View => {
@@ -119,40 +127,20 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/lesson-overview"
-          element={<LessonDetail setCurrentView={navigate} goBack={goBack} />}
-        />
-        <Route path="/lesson-30" element={<Lesson30Module />} />
-        <Route path="/lesson-31" element={<Lesson31Module />} />
-        <Route
-          path="/body-parts"
-          element={<BodyParts setCurrentView={navigate} goBack={goBack} />}
-        />
-        <Route
-          path="/coordination"
-          element={<Coordination setCurrentView={navigate} goBack={goBack} />}
-        />
-        <Route
-          path="/biological-clock"
-          element={
-            <BiologicalClock setCurrentView={navigate} goBack={goBack} />
-          }
-        />
-        <Route
-          path="/summary"
-          element={<Summary setCurrentView={navigate} goBack={goBack} />}
-        />
-        <Route
-          path="/challenge"
-          element={<Challenge setCurrentView={navigate} goBack={goBack} />}
-        />
-        <Route
-          path="/characteristics"
-          element={
-            <Characteristics setCurrentView={navigate} goBack={goBack} />
-          }
-        />
+        <Route path="/lesson-overview" element={<Navigate to="/lesson-30" replace />} />
+        <Route path="/lesson-30" element={<Lesson30Shell><Lesson30Overview setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/body-parts" element={<Navigate to="/lesson-30/body-parts" replace />} />
+        <Route path="/lesson-30/body-parts" element={<Lesson30Shell><Lesson30BodyParts setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/coordination" element={<Navigate to="/lesson-30/coordination" replace />} />
+        <Route path="/lesson-30/coordination" element={<Lesson30Shell><Lesson30Coordination setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/biological-clock" element={<Navigate to="/lesson-30/biological-clock" replace />} />
+        <Route path="/lesson-30/biological-clock" element={<Lesson30Shell><Lesson30BiologicalClock setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/summary" element={<Navigate to="/lesson-30/summary" replace />} />
+        <Route path="/lesson-30/summary" element={<Lesson30Shell><Lesson30Summary setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/challenge" element={<Navigate to="/lesson-30/challenge" replace />} />
+        <Route path="/lesson-30/challenge" element={<Lesson30Shell><Lesson30Challenge setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
+        <Route path="/characteristics" element={<Navigate to="/lesson-30/characteristics" replace />} />
+        <Route path="/lesson-30/characteristics" element={<Lesson30Shell><Lesson30Characteristics setCurrentView={navigate} goBack={goBack} /></Lesson30Shell>} />
         <Route
           path="/lesson-placeholder"
           element={
