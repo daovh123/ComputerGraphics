@@ -34,7 +34,7 @@ import Lesson32Nutrition from "./modules/lesson32/Lesson32Nutrition";
 import Lesson32FoodSafety from "./modules/lesson32/Lesson32FoodSafety";
 // import Lesson30Module from "./modules/lesson30/Lesson30Module";
 import Lesson31Module from "./modules/lesson31/Lesson31Module";
-import Lesson33Module from "./modules/lesson33/Lesson33Module";
+import Lesson33Shell from "./modules/lesson33/Lesson33Shell";
 
 const VIEW_PATHS: Record<View, string> = {
   dashboard: "/dashboard",
@@ -54,6 +54,12 @@ const VIEW_PATHS: Record<View, string> = {
   "lesson-32-nutrition": "/lesson-32/nutrition",
   "lesson-32-food-safety": "/lesson-32/food-safety",
   "lesson-32-quiz": "/lesson-32/quiz",
+  "lesson-33-overview": "/lesson-33",
+  "lesson-33-explorer": "/lesson-33/explorer",
+  "lesson-33-blood": "/lesson-33/blood",
+  "lesson-33-simulation": "/lesson-33/simulation",
+  "lesson-33-diseases": "/lesson-33/diseases",
+  "lesson-33-quiz": "/lesson-33/quiz",
 };
 
 const getViewFromPath = (pathname: string): View => {
@@ -217,11 +223,12 @@ export default function App() {
             </Lesson32Shell>
           }
         />
-        <Route
-          path="/lesson-33/module"
-          element={<Navigate to="/lesson-33" replace />}
-        />
-        <Route path="/lesson-33" element={<Lesson33Module />} />
+        <Route path="/lesson-33" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
+        <Route path="/lesson-33/explorer" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
+        <Route path="/lesson-33/blood" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
+        <Route path="/lesson-33/simulation" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
+        <Route path="/lesson-33/diseases" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
+        <Route path="/lesson-33/quiz" element={<Lesson33Shell currentView={currentView} setCurrentView={navigate} />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Layout>
