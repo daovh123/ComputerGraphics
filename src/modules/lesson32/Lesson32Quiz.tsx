@@ -89,12 +89,12 @@ export default function Lesson32Quiz() {
   const scoreLabel = useMemo(() => {
     const percent = (score / quizQuestions.length) * 100;
     if (percent >= 80) {
-      return "Rat tot - Em da nam kha chac noi dung bai hoc.";
+      return "Rất tốt - Em đã nắm khá chắc nội dung bài học.";
     }
     if (percent >= 60) {
-      return "Tot - Em da hieu phan lon noi dung, hay on lai mot vai muc.";
+      return "Tốt - Em đã hiểu phần lớn nội dung, hãy ôn lại một vài mục.";
     }
-    return "Can on tap them - Thu xem lai tung man hoc va lam lai quiz.";
+    return "Cần ôn tập thêm - Thử xem lại từng màn học và làm lại trắc nghiệm.";
   }, [quizQuestions.length, score]);
 
   const feedbackText = item.feedback || item.explanation || "";
@@ -103,12 +103,12 @@ export default function Lesson32Quiz() {
   const activityResultLabel = useMemo(() => {
     const percent = (activityCorrectCount / activityTotalCount) * 100;
     if (percent >= 80) {
-      return "Em da chon rat chinh xac cac thoi quen tot.";
+      return "Em đã chọn rất chính xác các thói quen tốt.";
     }
     if (percent >= 60) {
-      return "Ket qua kha tot, em can xem lai mot vai thoi quen.";
+      return "Kết quả khá tốt, em cần xem lại một vài thói quen.";
     }
-    return "Em nen doc lai goi y va thu lai activity.";
+    return "Em nên đọc lại gợi ý và thử lại hoạt động.";
   }, [activityCorrectCount, activityTotalCount]);
 
   const renderActivity = () => {
@@ -157,13 +157,13 @@ export default function Lesson32Quiz() {
             onClick={submitActivity}
             className="px-5 py-2 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
           >
-            Cham activity
+            Chấm hoạt động
           </button>
         ) : (
           <div className="space-y-3">
             <p className="text-sm text-[#334155] font-semibold">
-              Ket qua activity: {activityCorrectCount}/{activityTotalCount} muc
-              dung.
+              Kết quả hoạt động: {activityCorrectCount}/{activityTotalCount} mục
+              đúng.
             </p>
             <p className="text-sm text-[#475569]">{activityResultLabel}</p>
             <p className="text-sm text-[#475569]">
@@ -180,17 +180,17 @@ export default function Lesson32Quiz() {
       <div className="space-y-5">
         <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm text-center space-y-3">
           <h2 className="text-3xl font-extrabold text-[#333]">
-            Hoan thanh quiz
+            Hoàn thành trắc nghiệm
           </h2>
           <p className="text-[#556070]">
-            Ban dat {score}/{quizQuestions.length} cau dung.
+            Bạn đạt {score}/{quizQuestions.length} câu đúng.
           </p>
           <p className="text-sm text-[#334155]">{scoreLabel}</p>
           <button
             onClick={reset}
             className="px-5 py-2 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
           >
-            Lam lai tu dau
+            Làm lại từ đầu
           </button>
         </div>
         {renderActivity()}
@@ -201,7 +201,7 @@ export default function Lesson32Quiz() {
   return (
     <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-extrabold text-[#333]">Quiz Bài 32</h2>
+        <h2 className="text-2xl font-extrabold text-[#333]">Trắc nghiệm Bài 32</h2>
         <span className="text-sm font-bold text-[#00BFFF]">
           {progressLabel}
         </span>
@@ -251,11 +251,11 @@ export default function Lesson32Quiz() {
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#64748B]">
           {picked === null
-            ? "Chon dap an"
+            ? "Chọn đáp án"
             : !answered
-              ? "Nhan 'Kiem tra' de xem ket qua"
+              ? "Nhấn \"Kiểm tra\" để xem kết quả"
               : isCorrect
-                ? "Dung"
+                ? "Đúng"
                 : "Sai"}
         </p>
 
@@ -265,14 +265,14 @@ export default function Lesson32Quiz() {
             disabled={picked === null || answered}
             className="px-5 py-2 rounded-xl bg-[#0EA5E9] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
           >
-            Kiem tra
+            Kiểm tra
           </button>
           <button
             onClick={onNext}
             disabled={!answered}
             className="px-5 py-2 rounded-xl bg-[#00BFFF] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
           >
-            {index === quizQuestions.length - 1 ? "Xem ket qua" : "Cau tiep"}
+            {index === quizQuestions.length - 1 ? "Xem kết quả" : "Câu tiếp"}
           </button>
         </div>
       </div>
@@ -280,16 +280,16 @@ export default function Lesson32Quiz() {
       {answered && (
         <div className="rounded-xl border border-[#DDF0FF] bg-[#F8FCFF] p-3 text-sm text-[#334155] space-y-1">
           <p>
-            <span className="font-bold">Ket qua: </span>
-            {isCorrect ? "Dung" : "Sai"}
+            <span className="font-bold">Kết quả: </span>
+            {isCorrect ? "Đúng" : "Sai"}
           </p>
           <p>
-            <span className="font-bold">Goi y: </span>
+            <span className="font-bold">Gợi ý: </span>
             {feedbackText}
           </p>
           {!isCorrect && (
             <p>
-              <span className="font-bold">Dap an dung: </span>
+              <span className="font-bold">Đáp án đúng: </span>
               {item.options[item.correctAnswerIndex]}
             </p>
           )}
@@ -297,8 +297,8 @@ export default function Lesson32Quiz() {
       )}
 
       <div className="rounded-xl border border-[#EAF5FF] bg-[#F8FCFF] p-3 text-xs text-[#475569]">
-        Bao phu quiz: dinh duong, co quan tieu hoa, qua trinh tieu hoa, benh
-        duong tieu hoa, an toan thuc pham.
+        Phạm vi trắc nghiệm: dinh dưỡng, cơ quan tiêu hóa, quá trình tiêu hóa,
+        bệnh đường tiêu hóa, an toàn thực phẩm.
       </div>
     </div>
   );

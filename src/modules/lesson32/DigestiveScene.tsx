@@ -150,7 +150,7 @@ export default function DigestiveScene({
         {modelStatus === "loading" && (
           <Html center>
             <div className="px-3 py-1 rounded-lg bg-[#0f172a] text-white text-xs font-semibold">
-              Dang tai mo hinh 3D...
+              Đang tải mô hình 3D...
             </div>
           </Html>
         )}

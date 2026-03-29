@@ -18,7 +18,9 @@ export default function Lesson32FoodSafety() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 shadow-sm space-y-4">
           <div>
-            <h3 className="font-bold text-[#1f2937]">Nguồn gây mất an toàn</h3>
+            <h3 className="font-bold text-[#1f2937]">
+              Nguồn gây mất an toàn
+            </h3>
             <ul className="mt-3 space-y-1 text-sm text-[#334155]">
               {foodSafety.unsafeSources.map((item) => (
                 <li key={item}>- {item}</li>
@@ -87,7 +89,7 @@ export default function Lesson32FoodSafety() {
                       : "text-[#991b1b] font-bold"
                   }
                 >
-                  {item.isSafe ? " (An toan)" : " (Khong an toan)"}
+                  {item.isSafe ? " (An toàn)" : " (Không an toàn)"}
                 </span>
                 <p className="text-xs text-[#64748B] mt-1">{item.reason}</p>
               </li>
@@ -111,7 +113,7 @@ export default function Lesson32FoodSafety() {
                       : "text-[#991b1b] font-bold"
                   }
                 >
-                  {item.isTrue ? " (Dung)" : " (Sai)"}
+                  {item.isTrue ? " (Đúng)" : " (Sai)"}
                 </span>
                 <p className="text-xs text-[#64748B] mt-1">
                   {item.explanation}
@@ -123,8 +125,8 @@ export default function Lesson32FoodSafety() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Ghi nho: Chon dung, bao quan dung, che bien dung la 3 buoc quan trong de
-        phong tranh ngo doc thuc pham.
+        Ghi nhớ: Chọn đúng, bảo quản đúng, chế biến đúng là 3 bước quan trọng để
+        phòng tránh ngộ độc thực phẩm.
       </section>
     </div>
   );

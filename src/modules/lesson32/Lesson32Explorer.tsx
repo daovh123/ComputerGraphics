@@ -43,10 +43,10 @@ export default function Lesson32Explorer() {
 
   const modelStatusText =
     modelStatus === "ready"
-      ? "Model 3D san sang"
+      ? "Mô hình 3D sẵn sàng"
       : modelStatus === "fallback"
-        ? "Dang dung fallback de demo logic"
-        : "Dang tai model 3D";
+        ? "Đang dùng mô hình tạm để demo"
+        : "Đang tải mô hình 3D";
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -62,38 +62,38 @@ export default function Lesson32Explorer() {
             onClick={goToPreviousOrgan}
             className="px-4 py-2.5 rounded-xl border border-[#D6E7FF] bg-white text-[#1F2937] text-sm font-semibold hover:bg-[#F5FAFF]"
           >
-            Co quan truoc
+            Cơ quan trước
           </button>
           <button
             onClick={goToNextOrgan}
             className="px-4 py-2.5 rounded-xl border border-[#D6E7FF] bg-white text-[#1F2937] text-sm font-semibold hover:bg-[#F5FAFF]"
           >
-            Co quan tiep theo
+            Cơ quan tiếp theo
           </button>
           <button
             onClick={resetSelection}
             className="px-4 py-2.5 rounded-xl border border-[#BEE3D8] bg-[#F0FFF6] text-[#22543D] text-sm font-semibold hover:bg-[#E4FAEE]"
           >
-            Reset lua chon
+            Đặt lại lựa chọn
           </button>
         </div>
 
         <div className="bg-white border border-[#E0F0FF] rounded-2xl p-4 space-y-3">
           <p className="text-sm text-[#556070]">
-            Bam vao co quan trong scene de highlight va xem thong tin ngan gon.
+            Bấm vào cơ quan trong mô hình để highlight và xem thông tin ngắn gọn.
           </p>
           <div className="flex flex-wrap gap-3 text-xs font-semibold text-[#334155]">
             <span className="inline-flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#0ea5e9]" />
-              Dang duoc chon
+              Đang được chọn
             </span>
             <span className="inline-flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#22c55e]" />
-              Co quan thuc an di qua
+              Cơ quan thức ăn đi qua
             </span>
             <span className="inline-flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-[#f59e0b]" />
-              Co quan ho tro tieu hoa
+              Cơ quan hỗ trợ tiêu hóa
             </span>
             <span className="inline-flex items-center gap-2 text-[#64748B]">
               {modelStatusText}
@@ -108,11 +108,11 @@ export default function Lesson32Explorer() {
             {selectedOrgan.title}
           </h2>
           <p className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">
-            Co quan {selectedIndex + 1}/7
+            Cơ quan {selectedIndex + 1}/7
           </p>
           <p className="text-xs font-semibold text-[#0F766E]">
-            Nhom:{" "}
-            {selectedOrgan.isFoodPath ? "Thuc an di qua" : "Co quan ho tro"}
+            Nhóm:{" "}
+            {selectedOrgan.isFoodPath ? "Thức ăn đi qua" : "Cơ quan hỗ trợ"}
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function Lesson32Explorer() {
 
         <div className="space-y-2">
           <p className="text-xs font-bold tracking-wider uppercase text-[#00BFFF]">
-            Co quan thuc an di qua
+            Cơ quan thức ăn đi qua
           </p>
           <div className="flex flex-wrap gap-2">
             {foodPathOrgans.map((organ) => (
@@ -161,7 +161,7 @@ export default function Lesson32Explorer() {
 
         <div className="space-y-2">
           <p className="text-xs font-bold tracking-wider uppercase text-[#00BFFF]">
-            Co quan ho tro tieu hoa
+            Cơ quan hỗ trợ tiêu hóa
           </p>
           <div className="flex flex-wrap gap-2">
             {supportOrgans.map((organ) => (
