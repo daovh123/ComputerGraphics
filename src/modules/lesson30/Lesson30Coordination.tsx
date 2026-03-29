@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, ChevronLeft, CheckCircle2, XCircle, RotateCcw, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
-import { View } from "../types";
+import { View } from "../../types";
 
 const systems = [
   { id: "circulatory", label: "Hệ tuần hoàn", icon: Heart, color: "#FF4500", description: "Vận chuyển oxy, chất dinh dưỡng và hormone đến các tế bào." },

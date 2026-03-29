@@ -34,7 +34,16 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     label: "Bài 32",
     fullName: "Dinh dưỡng và tiêu hóa",
     routePath: "/lesson-32",
-    sections: [],
+    fallbackView: "lesson-32-overview",
+    sections: [
+      { id: "lesson-32-overview", label: "Tổng quan", iconKey: "book" },
+      { id: "lesson-32-explorer", label: "Explorer 3D", iconKey: "layers" },
+      { id: "lesson-32-simulation", label: "Simulation", iconKey: "activity" },
+      { id: "lesson-32-diseases", label: "Diseases", iconKey: "clock" },
+      { id: "lesson-32-nutrition", label: "Nutrition", iconKey: "check" },
+      { id: "lesson-32-food-safety", label: "Food Safety", iconKey: "user" },
+      { id: "lesson-32-quiz", label: "Quiz", iconKey: "game" },
+    ],
   },
   {
     id: "33",
@@ -91,6 +100,7 @@ export const khtnLessonCards: SubjectLessonCard[] = [
     duration: "50 phút",
     rating: 4.7,
     routePath: "/lesson-32",
+    fallbackView: "lesson-32-overview",
   },
   {
     id: 4,

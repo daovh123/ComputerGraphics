@@ -21,8 +21,8 @@ import {
   BookIcon as TBookIcon,
 } from "tdesign-icons-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
-import { View } from "../types";
+import { cn } from "../../lib/utils";
+import { View } from "../../types";
 
 const { Panel } = Collapse;
 const { BreadcrumbItem } = Breadcrumb;

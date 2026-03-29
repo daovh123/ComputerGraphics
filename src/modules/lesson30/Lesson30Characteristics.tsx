@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { User, Activity, Heart, Wind, Droplets, ChevronRight, Info, Star, Play, ChevronLeft, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
-import { View } from "../types";
+import { View } from "../../types";
 
 const characteristics = [
   { id: "blood", label: "Nhóm máu", value: "Nhóm O", icon: Droplets, color: "#CD5C5C", description: "Nhóm máu phổ biến nhất, có thể hiến cho tất cả các nhóm máu khác." },

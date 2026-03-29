@@ -18,8 +18,8 @@ import {
   RefreshIcon as TRefreshIcon
 } from "tdesign-icons-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
-import { View } from "../types";
+import { cn } from "../../lib/utils";
+import { View } from "../../types";
 
 const puzzleParts = [
   { id: "brain", label: "Não bộ", position: { top: "10%", left: "45%" }, color: "#FFB6C1" },

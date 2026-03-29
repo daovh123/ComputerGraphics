@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Layers, Activity, User, ChevronRight, Info, Star, Play, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
-import { View } from "../types";
+import { View } from "../../types";
 
 const layers = [
   { id: "skin", label: "Da", color: "#FFB6C1", description: "Lớp bảo vệ ngoài cùng của cơ thể, giúp điều hòa nhiệt độ và cảm giác.", icon: User },
