@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View } from "../../types";
-import { organs } from "../../features/lessons/lesson33/data/organs";
+import { type View } from "../../router/views";
+import { organs } from "../../data/lesson33/organs";
 import { CheckCircle2, ChevronRight, Info, Video, Layers, Activity, Maximize2 } from "lucide-react";
 import { cn } from "../../lib/utils";
 

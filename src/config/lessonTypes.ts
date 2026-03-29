@@ -1,4 +1,5 @@
-import { View } from "../../types";
+import type { LucideIcon } from "lucide-react";
+import type { View } from "../router/views";
 
 export interface LessonSectionItem {
   id: View;
@@ -25,4 +26,10 @@ export interface SubjectLessonCard {
   rating: number;
   routePath?: string;
   fallbackView?: View;
+}
+
+export interface LessonTabConfig {
+  label: string;
+  path: string;
+  icon?: LucideIcon;
 }

@@ -3,7 +3,7 @@ import { User, Activity, Heart, Wind, Droplets, ChevronRight, Info, Star, Play, 
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 
-import { View } from "../../types";
+import { type View } from "../../router/views";
 
 const characteristics = [
   { id: "blood", label: "Nhóm máu", value: "Nhóm O", icon: Droplets, color: "#CD5C5C", description: "Nhóm máu phổ biến nhất, có thể hiến cho tất cả các nhóm máu khác." },

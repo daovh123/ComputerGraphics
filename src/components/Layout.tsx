@@ -19,9 +19,9 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
-import { View } from "../types";
+import { type View } from "../router/views";
 import { SUBJECTS } from "../constants/subjects";
-import { khtnLessonNavItems } from "../features/lessons/lessonCatalog";
+import { khtnLessonNavItems } from "../config/lessonCatalog";
 
 interface LayoutProps {
   children: React.ReactNode;

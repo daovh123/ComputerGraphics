@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import DigestiveScene from "./DigestiveScene";
-import { lesson32OrgansData } from "../../features/lessons/lesson32/data/organs";
+import { lesson32OrgansData } from "../../data/lesson32/organs";
 
 export default function Lesson32Explorer() {
   const organs = useMemo(

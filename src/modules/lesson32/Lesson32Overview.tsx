@@ -12,7 +12,7 @@ import {
   ClipboardCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { lesson32OverviewData } from "../../features/lessons/lesson32/data/overview";
+import { lesson32OverviewData } from "../../data/lesson32/overview";
 
 type QuickLink = {
   id: string;

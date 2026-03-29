@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View } from "../../types";
-import { bloodComponents, bloodTypes } from "../../features/lessons/lesson33/data/blood";
+import { type View } from "../../router/views";
+import { bloodComponents, bloodTypes } from "../../data/lesson33/blood";
 import { Droplet, Type, Activity, Share2, Info } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";

@@ -1,25 +1,24 @@
-import React from "react";
-import { 
-  Button, 
-  Card, 
-  Row, 
-  Col, 
+﻿import React from "react";
+import {
   Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Row,
   Tag,
-  Divider
 } from "tdesign-react";
-import { 
+import {
+  ActivityIcon as TActivityIcon,
+  BookIcon as TBookIcon,
   ChevronLeftIcon as TChevronLeftIcon,
   ChevronRightIcon as TChevronRightIcon,
-  BookIcon as TBookIcon,
-  StarFilledIcon as TStarFilledIcon,
-  PlayCircleIcon as TPlayCircleIcon,
-  InfoCircleIcon as TInfoCircleIcon,
   LayersIcon as TLayersIcon,
-  ActivityIcon as TActivityIcon
+  PlayCircleIcon as TPlayCircleIcon,
+  StarFilledIcon as TStarFilledIcon,
 } from "tdesign-icons-react";
 import { motion } from "motion/react";
-import { View } from "../types";
+import { type View } from "../router/views";
 
 const { BreadcrumbItem } = Breadcrumb;
 
@@ -32,55 +31,132 @@ interface LessonPlaceholderProps {
 const getLessonContent = (title: string) => {
   if (title.includes("Bài 31")) {
     return [
-      { id: 1, title: "Phần 1: Cấu tạo của xương", content: "Xương gồm có màng xương, mô xương cứng và mô xương xốp. Xương dài có cấu trúc hình ống, chứa tủy đỏ hoặc tủy vàng." },
-      { id: 2, title: "Phần 2: Sự phát triển của xương", content: "Xương to ra về bề ngang nhờ sự phân chia các tế bào của màng xương. Xương dài ra nhờ sự phân chia của các tế bào lớp sụn tăng trưởng." },
-      { id: 3, title: "Phần 3: Cấu tạo và tính chất của cơ", content: "Cơ bắp cấu tạo từ các sợi cơ. Tính chất cơ bản của cơ là co và dãn, giúp cơ thể vận động." },
-      { id: 4, title: "Phần 4: Vệ sinh hệ vận động", content: "Để có hệ vận động khỏe mạnh, cần có chế độ dinh dưỡng hợp lý và rèn luyện thân thể thường xuyên, giữ tư thế ngồi học đúng." }
+      {
+        id: 1,
+        title: "Phần 1: Cấu tạo của xương",
+        content:
+          "Xương gồm có màng xương, mô xương cứng và mô xương xốp. Xương dài có cấu trúc hình ống, chứa tủy đỏ hoặc tủy vàng.",
+      },
+      {
+        id: 2,
+        title: "Phần 2: Sự phát triển của xương",
+        content:
+          "Xương to ra về bề ngang nhờ sự phân chia các tế bào của màng xương. Xương dài ra nhờ sự phân chia của các tế bào lớp sụn tăng trưởng.",
+      },
+      {
+        id: 3,
+        title: "Phần 3: Cấu tạo và tính chất của cơ",
+        content:
+          "Cơ bắp cấu tạo từ các sợi cơ. Tính chất cơ bản của cơ là co và dãn, giúp cơ thể vận động.",
+      },
+      {
+        id: 4,
+        title: "Phần 4: Vệ sinh hệ vận động",
+        content:
+          "Để có hệ vận động khỏe mạnh, cần có chế độ dinh dưỡng hợp lý và rèn luyện thân thể thường xuyên, giữ tư thế ngồi học đúng.",
+      },
     ];
   }
+
   if (title.includes("Bài 32")) {
     return [
-      { id: 1, title: "Phần 1: Nhu cầu dinh dưỡng", content: "Nhu cầu dinh dưỡng phụ thuộc vào độ tuổi, giới tính, trạng thái sinh lý và cường độ lao động của mỗi người." },
-      { id: 2, title: "Phần 2: Các cơ quan tiêu hóa", content: "Hệ tiêu hóa gồm ống tiêu hóa (miệng, thực quản, dạ dày, ruột...) và các tuyến tiêu hóa (tuyến nước bọt, gan, tụy...)." },
-      { id: 3, title: "Phần 3: Quá trình tiêu hóa", content: "Tiêu hóa bao gồm biến đổi lý học (nhai, nghiền) và biến đổi hóa học (nhờ các enzyme tiêu hóa)." },
-      { id: 4, title: "Phần 4: Vệ sinh hệ tiêu hóa", content: "Cần ăn uống hợp vệ sinh, ăn chậm nhai kỹ và thiết lập chế độ ăn uống khoa học để bảo vệ hệ tiêu hóa." }
+      {
+        id: 1,
+        title: "Phần 1: Nhu cầu dinh dưỡng",
+        content:
+          "Nhu cầu dinh dưỡng phụ thuộc vào độ tuổi, giới tính, trạng thái sinh lý và cường độ lao động của mỗi người.",
+      },
+      {
+        id: 2,
+        title: "Phần 2: Các cơ quan tiêu hóa",
+        content:
+          "Hệ tiêu hóa gồm ống tiêu hóa như miệng, thực quản, dạ dày, ruột và các tuyến tiêu hóa như tuyến nước bọt, gan, tụy.",
+      },
+      {
+        id: 3,
+        title: "Phần 3: Quá trình tiêu hóa",
+        content:
+          "Tiêu hóa bao gồm biến đổi lý học như nhai, nghiền và biến đổi hóa học nhờ các enzyme tiêu hóa.",
+      },
+      {
+        id: 4,
+        title: "Phần 4: Vệ sinh hệ tiêu hóa",
+        content:
+          "Cần ăn uống hợp vệ sinh, ăn chậm nhai kỹ và thiết lập chế độ ăn uống khoa học để bảo vệ hệ tiêu hóa.",
+      },
     ];
   }
+
   if (title.includes("Bài 33")) {
     return [
-      { id: 1, title: "Phần 1: Thành phần của máu", content: "Máu gồm huyết tương (55%) và các tế bào máu (45% gồm hồng cầu, bạch cầu, tiểu cầu)." },
-      { id: 2, title: "Phần 2: Cấu tạo hệ tuần hoàn", content: "Hệ tuần hoàn gồm tim và hệ thống mạch máu (động mạch, tĩnh mạch, mao mạch)." },
-      { id: 3, title: "Phần 3: Các vòng tuần hoàn", content: "Cơ thể có 2 vòng tuần hoàn: vòng tuần hoàn nhỏ (trao đổi khí ở phổi) và vòng tuần hoàn lớn (cung cấp oxy cho tế bào)." },
-      { id: 4, title: "Phần 4: Bảo vệ hệ tuần hoàn", content: "Hạn chế các chất kích thích, tập thể dục đều đặn và kiểm soát cân nặng để phòng tránh các bệnh tim mạch." }
+      {
+        id: 1,
+        title: "Phần 1: Thành phần của máu",
+        content:
+          "Máu gồm huyết tương và các tế bào máu như hồng cầu, bạch cầu, tiểu cầu.",
+      },
+      {
+        id: 2,
+        title: "Phần 2: Cấu tạo hệ tuần hoàn",
+        content:
+          "Hệ tuần hoàn gồm tim và hệ thống mạch máu gồm động mạch, tĩnh mạch, mao mạch.",
+      },
+      {
+        id: 3,
+        title: "Phần 3: Các vòng tuần hoàn",
+        content:
+          "Cơ thể có vòng tuần hoàn nhỏ ở phổi và vòng tuần hoàn lớn để cung cấp oxy cho tế bào.",
+      },
+      {
+        id: 4,
+        title: "Phần 4: Bảo vệ hệ tuần hoàn",
+        content:
+          "Hạn chế chất kích thích, tập thể dục đều đặn và kiểm soát cân nặng để phòng tránh bệnh tim mạch.",
+      },
     ];
   }
+
   return [
-    { id: 1, title: "Phần 1: Đang cập nhật", content: "Nội dung phần này đang được biên soạn." },
-    { id: 2, title: "Phần 2: Đang cập nhật", content: "Nội dung phần này đang được biên soạn." }
+    {
+      id: 1,
+      title: "Phần 1: Đang cập nhật",
+      content: "Nội dung phần này đang được biên soạn.",
+    },
+    {
+      id: 2,
+      title: "Phần 2: Đang cập nhật",
+      content: "Nội dung phần này đang được biên soạn.",
+    },
   ];
 };
 
-export default function LessonPlaceholder({ setCurrentView, goBack, title }: LessonPlaceholderProps) {
+export default function LessonPlaceholder({
+  setCurrentView,
+  goBack,
+  title,
+}: LessonPlaceholderProps) {
   const parts = getLessonContent(title);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="max-w-[1400px] mx-auto space-y-12 pb-20"
     >
-      {/* Breadcrumbs */}
       <div className="flex items-center gap-8">
-        <Button 
-          variant="outline" 
-          shape="round" 
+        <Button
+          variant="outline"
+          shape="round"
           icon={<TChevronLeftIcon size="20px" />}
           onClick={goBack}
           className="!border-slate-200 !text-slate-600 hover:!bg-white !h-14 !w-14 !p-0 !rounded-2xl shadow-sm"
         />
         <Breadcrumb separator={<TChevronRightIcon size="16px" className="text-slate-300" />}>
-          <BreadcrumbItem onClick={() => setCurrentView("dashboard")} className="!cursor-pointer hover:!text-[#00BFFF] !text-slate-400 !font-medium">
-            Khoa học Tự nhiên 8
+          <BreadcrumbItem
+            onClick={() => setCurrentView("dashboard")}
+            className="!cursor-pointer hover:!text-[#00BFFF] !text-slate-400 !font-medium"
+          >
+            Khoa học tự nhiên 8
           </BreadcrumbItem>
           <BreadcrumbItem className="!font-black !text-slate-800 font-display">
             {title}
@@ -89,33 +165,34 @@ export default function LessonPlaceholder({ setCurrentView, goBack, title }: Les
       </div>
 
       <Row gutter={[48, 48]}>
-        {/* Left Column: Lesson Content */}
         <Col xs={24} lg={14} className="space-y-8">
-          <Card
-            className="!rounded-[64px] !border-none shadow-2xl shadow-slate-200/50 !p-16 space-y-12 bg-white relative overflow-hidden"
-          >
+          <Card className="!rounded-[64px] !border-none shadow-2xl shadow-slate-200/50 !p-16 space-y-12 bg-white relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-slate-50 rounded-full translate-x-1/2 -translate-y-1/2"></div>
-            
+
             <div className="flex items-center gap-8 border-b border-slate-50 pb-10 relative z-10">
               <div className="w-20 h-20 bg-slate-50 rounded-[28px] flex items-center justify-center text-[#00BFFF] shadow-inner rotate-3">
                 <TLayersIcon size="40px" />
               </div>
               <div className="space-y-1">
                 <h2 className="text-4xl font-black text-slate-800 font-display">{title}</h2>
-                <p className="text-slate-400 text-lg font-medium">Khám phá các phần kiến thức trọng tâm</p>
+                <p className="text-slate-400 text-lg font-medium">
+                  Khám phá các phần kiến thức trọng tâm
+                </p>
               </div>
             </div>
 
             <div className="space-y-8 relative z-10">
               {parts.map((part) => (
-                <motion.div 
+                <motion.div
                   key={part.id}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: part.id * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="p-10 bg-slate-50 rounded-[40px] border border-slate-100 hover:border-[#00BFFF]/30 transition-all duration-500 group shadow-sm hover:shadow-xl hover:shadow-slate-200/50 hover:bg-white"
                 >
-                  <h3 className="text-2xl font-black text-slate-800 group-hover:text-[#00BFFF] transition-colors mb-4 font-display">{part.title}</h3>
+                  <h3 className="text-2xl font-black text-slate-800 group-hover:text-[#00BFFF] transition-colors mb-4 font-display">
+                    {part.title}
+                  </h3>
                   <p className="text-slate-500 text-lg leading-relaxed font-medium">{part.content}</p>
                 </motion.div>
               ))}
@@ -134,16 +211,17 @@ export default function LessonPlaceholder({ setCurrentView, goBack, title }: Les
                   <p className="text-xs text-slate-400 font-black uppercase tracking-[0.2em] font-display">Sắp ra mắt</p>
                 </div>
               </div>
-              <Button disabled variant="base" className="!bg-slate-100 !text-slate-400 !px-10 !py-4 !rounded-[20px] !font-black !text-sm !h-14">Chưa có</Button>
+              <Button disabled variant="base" className="!bg-slate-100 !text-slate-400 !px-10 !py-4 !rounded-[20px] !font-black !text-sm !h-14">
+                Chưa có
+              </Button>
             </div>
           </Card>
         </Col>
 
-        {/* Right Column: Information */}
         <Col xs={24} lg={10} className="space-y-8">
           <Card className="!rounded-[64px] !border-none !p-16 shadow-2xl shadow-slate-200/50 bg-white space-y-12 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
-            
+
             <div className="space-y-6 relative z-10">
               <Tag theme="primary" variant="light" className="!rounded-full !px-6 !py-2 !font-black !text-xs !tracking-[0.2em] uppercase !border-none !bg-[#00BFFF]/10 !text-[#00BFFF]">
                 <TBookIcon size="16px" className="mr-3" />
@@ -156,7 +234,9 @@ export default function LessonPlaceholder({ setCurrentView, goBack, title }: Les
                   <span className="text-slate-800">4.8</span>/5.0
                 </div>
                 <Divider layout="vertical" className="!border-slate-100 !h-6" />
-                <span className="text-base font-black text-slate-400 font-display uppercase tracking-widest">{parts.length} Phần học</span>
+                <span className="text-base font-black text-slate-400 font-display uppercase tracking-widest">
+                  {parts.length} phần học
+                </span>
               </div>
             </div>
 
@@ -165,14 +245,13 @@ export default function LessonPlaceholder({ setCurrentView, goBack, title }: Les
               <div className="relative z-10 space-y-6">
                 <TActivityIcon size="64px" className="text-[#00BFFF] mx-auto drop-shadow-xl group-hover/info:scale-110 transition-transform" />
                 <p className="text-slate-500 text-xl leading-relaxed font-medium">
-                  Bạn đang xem nội dung tóm tắt của <strong>{title}</strong>. 
-                  Hãy đọc kỹ từng phần để nắm vững kiến thức nhé!
+                  Bạn đang xem nội dung tóm tắt của <strong>{title}</strong>. Hãy đọc kỹ từng phần để nắm vững kiến thức nhé!
                 </p>
               </div>
             </div>
 
-            <Button 
-              theme="primary" 
+            <Button
+              theme="primary"
               size="large"
               block
               icon={<TChevronLeftIcon size="24px" />}
