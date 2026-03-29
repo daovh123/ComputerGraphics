@@ -3,7 +3,7 @@ import { Clock, Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star,
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 
-import { View } from "../../types";
+import { type View } from "../../router/views";
 
 const clockData = [
   { time: "01:00 - 03:00", organ: "Gan", activity: "Thải độc, tái tạo máu", icon: Activity, color: "#CD5C5C" },

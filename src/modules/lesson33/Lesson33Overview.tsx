@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Play, FileText, CheckCircle2, ChevronRight, Activity, Droplet, Layers } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { View } from "../../types";
-import { lessonOverview } from "../../features/lessons/lesson33/data/overview";
+import { type View } from "../../router/views";
+import { lessonOverview } from "../../data/lesson33/overview";
 
 export default function Lesson33Overview({ setCurrentView }: { setCurrentView: (view: View) => void }) {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);

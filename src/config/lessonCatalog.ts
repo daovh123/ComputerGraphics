@@ -1,4 +1,21 @@
-import { LessonNavItem, SubjectLessonCard } from "./types";
+﻿import {
+  Activity,
+  BookOpen,
+  ClipboardCheck,
+  Gamepad2,
+  HeartPulse,
+  Layers,
+  Leaf,
+  PlayCircle,
+  Shield,
+  ShieldCheck,
+  UserCircle2,
+} from "lucide-react";
+import type {
+  LessonNavItem,
+  LessonTabConfig,
+  SubjectLessonCard,
+} from "./lessonTypes";
 
 export const khtnLessonNavItems: LessonNavItem[] = [
   {
@@ -8,11 +25,7 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     routePath: "/lesson-30",
     fallbackView: "lesson-overview",
     sections: [
-      {
-        id: "lesson-overview",
-        label: "Khái quát cơ thể người",
-        iconKey: "book",
-      },
+      { id: "lesson-overview", label: "Khái quát cơ thể người", iconKey: "book" },
       { id: "body-parts", label: "Cấu tạo cơ thể", iconKey: "layers" },
       { id: "coordination", label: "Sự phối hợp cơ thể", iconKey: "activity" },
       { id: "biological-clock", label: "Đồng hồ sinh học", iconKey: "clock" },
@@ -54,7 +67,7 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     sections: [
       { id: "lesson-33-overview", label: "Tổng quan", iconKey: "book" },
       { id: "lesson-33-explorer", label: "Explorer 3D", iconKey: "layers" },
-      { id: "lesson-33-blood", label: "Cấu tạo Máu", iconKey: "activity" },
+      { id: "lesson-33-blood", label: "Cấu tạo máu", iconKey: "activity" },
       { id: "lesson-33-simulation", label: "Tuần hoàn", iconKey: "clock" },
       { id: "lesson-33-diseases", label: "Bệnh lý", iconKey: "user" },
       { id: "lesson-33-quiz", label: "Quiz", iconKey: "game" },
@@ -141,4 +154,33 @@ export const khtnLessonCards: SubjectLessonCard[] = [
     rating: 4.7,
     fallbackView: "lesson-placeholder",
   },
+];
+
+export const lesson30Tabs: LessonTabConfig[] = [
+  { label: "Tổng quan", path: "/lesson-30" },
+  { label: "Cấu tạo cơ thể", path: "/lesson-30/body-parts" },
+  { label: "Sự phối hợp", path: "/lesson-30/coordination" },
+  { label: "Đồng hồ sinh học", path: "/lesson-30/biological-clock" },
+  { label: "Đặc điểm riêng", path: "/lesson-30/characteristics" },
+  { label: "Thử thách", path: "/lesson-30/challenge" },
+  { label: "Tổng kết", path: "/lesson-30/summary" },
+];
+
+export const lesson32Tabs: LessonTabConfig[] = [
+  { label: "Tổng quan", path: "/lesson-32", icon: BookOpen },
+  { label: "Khám phá 3D", path: "/lesson-32/explorer", icon: Layers },
+  { label: "Mô phỏng", path: "/lesson-32/simulation", icon: PlayCircle },
+  { label: "Bệnh tiêu hóa", path: "/lesson-32/diseases", icon: ShieldCheck },
+  { label: "Dinh dưỡng", path: "/lesson-32/nutrition", icon: Leaf },
+  { label: "An toàn thực phẩm", path: "/lesson-32/food-safety", icon: Shield },
+  { label: "Kiểm tra", path: "/lesson-32/quiz", icon: ClipboardCheck },
+];
+
+export const lesson33Tabs: LessonTabConfig[] = [
+  { label: "Tổng quan", path: "/lesson-33", icon: BookOpen },
+  { label: "Explorer 3D", path: "/lesson-33/explorer", icon: Layers },
+  { label: "Cấu tạo máu", path: "/lesson-33/blood", icon: Activity },
+  { label: "Tuần hoàn", path: "/lesson-33/simulation", icon: HeartPulse },
+  { label: "Bệnh lý", path: "/lesson-33/diseases", icon: UserCircle2 },
+  { label: "Quiz", path: "/lesson-33/quiz", icon: Gamepad2 },
 ];

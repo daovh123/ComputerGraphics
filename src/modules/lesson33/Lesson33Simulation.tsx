@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View } from "../../types";
+import { type View } from "../../router/views";
 import { HeartPulse, Droplet, Users, RefreshCcw, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { bloodTypes } from "../../features/lessons/lesson33/data/blood";
+import { bloodTypes } from "../../data/lesson33/blood";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Lesson33Simulation({ setCurrentView }: { setCurrentView: (view: View) => void }) {

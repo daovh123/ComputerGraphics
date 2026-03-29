@@ -3,7 +3,7 @@ import { Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, 
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 
-import { View } from "../../types";
+import { type View } from "../../router/views";
 
 const systems = [
   { id: "circulatory", label: "Hệ tuần hoàn", icon: Heart, color: "#FF4500", description: "Vận chuyển oxy, chất dinh dưỡng và hormone đến các tế bào." },

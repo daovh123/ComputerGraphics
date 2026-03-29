@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View } from "../../types";
-import { diseases } from "../../features/lessons/lesson33/data/diseases";
+import { type View } from "../../router/views";
+import { diseases } from "../../data/lesson33/diseases";
 import { ShieldAlert, AlertTriangle, ShieldCheck, RefreshCcw } from "lucide-react";
 import { cn } from "../../lib/utils";
 

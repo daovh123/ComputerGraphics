@@ -1,8 +1,8 @@
-import React from "react";
+﻿import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import { SUBJECTS } from "../constants/subjects";
-import { View } from "../types";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { type View } from "../router/views";
 
 interface LibraryProps {
   setCurrentView: (view: View) => void;

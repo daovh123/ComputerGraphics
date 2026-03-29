@@ -3,7 +3,7 @@ import { Layers, Activity, User, ChevronRight, Info, Star, Play, ChevronLeft } f
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 
-import { View } from "../../types";
+import { type View } from "../../router/views";
 
 const layers = [
   { id: "skin", label: "Da", color: "#FFB6C1", description: "Lớp bảo vệ ngoài cùng của cơ thể, giúp điều hòa nhiệt độ và cảm giác.", icon: User },

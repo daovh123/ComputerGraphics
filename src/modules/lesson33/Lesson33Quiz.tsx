@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View } from "../../types";
-import { quizData } from "../../features/lessons/lesson33/data/quiz";
+import { type View } from "../../router/views";
+import { quizData } from "../../data/lesson33/quiz";
 import { CheckCircle2, XCircle, Star, ChevronRight, RefreshCcw, Gamepad2, Info } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";

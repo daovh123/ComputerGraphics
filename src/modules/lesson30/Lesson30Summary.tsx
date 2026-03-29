@@ -3,7 +3,7 @@ import { CheckSquare, Activity, Heart, Wind, Droplets, User, ChevronRight, Info,
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 
-import { View } from "../../types";
+import { type View } from "../../router/views";
 
 const quizItems = [
   { id: 1, question: "Hệ cơ quan nào giúp cơ thể vận động và nâng đỡ?", options: ["Hệ tuần hoàn", "Hệ vận động", "Hệ hô hấp", "Hệ tiêu hóa"], correct: 1 },
