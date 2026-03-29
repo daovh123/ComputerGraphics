@@ -15,7 +15,13 @@ export type View =
   | "lesson-32-diseases"
   | "lesson-32-nutrition"
   | "lesson-32-food-safety"
-  | "lesson-32-quiz";
+  | "lesson-32-quiz"
+  | "lesson-33-overview"
+  | "lesson-33-explorer"
+  | "lesson-33-blood"
+  | "lesson-33-simulation"
+  | "lesson-33-diseases"
+  | "lesson-33-quiz";
 
 export interface Lesson {
   id: string;

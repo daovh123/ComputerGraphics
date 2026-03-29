@@ -50,7 +50,15 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     label: "Bài 33",
     fullName: "Máu và hệ tuần hoàn",
     routePath: "/lesson-33",
-    sections: [],
+    fallbackView: "lesson-33-overview",
+    sections: [
+      { id: "lesson-33-overview", label: "Tổng quan", iconKey: "book" },
+      { id: "lesson-33-explorer", label: "Explorer 3D", iconKey: "layers" },
+      { id: "lesson-33-blood", label: "Cấu tạo Máu", iconKey: "activity" },
+      { id: "lesson-33-simulation", label: "Tuần hoàn", iconKey: "clock" },
+      { id: "lesson-33-diseases", label: "Bệnh lý", iconKey: "user" },
+      { id: "lesson-33-quiz", label: "Quiz", iconKey: "game" },
+    ],
   },
   {
     id: "34",
@@ -111,6 +119,7 @@ export const khtnLessonCards: SubjectLessonCard[] = [
     duration: "55 phút",
     rating: 4.8,
     routePath: "/lesson-33",
+    fallbackView: "lesson-33-overview",
   },
   {
     id: 5,
