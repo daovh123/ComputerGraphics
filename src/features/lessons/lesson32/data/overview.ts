@@ -4,7 +4,7 @@ export const lesson32OverviewData: Lesson32OverviewData = {
   title: "Bài 32: Dinh dưỡng và tiêu hóa",
   subtitle: "Khoa học tự nhiên 8",
   introSummary:
-    "Bài học giúp em hiểu từ kiến thức dinh dưỡng đến quá trình tiêu hóa, từ đó biết cách ăn uống hợp lý và bảo vệ hệ tiêu hóa trong đời sống hằng ngày.",
+    "Bài học giúp em hiểu tầm quan trọng của dinh dưỡng đến quá trình tiêu hóa, từ đó biết cách ăn uống hợp lý và bảo vệ hệ tiêu hóa trong đời sống hằng ngày.",
   heroQuestion:
     "Vì sao ăn đủ chất thôi chưa đủ, mà còn cần tiêu hóa hiệu quả và an toàn thực phẩm?",
   learningObjectives: [
@@ -53,8 +53,8 @@ export const lesson32OverviewData: Lesson32OverviewData = {
     },
     {
       id: "quiz",
-      title: "Ôn tập và kiểm tra",
-      description: "Làm quiz tổng hợp để củng cố toàn bộ nội dung bài 32.",
+      title: "Luyện tập và kiểm tra",
+      description: "Làm trắc nghiệm tổng hợp để củng cố toàn bộ nội dung bài 32.",
       route: "/lesson-32/quiz",
     },
   ],

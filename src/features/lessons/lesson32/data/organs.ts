@@ -11,9 +11,9 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     isFoodPath: true,
     functionText: "Đón thức ăn, nhai và trộn với nước bọt để bắt đầu tiêu hóa.",
     digestionText:
-      "Cơ học: răng và lưỡi nghiền, đảo trộn thức ăn. Hóa học: amylase trong nước bọt bắt đầu phân giải tinh bột.",
+      "Cơ học: răng và lưỡi nghiền, đảo trộn thức ăn. Hóa học: amylase trong nước bọt khởi động phân giải tinh bột.",
     functionSummary:
-      "Nhai, nghiền và trộn thức ăn với nước bọt để bắt đầu tiêu hóa.",
+      "Nhai, nghiền và trộn thức ăn với nước bọt, khởi động tiêu hóa.",
     mechanicalDigestion: "Răng và lưỡi nghiền, đảo trộn thức ăn.",
     chemicalDigestion:
       "Enzyme amylase trong nước bọt bắt đầu phân giải tinh bột.",
@@ -31,12 +31,12 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     shortLabel: "Thực quản",
     order: 2,
     isFoodPath: true,
-    functionText: "Đưa thức ăn từ miệng xuống dạ dày bằng nhu động.",
+    functionText: "Đưa thức ăn từ miệng xuống dạ dày nhờ nhu động.",
     digestionText:
-      "Cơ học: chủ yếu vận chuyển bằng nhu động, không nghiền nhỏ thêm. Hóa học: gần như không diễn ra đáng kể.",
+      "Cơ học: chủ yếu vận chuyển bằng nhu động, không nghiền thêm. Hóa học: hầu như không diễn ra ở đoạn này.",
     functionSummary: "Dẫn thức ăn từ miệng xuống dạ dày bằng nhu động.",
-    mechanicalDigestion: "Không nghiền nhỏ thêm, chủ yếu vận chuyển.",
-    chemicalDigestion: "Hầu như không có tiêu hóa hóa học đáng kể.",
+    mechanicalDigestion: "Không nghiền thêm, chủ yếu nhu động.",
+    chemicalDigestion: "Hầu như không có tiêu hóa hóa học ở đoạn này.",
     healthNote: "Không nằm ngay sau khi ăn để hạn chế trào ngược.",
     sceneTargetName: "esophagus",
     meshKey: "esophagus",
@@ -54,7 +54,7 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     functionText:
       "Nhào trộn thức ăn với dịch vị và tiếp tục phân giải chất dinh dưỡng.",
     digestionText:
-      "Cơ học: dạ dày co bóp để nhào trộn thức ăn. Hóa học: dịch vị có HCl và pepsin hỗ trợ tiêu hóa protein.",
+      "Cơ học: dạ dày co bóp để nhào trộn thức ăn. Hóa học: dịch vị chứa HCl và pepsin hỗ trợ tiêu hóa protein.",
     functionSummary: "Co bóp và nhào trộn thức ăn, tiếp tục tiêu hóa.",
     mechanicalDigestion: "Co bóp mạnh để trộn đều thức ăn với dịch vị.",
     chemicalDigestion:
@@ -75,12 +75,12 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     isFoodPath: false,
     functionText: "Tạo dịch mật để hỗ trợ tiêu hóa chất béo tại ruột non.",
     digestionText:
-      "Cơ học: không trực tiếp co bóp thức ăn. Hóa học: mật giúp nhũ hóa chất béo để enzyme hoạt động hiệu quả hơn.",
-    functionSummary: "Tiết mật để hỗ trợ tiêu hóa chất béo.",
+      "Cơ học: không trực tiếp co bóp thức ăn. Hóa học: mật nhũ hóa chất béo để enzyme hoạt động hiệu quả.",
+    functionSummary: "Tiết mật hỗ trợ tiêu hóa chất béo.",
     mechanicalDigestion: "Không trực tiếp co bóp thức ăn.",
     chemicalDigestion:
       "Mật nhũ hóa chất béo, giúp enzyme tiêu hóa hoạt động hiệu quả.",
-    healthNote: "Hạn chế đồ uống có cồn, ngủ đủ và vận động đều.",
+    healthNote: "Hạn chế uống rượu bia, ngủ đủ và vận động đều.",
     sceneTargetName: "liver",
     meshKey: "liver",
     color: "#f97316",
@@ -117,7 +117,7 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     isFoodPath: true,
     functionText: "Tiêu hóa mạnh và hấp thu phần lớn chất dinh dưỡng vào máu.",
     digestionText:
-      "Cơ học: nhu động giúp trộn và đẩy thức ăn. Hóa học: dịch tụy, dịch mật và dịch ruột tiếp tục phân giải chất dinh dưỡng.",
+      "Cơ học: nhu động giúp trộn và đẩy thức ăn. Hóa học: dịch tụy, dịch mật và dịch ruột tiếp tục phân giải dinh dưỡng.",
     functionSummary: "Nơi tiêu hóa mạnh và hấp thu phần lớn chất dinh dưỡng.",
     mechanicalDigestion: "Nhu động đẩy và trộn thức ăn đã được làm nhuyễn.",
     chemicalDigestion:
@@ -138,11 +138,11 @@ export const lesson32OrgansData: Lesson32OrganData[] = [
     isFoodPath: true,
     functionText: "Hấp thu nước còn lại, tạo phân và chuẩn bị thải ra ngoài.",
     digestionText:
-      "Cơ học: nhu động chậm để đẩy cặn bã. Hóa học: hầu như không tiêu hóa hóa học mạnh như ở ruột non.",
+      "Cơ học: nhu động chậm để đẩy dần chất cặn bã. Hóa học: hầu như không tiêu hóa hóa học mạnh như ở ruột non.",
     functionSummary:
       "Hấp thu nước còn lại, tạo phân và chuẩn bị thải ra ngoài.",
     mechanicalDigestion: "Nhu động chậm để đẩy chất cặn bã.",
-    chemicalDigestion: "Không tiêu hóa hóa học mạnh như ruột non.",
+    chemicalDigestion: "Hầu như không tiêu hóa hóa học mạnh như ruột non.",
     healthNote: "Tập thói quen đi vệ sinh đúng giờ và tăng vận động.",
     sceneTargetName: "large-intestine",
     meshKey: "large-intestine",

@@ -4,51 +4,51 @@ export const lesson32ActivitiesData: Lesson32ActivitiesData = {
   finalActivity: {
     id: "digestive-health-checklist",
     type: "habit-checklist",
-    title: "Activity cuoi bai: Chon thoi quen tot cho he tieu hoa",
+    title: "Hoạt động cuối bài: Chọn thói quen tốt cho hệ tiêu hóa",
     instruction:
-      "Hay chon tat ca hanh vi tot cho he tieu hoa va an toan thuc pham.",
+      "Hãy chọn tất cả hành vi tốt cho hệ tiêu hóa và an toàn thực phẩm.",
     items: [
       {
         id: "habit-1",
-        label: "Rua tay truoc khi che bien thuc pham.",
+        label: "Rửa tay trước khi chế biến thực phẩm.",
         isCorrect: true,
-        explanation: "Rua tay dung cach giup giam nguy co nhiem khuan.",
+        explanation: "Rửa tay đúng cách giúp giảm nguy cơ nhiễm khuẩn.",
       },
       {
         id: "habit-2",
-        label: "Bo bua sang de giam can nhanh.",
+        label: "Bỏ bữa sáng để giảm cân nhanh.",
         isCorrect: false,
         explanation:
-          "Bo bua sang de lam co the thieu nang luong va de an bu tru.",
+          "Bỏ bữa sáng dễ làm cơ thể thiếu năng lượng và ăn bù không tốt.",
       },
       {
         id: "habit-3",
-        label: "Danh rang 2 lan moi ngay.",
+        label: "Đánh răng 2 lần mỗi ngày.",
         isCorrect: true,
-        explanation: "Day la thoi quen quan trong de phong sau rang.",
+        explanation: "Thói quen quan trọng để phòng sâu răng.",
       },
       {
         id: "habit-4",
-        label: "De thuc an chin canh thuc an song trong tu lanh.",
+        label: "Để thức ăn chín cạnh thức ăn sống trong tủ lạnh.",
         isCorrect: false,
-        explanation: "De chung song - chin de gay nhiem cheo.",
+        explanation: "Để chung sống - chín dễ gây nhiễm chéo.",
       },
       {
         id: "habit-5",
-        label: "An da dang nhom chat va uong du nuoc.",
+        label: "Ăn đa dạng nhóm chất và uống đủ nước.",
         isCorrect: true,
-        explanation: "Giup co the phat trien can doi va ho tro tieu hoa.",
+        explanation: "Giúp cơ thể phát triển cân đối và hỗ trợ tiêu hóa.",
       },
       {
         id: "habit-6",
-        label: "An nhieu do ngot truoc khi ngu.",
+        label: "Ăn nhiều đồ ngọt trước khi ngủ.",
         isCorrect: false,
-        explanation: "Tang nguy co sau rang va roi loan tieu hoa.",
+        explanation: "Tăng nguy cơ sâu răng và rối loạn tiêu hóa.",
       },
     ],
     answerKey: ["habit-1", "habit-3", "habit-5"],
     feedbackSummary:
-      "Neu em chon dung cac thoi quen tot, em da hieu cach giu he tieu hoa khoe va phong tranh ngo doc thuc pham.",
+      "Nếu em chọn đúng các thói quen tốt, em đã hiểu cách giữ hệ tiêu hóa khỏe và phòng tránh ngộ độc thực phẩm.",
     relatedSection: "quiz",
   },
 };

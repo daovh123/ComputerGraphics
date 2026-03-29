@@ -5,7 +5,7 @@ export const lesson32DiseasesData: Lesson32Disease[] = [
     id: "tooth-decay",
     title: "Sâu răng",
     shortDescription:
-      "Tổn thương mô răng do vi khuẩn và vệ sinh răng miệng chưa tốt.",
+      "Tổn thương men răng do vi khuẩn và vệ sinh răng miệng chưa tốt.",
     causes: [
       "Ăn nhiều đồ ngọt, đồ dính răng",
       "Không chải răng đúng cách",
