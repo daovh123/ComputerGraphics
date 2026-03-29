@@ -1,15 +1,24 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import {
+  BookOpen,
+  Layers,
+  PlayCircle,
+  ShieldCheck,
+  Leaf,
+  Shield,
+  ClipboardCheck,
+} from "lucide-react";
 
 const tabs = [
-  { label: "Tổng quan", path: "/lesson-32" },
-  { label: "Explorer 3D", path: "/lesson-32/explorer" },
-  { label: "Simulation", path: "/lesson-32/simulation" },
-  { label: "Diseases", path: "/lesson-32/diseases" },
-  { label: "Nutrition", path: "/lesson-32/nutrition" },
-  { label: "Food Safety", path: "/lesson-32/food-safety" },
-  { label: "Quiz", path: "/lesson-32/quiz" },
-];
+  { label: "Tổng quan", path: "/lesson-32", icon: BookOpen },
+  { label: "Khám phá 3D", path: "/lesson-32/explorer", icon: Layers },
+  { label: "Mô phỏng", path: "/lesson-32/simulation", icon: PlayCircle },
+  { label: "Bệnh tiêu hóa", path: "/lesson-32/diseases", icon: ShieldCheck },
+  { label: "Dinh dưỡng", path: "/lesson-32/nutrition", icon: Leaf },
+  { label: "An toàn thực phẩm", path: "/lesson-32/food-safety", icon: Shield },
+  { label: "Kiểm tra", path: "/lesson-32/quiz", icon: ClipboardCheck },
+] as const;
 
 export default function Lesson32Shell({
   children,
@@ -27,7 +36,7 @@ export default function Lesson32Shell({
               Khoa học tự nhiên 8
             </p>
             <h1 className="text-3xl font-extrabold text-[#333]">
-              Lesson 32: Dinh dưỡng và tiêu hóa
+              Bài 32: Dinh dưỡng và tiêu hóa
             </h1>
           </div>
           <button
@@ -44,13 +53,14 @@ export default function Lesson32Shell({
               to={tab.path}
               end={tab.path === "/lesson-32"}
               className={({ isActive }) =>
-                `px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+                `flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
                   isActive
-                    ? "bg-[#00BFFF] text-white"
+                    ? "bg-[#00BFFF] text-white shadow-lg shadow-[#00BFFF]/20"
                     : "bg-[#F5F9FF] text-[#4A5568] hover:bg-[#E8F4FF]"
                 }`
               }
             >
+              <tab.icon className="w-4 h-4" />
               {tab.label}
             </NavLink>
           ))}
