@@ -16,7 +16,7 @@ export const lesson32Organs: DigestiveOrgan[] = lesson32OrgansData.map(
     id: organ.id,
     name: organ.nameVi,
     role: organ.functionSummary,
-    mechanicalChemical: `Co hoc: ${organ.mechanicalDigestion} Hoa hoc: ${organ.chemicalDigestion}`,
+    mechanicalChemical: `Cơ học: ${organ.mechanicalDigestion} Hóa học: ${organ.chemicalDigestion}`,
     healthTip: organ.healthNote,
     color: organ.color,
     position: organ.position,
