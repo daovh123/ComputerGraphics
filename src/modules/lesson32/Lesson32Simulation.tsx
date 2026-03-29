@@ -57,22 +57,22 @@ export default function Lesson32Simulation() {
     setIsPlaying((prev) => !prev);
   };
 
-  const boolLabel = (value: boolean) => (value ? "Co" : "Khong");
+  const boolLabel = (value: boolean) => (value ? "Có" : "Không");
 
   return (
     <div className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm space-y-6">
       <h2 className="text-2xl font-extrabold text-[#333]">
-        Simulation hành trình tiêu hóa
+        Mô phỏng hành trình tiêu hóa
       </h2>
       <p className="text-[#5B6470] text-sm leading-relaxed">
-        Theo doi hanh trinh thuc an theo tung buoc de thay ro: co hoc, hoa hoc,
-        hap thu va vai tro ho tro tieu hoa.
+        Theo dõi hành trình thức ăn theo từng bước để thấy rõ: cơ học, hóa học,
+        hấp thu và vai trò hỗ trợ tiêu hóa.
       </p>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs font-semibold text-[#5B6470]">
           <span>
-            Buoc {currentIndex + 1}/{totalSteps}
+            Bước {currentIndex + 1}/{totalSteps}
           </span>
           <span>{Math.round(progressPercent)}%</span>
         </div>
@@ -89,32 +89,32 @@ export default function Lesson32Simulation() {
           onClick={goPrev}
           className="px-4 py-2 rounded-xl border border-[#D7E8FF] bg-white text-sm font-semibold text-[#1F2937] hover:bg-[#F5FAFF]"
         >
-          Buoc truoc
+          Bước trước
         </button>
         <button
           onClick={goNext}
           className="px-4 py-2 rounded-xl border border-[#D7E8FF] bg-white text-sm font-semibold text-[#1F2937] hover:bg-[#F5FAFF]"
         >
-          Buoc tiep theo
+          Bước tiếp theo
         </button>
         <button
           onClick={togglePlayAll}
           className="px-4 py-2 rounded-xl border border-[#BEE3D8] bg-[#F0FFF6] text-sm font-semibold text-[#22543D] hover:bg-[#E4FAEE]"
         >
-          {isPlaying ? "Tam dung" : "Play all"}
+          {isPlaying ? "Tạm dừng" : "Phát tự động"}
         </button>
         <button
           onClick={resetFlow}
           className="px-4 py-2 rounded-xl border border-[#E7D3F8] bg-[#FAF5FF] text-sm font-semibold text-[#6B21A8] hover:bg-[#F2E8FF]"
         >
-          Reset
+          Đặt lại
         </button>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
         <aside className="xl:col-span-4 rounded-2xl border border-[#EAF5FF] bg-[#F8FCFF] p-4 space-y-2">
           <p className="text-xs font-bold uppercase tracking-wider text-[#64748B]">
-            Timeline
+            Dòng thời gian
           </p>
           <div className="space-y-2">
             {steps.map((step, idx) => {
@@ -164,7 +164,7 @@ export default function Lesson32Simulation() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
             <div className="rounded-xl border border-[#DBEAFE] bg-[#EFF6FF] p-3">
               <p className="text-xs font-bold uppercase tracking-wider text-[#1D4ED8]">
-                Co hoc
+                Cơ học
               </p>
               <p className="mt-1 font-semibold text-[#1E3A8A]">
                 {boolLabel(currentStep.mechanicalDigestion)}
@@ -173,7 +173,7 @@ export default function Lesson32Simulation() {
 
             <div className="rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-3">
               <p className="text-xs font-bold uppercase tracking-wider text-[#B45309]">
-                Hoa hoc
+                Hóa học
               </p>
               <p className="mt-1 font-semibold text-[#92400E]">
                 {boolLabel(currentStep.chemicalDigestion)}
@@ -182,7 +182,7 @@ export default function Lesson32Simulation() {
 
             <div className="rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] p-3">
               <p className="text-xs font-bold uppercase tracking-wider text-[#15803D]">
-                Hap thu
+                Hấp thu
               </p>
               <p className="mt-1 font-semibold text-[#166534]">
                 {boolLabel(currentStep.absorption)}
@@ -192,7 +192,7 @@ export default function Lesson32Simulation() {
 
           <div className="rounded-xl border border-[#E5EEF8] bg-[#F8FAFC] p-3">
             <p className="text-xs font-bold uppercase tracking-wider text-[#475569]">
-              Ghi chu hap thu
+              Ghi chú hấp thu
             </p>
             <p className="mt-1 text-sm text-[#475569]">
               {currentStep.absorptionNote}
@@ -202,7 +202,7 @@ export default function Lesson32Simulation() {
           {currentStep.supportOrgans.length > 0 && (
             <div className="rounded-xl border border-[#FFE4B5] bg-[#FFF7ED] p-3">
               <p className="text-xs font-bold uppercase tracking-wider text-[#C2410C]">
-                Co quan ho tro tieu hoa
+                Cơ quan hỗ trợ tiêu hóa
               </p>
               <p className="mt-1 text-sm text-[#9A3412]">
                 {currentStep.supportOrgans.join(", ")}

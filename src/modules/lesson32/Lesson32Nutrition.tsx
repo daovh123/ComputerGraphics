@@ -28,7 +28,7 @@ export default function Lesson32Nutrition() {
               <h4 className="font-bold text-[#1F2937]">{group.title}</h4>
               <p className="text-sm text-[#475569]">{group.role}</p>
               <p className="text-xs text-[#64748B]">
-                Vi du: {group.examples.join(", ")}
+                Ví dụ: {group.examples.join(", ")}
               </p>
             </article>
           ))}
@@ -77,7 +77,7 @@ export default function Lesson32Nutrition() {
           </div>
 
           <div>
-            <h3 className="font-bold text-[#1f2937]">Hoạt động nhẹ trên lớp</h3>
+            <h3 className="font-bold text-[#1f2937]">Hoạt động nhỏ trên lớp</h3>
             <ul className="mt-2 text-sm text-[#334155] space-y-1">
               {nutrition.simpleActivities.map((item) => (
                 <li key={item}>- {item}</li>
@@ -88,8 +88,8 @@ export default function Lesson32Nutrition() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Tong ket: An da dang, dung luong, ket hop van dong va ngu nghi hop ly de
-        giu suc khoe he tieu hoa.
+        Tổng kết: Ăn đa dạng, đủ lượng, kết hợp vận động và ngủ nghỉ hợp lý để
+        giữ sức khỏe hệ tiêu hóa.
       </section>
     </div>
   );

@@ -87,8 +87,8 @@ export default function Lesson32Diseases() {
       </div>
 
       <section className="bg-[#F7FBFF] border border-[#EAF5FF] rounded-2xl p-4 text-sm text-[#475569]">
-        Ket luan nhanh: Giu ve sinh rang mieng, an uong dieu do va theo doi dau
-        hieu bat thuong de phong tranh benh duong tieu hoa.
+        Kết luận nhanh: Giữ vệ sinh răng miệng, ăn uống điều độ và theo dõi dấu
+        hiệu bất thường để phòng tránh bệnh đường tiêu hóa.
       </section>
     </div>
   );
