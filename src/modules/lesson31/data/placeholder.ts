@@ -1,4 +1,4 @@
-import type { LessonPlaceholderMeta } from "../../lessons/types";
+import type { LessonPlaceholderMeta } from "../../../lessons/types";
 
 export const lesson31Placeholder: LessonPlaceholderMeta = {
   eyebrow: "Kiến thức trọng tâm",

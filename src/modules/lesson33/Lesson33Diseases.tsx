@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { diseases } from "../../data/lesson33/diseases";
+import { diseases } from "./data/diseases";
 import { ShieldAlert, AlertTriangle, ShieldCheck, RefreshCcw } from "lucide-react";
 import { cn } from "../../lib/utils";
 

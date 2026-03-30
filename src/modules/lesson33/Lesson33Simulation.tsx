@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HeartPulse, Droplet, Users, RefreshCcw, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { bloodTypes } from "../../data/lesson33/blood";
+import { bloodTypes } from "./data/blood";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Lesson33Simulation() {

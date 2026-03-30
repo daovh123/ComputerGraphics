@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { organs } from "../../data/lesson33/organs";
+import { organs } from "./data/organs";
 import { CheckCircle2, ChevronRight, Info, Video, Layers, Activity, Maximize2 } from "lucide-react";
 import { cn } from "../../lib/utils";
 

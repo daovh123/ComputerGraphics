@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import LessonDetailPage from "../../components/LessonDetailPage";
-import { lesson32OverviewData } from "../../data/lesson32/overview";
+import { lesson32OverviewData } from "./data/overview";
 
 type QuickLink = {
   id: string;

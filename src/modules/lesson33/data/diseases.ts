@@ -1,7 +1,7 @@
 import { Disease } from './types';
-import hypertensionImg from '../../assets/img/benh-cao-huyet-ap.jpg';
-import anemiaImg from '../../assets/img/Hinh-3.-Thieu-mauthieu-mau.webp';
-import atherosclerosisImg from '../../assets/img/xo-vua-dong-mach.jpg';
+import hypertensionImg from "../assets/benh-cao-huyet-ap.jpg";
+import anemiaImg from "../assets/Hinh-3.-Thieu-mauthieu-mau.webp";
+import atherosclerosisImg from "../assets/xo-vua-dong-mach.jpg";
 
 export const diseases: Disease[] = [
   {

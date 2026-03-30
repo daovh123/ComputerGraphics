@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { lesson32DigestionSteps } from "../../data/lesson32/digestionSteps";
+import { lesson32DigestionSteps } from "./data/digestionSteps";
 
 export default function Lesson32Simulation() {
   const steps = useMemo(

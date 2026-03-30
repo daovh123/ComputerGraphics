@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Play, CheckCircle2, ChevronRight, Activity, Layers, ActivitySquare, UserCircle2 } from "lucide-react";
-import { lessonOverview } from "../../data/lesson30/overview";
+import { lessonOverview } from "./data/overview";
 
 export default function Lesson30Overview() {
   const navigate = useNavigate();

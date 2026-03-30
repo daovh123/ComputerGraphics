@@ -1,5 +1,5 @@
 import type { LessonManifest } from "../../lessons/types";
-import { lesson31Placeholder } from "../../data/lesson31/placeholder";
+import { lesson31Placeholder } from "./data/placeholder";
 
 export const lesson31Manifest: LessonManifest = {
   id: "31",
