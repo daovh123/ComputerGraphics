@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { type View } from "../../router/views";
 import { bloodComponents, bloodTypes } from "../../data/lesson33/blood";
 import { Droplet, Type, Activity, Share2, Info } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function Lesson33Blood({ setCurrentView }: { setCurrentView: (view: View) => void }) {
+export default function Lesson33Blood() {
   const [activeTab, setActiveTab] = useState<"components" | "types">("components");
   const [selectedBlood, setSelectedBlood] = useState(bloodTypes[0]);
 

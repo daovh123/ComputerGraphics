@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { type View } from "../../router/views";
 import { diseases } from "../../data/lesson33/diseases";
 import { ShieldAlert, AlertTriangle, ShieldCheck, RefreshCcw } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-export default function Lesson33Diseases({ setCurrentView }: { setCurrentView: (view: View) => void }) {
+export default function Lesson33Diseases() {
   const [activeTab, setActiveTab] = useState<"cause" | "prevention">("cause");
 
   return (

@@ -1,8 +1,10 @@
-import { khtnLessonCards } from "../../config/lessonCatalog";
-import type { SubjectLessonCard } from "../../config/lessonTypes";
+import { getLessonsBySubject } from "../../lessons/registry";
+import type { LessonCardMeta } from "../../lessons/types";
 
-export const SUBJECT_LESSONS: Record<string, SubjectLessonCard[]> = {
-  khtn: khtnLessonCards,
+export const SUBJECT_LESSONS: Record<string, LessonCardMeta[]> = {
+  khtn: getLessonsBySubject("khtn")
+    .map((lesson) => lesson.card)
+    .filter((lesson): lesson is LessonCardMeta => Boolean(lesson)),
   toan: [
     {
       id: 7,

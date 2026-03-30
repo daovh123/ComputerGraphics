@@ -21,7 +21,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
 import { type View } from "../router/views";
 import { SUBJECTS } from "../constants/subjects";
-import { khtnLessonNavItems } from "../config/lessonCatalog";
+import { getLessonsBySubject } from "../lessons/registry";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -61,22 +61,24 @@ export default function Layout({
     user: User,
   };
 
-  const lessons = khtnLessonNavItems.map((lesson) => ({
+  const lessons = getLessonsBySubject("khtn").map((lesson) => ({
     id: lesson.id,
-    label: lesson.label,
-    fullName: lesson.fullName,
+    label: lesson.sidebar?.label ?? `Bài ${lesson.id}`,
+    title: lesson.title,
+    fullName: lesson.sidebar?.fullName ?? lesson.title,
     path: lesson.routePath,
     fallbackView: lesson.fallbackView,
-    sections: lesson.sections.map((section) => ({
+    sections: (lesson.sidebar?.sections ?? []).map((section) => ({
       id: section.id,
       label: section.label,
+      path: section.path,
       icon: sectionIconMap[section.iconKey],
     })),
   }));
 
   const isSectionActive = (lessonId: string) => {
     const lesson = lessons.find((l) => l.id === lessonId);
-    return lesson?.sections.some((s) => s.id === currentView) || false;
+    return lesson?.sections.some((section) => section.path === currentPath) || false;
   };
 
   return (
@@ -251,7 +253,7 @@ export default function Layout({
                               const isLessonActive =
                                 isSectionActive(lesson.id) ||
                                 (currentView === "lesson-placeholder" &&
-                                  selectedLessonTitle === lesson.fullName) ||
+                                  selectedLessonTitle === lesson.title) ||
                                 (lesson.path
                                   ? currentPath.startsWith(lesson.path)
                                   : false);
@@ -268,7 +270,7 @@ export default function Layout({
                                           lesson.sections[0].id as View,
                                         );
                                       } else {
-                                        setSelectedLessonTitle(lesson.fullName);
+                                        setSelectedLessonTitle(lesson.title);
                                         setCurrentView(
                                           (lesson.fallbackView as View) ||
                                             "lesson-placeholder",
@@ -322,14 +324,10 @@ export default function Layout({
                                           {lesson.sections.map((section) => (
                                             <button
                                               key={section.id}
-                                              onClick={() =>
-                                                setCurrentView(
-                                                  section.id as View,
-                                                )
-                                              }
+                                              onClick={() => navigateToPath(section.path)}
                                               className={cn(
                                                 "w-full flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 group",
-                                                currentView === section.id
+                                                currentPath === section.path
                                                   ? "text-[#00BFFF] bg-[#F0F8FF] font-bold"
                                                   : "text-[#888] hover:text-[#00BFFF] hover:bg-[#F5F9FF]",
                                               )}
@@ -337,7 +335,7 @@ export default function Layout({
                                               <section.icon
                                                 className={cn(
                                                   "w-3.5 h-3.5",
-                                                  currentView === section.id
+                                                  currentPath === section.path
                                                     ? "text-[#00BFFF]"
                                                     : "text-[#CCC] group-hover:text-[#00BFFF]",
                                                 )}

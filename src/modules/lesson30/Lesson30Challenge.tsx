@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   Button, 
   Card, 
@@ -19,7 +20,6 @@ import {
 } from "tdesign-icons-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-import { type View } from "../../router/views";
 
 const puzzleParts = [
   { id: "brain", label: "Não bộ", position: { top: "10%", left: "45%" }, color: "#FFB6C1" },
@@ -30,7 +30,8 @@ const puzzleParts = [
   { id: "intestines", label: "Ruột", position: { top: "60%", left: "48%" }, color: "#DEB887" },
 ];
 
-export default function Challenge({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function Challenge() {
+  const navigate = useNavigate();
   const [placedParts, setPlacedParts] = useState<string[]>([]);
   const [selectedPart, setSelectedPart] = useState<string | null>(null);
 
@@ -63,7 +64,7 @@ export default function Challenge({ setCurrentView, goBack }: { setCurrentView: 
             variant="outline" 
             shape="round" 
             icon={<TChevronLeftIcon size="20px" />}
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="!border-slate-200 !text-slate-600 hover:!bg-white !h-14 !w-14 !p-0 !rounded-2xl shadow-sm"
           />
           <div className="space-y-2">
@@ -75,7 +76,7 @@ export default function Challenge({ setCurrentView, goBack }: { setCurrentView: 
           theme="primary" 
           size="large"
           suffix={<TChevronRightIcon size="20px" />}
-          onClick={() => setCurrentView("characteristics")}
+          onClick={() => navigate("/lesson-30/characteristics")}
           className="!rounded-[24px] !px-12 !font-bold !h-16 !text-lg shadow-2xl shadow-[#00BFFF]/30 transition-transform hover:scale-105"
         >
           Nội dung tiếp theo

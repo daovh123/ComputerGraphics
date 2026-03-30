@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Activity, Heart, Wind, Droplets, ChevronRight, Info, Star, Play, ChevronLeft, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-
-import { type View } from "../../router/views";
 
 const characteristics = [
   { id: "blood", label: "Nhóm máu", value: "Nhóm O", icon: Droplets, color: "#CD5C5C", description: "Nhóm máu phổ biến nhất, có thể hiến cho tất cả các nhóm máu khác." },
@@ -12,7 +11,8 @@ const characteristics = [
   { id: "weight", label: "Cân nặng", value: "52 kg", icon: Activity, color: "#00CED1", description: "Cân nặng lý tưởng cho chiều cao 165 cm." },
 ];
 
-export default function Characteristics({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function Characteristics() {
+  const navigate = useNavigate();
   const [activeChar, setActiveChar] = useState(characteristics[0]);
 
   return (
@@ -20,7 +20,7 @@ export default function Characteristics({ setCurrentView, goBack }: { setCurrent
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -32,7 +32,7 @@ export default function Characteristics({ setCurrentView, goBack }: { setCurrent
         </div>
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => setCurrentView("dashboard")}
+            onClick={() => navigate("/dashboard")}
             className="bg-[#00BFFF] text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] flex items-center gap-2"
           >
             Hoàn thành bài học <CheckCircle2 className="w-4 h-4" />

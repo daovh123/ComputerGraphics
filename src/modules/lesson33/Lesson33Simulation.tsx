@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { type View } from "../../router/views";
 import { HeartPulse, Droplet, Users, RefreshCcw, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { bloodTypes } from "../../data/lesson33/blood";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function Lesson33Simulation({ setCurrentView }: { setCurrentView: (view: View) => void }) {
+export default function Lesson33Simulation() {
   const [donorType, setDonorType] = useState<string | null>(null);
   const [recipientType, setRecipientType] = useState<string | null>(null);
   const [result, setResult] = useState<"success" | "fail" | null>(null);

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { type View } from "../../router/views";
+import { useNavigate } from "react-router-dom";
 import { quizData } from "../../data/lesson33/quiz";
 import { CheckCircle2, XCircle, Star, ChevronRight, RefreshCcw, Gamepad2, Info } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function Lesson33Quiz({ setCurrentView }: { setCurrentView: (view: View) => void }) {
+export default function Lesson33Quiz() {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -164,7 +165,7 @@ export default function Lesson33Quiz({ setCurrentView }: { setCurrentView: (view
                 <RefreshCcw className="w-5 h-5" /> Làm lại
               </button>
               <button 
-                onClick={() => setCurrentView("lesson-33-overview" as View)}
+                onClick={() => navigate("/lesson-33")}
                 className="w-full md:w-auto bg-[#00BFFF] text-white px-12 py-5 rounded-2xl font-black text-xl shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all"
               >
                 Trở về Tổng quan

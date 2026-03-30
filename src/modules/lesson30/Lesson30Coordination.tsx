@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, ChevronLeft, CheckCircle2, XCircle, RotateCcw, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-
-import { type View } from "../../router/views";
 
 const systems = [
   { id: "circulatory", label: "Hệ tuần hoàn", icon: Heart, color: "#FF4500", description: "Vận chuyển oxy, chất dinh dưỡng và hormone đến các tế bào." },
@@ -11,7 +10,8 @@ const systems = [
   { id: "nervous", label: "Hệ thần kinh", icon: Activity, color: "#DA70D6", description: "Điều khiển và phối hợp hoạt động của các cơ quan." },
 ];
 
-export default function Coordination({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function Coordination() {
+  const navigate = useNavigate();
   const [activeSystem, setActiveSystem] = useState(systems[0]);
 
   return (
@@ -19,7 +19,7 @@ export default function Coordination({ setCurrentView, goBack }: { setCurrentVie
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -31,7 +31,7 @@ export default function Coordination({ setCurrentView, goBack }: { setCurrentVie
         </div>
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => setCurrentView("biological-clock")}
+            onClick={() => navigate("/lesson-30/biological-clock")}
             className="bg-[#00BFFF] text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] flex items-center gap-2"
           >
             Nội dung tiếp theo <ChevronRight className="w-4 h-4" />
@@ -92,7 +92,7 @@ export default function Coordination({ setCurrentView, goBack }: { setCurrentVie
           </div>
 
           <button 
-            onClick={() => setCurrentView("biological-clock")}
+            onClick={() => navigate("/lesson-30/biological-clock")}
             className="w-full bg-[#00BFFF] text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             Nội dung tiếp theo

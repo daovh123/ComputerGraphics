@@ -1,7 +1,7 @@
 import React from "react";
 import LessonHeader from "../../components/LessonHeader";
 import LessonTabs from "../../components/LessonTabs";
-import { lesson30Tabs } from "../../config/lessonCatalog";
+import { lesson30Manifest } from "./manifest";
 
 export default function Lesson30Shell({
   children,
@@ -11,7 +11,7 @@ export default function Lesson30Shell({
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <LessonHeader title="Bài 30: Khái quát về cơ thể người" />
-      <LessonTabs tabs={lesson30Tabs} />
+      <LessonTabs tabs={lesson30Manifest.tabs ?? []} />
       {children}
     </div>
   );

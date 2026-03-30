@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Layers, Activity, User, ChevronRight, Info, Star, Play, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-
-import { type View } from "../../router/views";
 
 const layers = [
   { id: "skin", label: "Da", color: "#FFB6C1", description: "Lớp bảo vệ ngoài cùng của cơ thể, giúp điều hòa nhiệt độ và cảm giác.", icon: User },
@@ -12,7 +11,8 @@ const layers = [
   { id: "bone", label: "Xương", color: "#F5F5F5", description: "Khung xương nâng đỡ cơ thể và bảo vệ các cơ quan quan trọng.", icon: Layers },
 ];
 
-export default function BodyParts({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function BodyParts() {
+  const navigate = useNavigate();
   const [activeLayer, setActiveLayer] = useState(layers[0]);
 
   return (
@@ -20,7 +20,7 @@ export default function BodyParts({ setCurrentView, goBack }: { setCurrentView: 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -32,7 +32,7 @@ export default function BodyParts({ setCurrentView, goBack }: { setCurrentView: 
         </div>
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => setCurrentView("coordination")}
+            onClick={() => navigate("/lesson-30/coordination")}
             className="bg-[#00BFFF] text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] flex items-center gap-2"
           >
             Nội dung tiếp theo <ChevronRight className="w-4 h-4" />

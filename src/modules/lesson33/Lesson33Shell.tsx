@@ -2,7 +2,7 @@ import React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import LessonHeader from "../../components/LessonHeader";
 import LessonTabs from "../../components/LessonTabs";
-import { lesson33Tabs } from "../../config/lessonCatalog";
+import { lesson33Manifest } from "./manifest";
 
 export default function Lesson33Shell({
   children,
@@ -18,7 +18,7 @@ export default function Lesson33Shell({
         subtitle="Khoa học tự nhiên 8 • Phần cơ thể người"
       />
 
-      <LessonTabs tabs={lesson33Tabs} />
+      <LessonTabs tabs={lesson33Manifest.tabs ?? []} />
 
       <div className="min-h-[500px]">
         <AnimatePresence mode="wait">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { type View } from "../../router/views";
+import { useNavigate } from "react-router-dom";
 import { organs } from "../../data/lesson33/organs";
 import { CheckCircle2, ChevronRight, Info, Video, Layers, Activity, Maximize2 } from "lucide-react";
 import { cn } from "../../lib/utils";
@@ -17,7 +17,8 @@ const models = [
   }
 ];
 
-export default function Lesson33Explorer({ setCurrentView }: { setCurrentView: (view: View) => void }) {
+export default function Lesson33Explorer() {
+  const navigate = useNavigate();
   const [selectedOrgan, setSelectedOrgan] = useState(organs[0]);
   const [activeModel, setActiveModel] = useState(models[0].id);
 
@@ -111,7 +112,7 @@ export default function Lesson33Explorer({ setCurrentView }: { setCurrentView: (
         
         <div className="pt-4 border-t border-[#E0F0FF]">
           <button 
-            onClick={() => setCurrentView("lesson-33-blood" as View)}
+            onClick={() => navigate("/lesson-33/blood")}
             className="w-full bg-[#00BFFF] text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
           >
             Nội dung tiếp: Cấu tạo Máu <ChevronRight className="w-5 h-5" />

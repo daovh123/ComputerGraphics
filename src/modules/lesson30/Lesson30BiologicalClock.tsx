@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Clock, Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, ChevronLeft } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-
-import { type View } from "../../router/views";
 
 const clockData = [
   { time: "01:00 - 03:00", organ: "Gan", activity: "Thải độc, tái tạo máu", icon: Activity, color: "#CD5C5C" },
@@ -20,7 +19,8 @@ const clockData = [
   { time: "23:00 - 01:00", organ: "Túi mật", activity: "Tiết mật, tiêu hóa chất béo", icon: Droplets, color: "#2E8B57" },
 ];
 
-export default function BiologicalClock({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function BiologicalClock() {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = clockData[activeIndex];
 
@@ -29,7 +29,7 @@ export default function BiologicalClock({ setCurrentView, goBack }: { setCurrent
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -41,7 +41,7 @@ export default function BiologicalClock({ setCurrentView, goBack }: { setCurrent
         </div>
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => setCurrentView("summary")}
+            onClick={() => navigate("/lesson-30/summary")}
             className="bg-[#00BFFF] text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] flex items-center gap-2"
           >
             Nội dung tiếp theo <ChevronRight className="w-4 h-4" />

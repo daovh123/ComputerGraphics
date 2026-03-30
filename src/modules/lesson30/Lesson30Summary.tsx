@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CheckSquare, Activity, Heart, Wind, Droplets, User, ChevronRight, Info, Star, Play, ChevronLeft, CheckCircle2, XCircle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
-
-import { type View } from "../../router/views";
 
 const quizItems = [
   { id: 1, question: "Hệ cơ quan nào giúp cơ thể vận động và nâng đỡ?", options: ["Hệ tuần hoàn", "Hệ vận động", "Hệ hô hấp", "Hệ tiêu hóa"], correct: 1 },
@@ -11,7 +10,8 @@ const quizItems = [
   { id: 3, question: "Hệ hô hấp có chức năng chính là gì?", options: ["Tiêu hóa thức ăn", "Lọc máu", "Trao đổi khí", "Vận động"], correct: 2 },
 ];
 
-export default function Summary({ setCurrentView, goBack }: { setCurrentView: (view: View) => void, goBack: () => void }) {
+export default function Summary() {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -42,7 +42,7 @@ export default function Summary({ setCurrentView, goBack }: { setCurrentView: (v
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button 
-            onClick={goBack}
+            onClick={() => navigate(-1)}
             className="p-3 bg-white border border-[#E0F0FF] rounded-2xl text-[#00BFFF] hover:bg-[#F0F8FF] transition-colors shadow-sm"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -54,7 +54,7 @@ export default function Summary({ setCurrentView, goBack }: { setCurrentView: (v
         </div>
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => setCurrentView("challenge")}
+            onClick={() => navigate("/lesson-30/challenge")}
             className="bg-[#00BFFF] text-white px-8 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all hover:scale-[1.02] flex items-center gap-2"
           >
             Nội dung tiếp theo <ChevronRight className="w-4 h-4" />
@@ -142,7 +142,10 @@ export default function Summary({ setCurrentView, goBack }: { setCurrentView: (v
                   >
                     Làm lại
                   </button>
-                  <button className="bg-[#00BFFF] text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all">
+                  <button
+                    onClick={() => navigate("/lesson-30/challenge")}
+                    className="bg-[#00BFFF] text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all"
+                  >
                     Tiếp tục học
                   </button>
                 </div>

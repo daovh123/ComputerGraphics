@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Play, CheckCircle2, ChevronRight, Activity, Layers, ActivitySquare, UserCircle2 } from "lucide-react";
-import { type View } from "../../router/views";
 import { lessonOverview } from "../../data/lesson30/overview";
 
-export default function Lesson30Overview({ setCurrentView, goBack }: { setCurrentView: (view: View) => void; goBack: () => void }) {
+export default function Lesson30Overview() {
+  const navigate = useNavigate();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   return (
@@ -29,7 +30,7 @@ export default function Lesson30Overview({ setCurrentView, goBack }: { setCurren
 
             <div className="flex flex-wrap items-center gap-4">
               <button 
-                onClick={() => setCurrentView("body-parts")}
+                onClick={() => navigate("/lesson-30/body-parts")}
                 className="bg-[#00BFFF] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] hover:scale-105 transition-all flex items-center gap-2"
               >
                 Khám phá ngay <ChevronRight className="w-5 h-5" />
@@ -101,7 +102,7 @@ export default function Lesson30Overview({ setCurrentView, goBack }: { setCurren
           
           <div className="space-y-4 relative z-10">
             <button 
-              onClick={() => setCurrentView("body-parts")}
+              onClick={() => navigate("/lesson-30/body-parts")}
               className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 transition-colors group/btn"
             >
               <div className="flex items-center gap-3">
@@ -117,7 +118,7 @@ export default function Lesson30Overview({ setCurrentView, goBack }: { setCurren
             </button>
 
             <button 
-              onClick={() => setCurrentView("coordination")}
+              onClick={() => navigate("/lesson-30/coordination")}
               className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/10 transition-colors group/btn"
             >
               <div className="flex items-center gap-3">

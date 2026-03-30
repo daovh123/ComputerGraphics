@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import type { LessonTabConfig } from "../config/lessonTypes";
+import type { LessonTabConfig } from "../lessons/types";
 import { cn } from "../lib/utils";
 
 interface LessonTabsProps {
