@@ -18,124 +18,40 @@ import {
   StarFilledIcon as TStarFilledIcon,
 } from "tdesign-icons-react";
 import { motion } from "motion/react";
-import { type View } from "../router/views";
+import { useParams } from "react-router-dom";
+import { getLessonById } from "../lessons/registry";
 
 const { BreadcrumbItem } = Breadcrumb;
 
 interface LessonPlaceholderProps {
-  setCurrentView: (view: View) => void;
   goBack: () => void;
-  title: string;
 }
 
-const getLessonContent = (title: string) => {
-  if (title.includes("Bài 31")) {
-    return [
-      {
-        id: 1,
-        title: "Phần 1: Cấu tạo của xương",
-        content:
-          "Xương gồm có màng xương, mô xương cứng và mô xương xốp. Xương dài có cấu trúc hình ống, chứa tủy đỏ hoặc tủy vàng.",
-      },
-      {
-        id: 2,
-        title: "Phần 2: Sự phát triển của xương",
-        content:
-          "Xương to ra về bề ngang nhờ sự phân chia các tế bào của màng xương. Xương dài ra nhờ sự phân chia của các tế bào lớp sụn tăng trưởng.",
-      },
-      {
-        id: 3,
-        title: "Phần 3: Cấu tạo và tính chất của cơ",
-        content:
-          "Cơ bắp cấu tạo từ các sợi cơ. Tính chất cơ bản của cơ là co và dãn, giúp cơ thể vận động.",
-      },
-      {
-        id: 4,
-        title: "Phần 4: Vệ sinh hệ vận động",
-        content:
-          "Để có hệ vận động khỏe mạnh, cần có chế độ dinh dưỡng hợp lý và rèn luyện thân thể thường xuyên, giữ tư thế ngồi học đúng.",
-      },
-    ];
-  }
-
-  if (title.includes("Bài 32")) {
-    return [
-      {
-        id: 1,
-        title: "Phần 1: Nhu cầu dinh dưỡng",
-        content:
-          "Nhu cầu dinh dưỡng phụ thuộc vào độ tuổi, giới tính, trạng thái sinh lý và cường độ lao động của mỗi người.",
-      },
-      {
-        id: 2,
-        title: "Phần 2: Các cơ quan tiêu hóa",
-        content:
-          "Hệ tiêu hóa gồm ống tiêu hóa như miệng, thực quản, dạ dày, ruột và các tuyến tiêu hóa như tuyến nước bọt, gan, tụy.",
-      },
-      {
-        id: 3,
-        title: "Phần 3: Quá trình tiêu hóa",
-        content:
-          "Tiêu hóa bao gồm biến đổi lý học như nhai, nghiền và biến đổi hóa học nhờ các enzyme tiêu hóa.",
-      },
-      {
-        id: 4,
-        title: "Phần 4: Vệ sinh hệ tiêu hóa",
-        content:
-          "Cần ăn uống hợp vệ sinh, ăn chậm nhai kỹ và thiết lập chế độ ăn uống khoa học để bảo vệ hệ tiêu hóa.",
-      },
-    ];
-  }
-
-  if (title.includes("Bài 33")) {
-    return [
-      {
-        id: 1,
-        title: "Phần 1: Thành phần của máu",
-        content:
-          "Máu gồm huyết tương và các tế bào máu như hồng cầu, bạch cầu, tiểu cầu.",
-      },
-      {
-        id: 2,
-        title: "Phần 2: Cấu tạo hệ tuần hoàn",
-        content:
-          "Hệ tuần hoàn gồm tim và hệ thống mạch máu gồm động mạch, tĩnh mạch, mao mạch.",
-      },
-      {
-        id: 3,
-        title: "Phần 3: Các vòng tuần hoàn",
-        content:
-          "Cơ thể có vòng tuần hoàn nhỏ ở phổi và vòng tuần hoàn lớn để cung cấp oxy cho tế bào.",
-      },
-      {
-        id: 4,
-        title: "Phần 4: Bảo vệ hệ tuần hoàn",
-        content:
-          "Hạn chế chất kích thích, tập thể dục đều đặn và kiểm soát cân nặng để phòng tránh bệnh tim mạch.",
-      },
-    ];
-  }
-
-  return [
-    {
-      id: 1,
-      title: "Phần 1: Đang cập nhật",
-      content: "Nội dung phần này đang được biên soạn.",
-    },
-    {
-      id: 2,
-      title: "Phần 2: Đang cập nhật",
-      content: "Nội dung phần này đang được biên soạn.",
-    },
-  ];
-};
-
 export default function LessonPlaceholder({
-  setCurrentView,
   goBack,
-  title,
 }: LessonPlaceholderProps) {
-  const parts = getLessonContent(title);
+  const { lessonId = "" } = useParams();
+  const lesson = getLessonById(lessonId);
+  const title = lesson?.title ?? "Bài học đang cập nhật";
+  const placeholder = lesson?.placeholder ?? {
+    eyebrow: "Kiến thức trọng tâm",
+    summary: "Nội dung bài học này đang được biên soạn.",
+    videoStatusLabel: "Sắp ra mắt",
+    rating: 4.8,
+    parts: [
+      {
+        id: 1,
+        title: "Phần 1: Đang cập nhật",
+        content: "Nội dung phần này đang được biên soạn.",
+      },
+      {
+        id: 2,
+        title: "Phần 2: Đang cập nhật",
+        content: "Nội dung phần này đang được biên soạn.",
+      },
+    ],
+  };
+  const heading = placeholder.title ?? title;
 
   return (
     <motion.div
@@ -153,7 +69,7 @@ export default function LessonPlaceholder({
         />
         <Breadcrumb separator={<TChevronRightIcon size="16px" className="text-slate-300" />}>
           <BreadcrumbItem
-            onClick={() => setCurrentView("dashboard")}
+            href="/dashboard"
             className="!cursor-pointer hover:!text-[#00BFFF] !text-slate-400 !font-medium"
           >
             Khoa học tự nhiên 8
@@ -174,15 +90,15 @@ export default function LessonPlaceholder({
                 <TLayersIcon size="40px" />
               </div>
               <div className="space-y-1">
-                <h2 className="text-4xl font-black text-slate-800 font-display">{title}</h2>
+                <h2 className="text-4xl font-black text-slate-800 font-display">{heading}</h2>
                 <p className="text-slate-400 text-lg font-medium">
-                  Khám phá các phần kiến thức trọng tâm
+                  {placeholder.summary}
                 </p>
               </div>
             </div>
 
             <div className="space-y-8 relative z-10">
-              {parts.map((part) => (
+              {placeholder.parts.map((part) => (
                 <motion.div
                   key={part.id}
                   initial={{ opacity: 0, x: -30 }}
@@ -206,9 +122,9 @@ export default function LessonPlaceholder({
                 <div className="w-16 h-16 bg-slate-50 rounded-[24px] flex items-center justify-center text-[#00BFFF] shadow-inner group-hover:scale-110 transition-transform">
                   <TPlayCircleIcon size="32px" />
                 </div>
-                <div>
-                  <h4 className="font-black text-xl text-slate-800 font-display">Video bài giảng</h4>
-                  <p className="text-xs text-slate-400 font-black uppercase tracking-[0.2em] font-display">Sắp ra mắt</p>
+              <div>
+                <h4 className="font-black text-xl text-slate-800 font-display">Video bài giảng</h4>
+                  <p className="text-xs text-slate-400 font-black uppercase tracking-[0.2em] font-display">{placeholder.videoStatusLabel}</p>
                 </div>
               </div>
               <Button disabled variant="base" className="!bg-slate-100 !text-slate-400 !px-10 !py-4 !rounded-[20px] !font-black !text-sm !h-14">
@@ -225,17 +141,17 @@ export default function LessonPlaceholder({
             <div className="space-y-6 relative z-10">
               <Tag theme="primary" variant="light" className="!rounded-full !px-6 !py-2 !font-black !text-xs !tracking-[0.2em] uppercase !border-none !bg-[#00BFFF]/10 !text-[#00BFFF]">
                 <TBookIcon size="16px" className="mr-3" />
-                Kiến thức trọng tâm
+                {placeholder.eyebrow}
               </Tag>
-              <h2 className="text-5xl font-black text-slate-800 leading-tight font-display">{title}</h2>
+              <h2 className="text-5xl font-black text-slate-800 leading-tight font-display">{heading}</h2>
               <div className="flex items-center gap-8 pt-4">
                 <div className="flex items-center gap-3 text-base font-black text-slate-400 font-display">
                   <TStarFilledIcon size="24px" className="text-yellow-400" />
-                  <span className="text-slate-800">4.8</span>/5.0
+                  <span className="text-slate-800">{placeholder.rating}</span>/5.0
                 </div>
                 <Divider layout="vertical" className="!border-slate-100 !h-6" />
                 <span className="text-base font-black text-slate-400 font-display uppercase tracking-widest">
-                  {parts.length} phần học
+                  {placeholder.parts.length} phần học
                 </span>
               </div>
             </div>
@@ -245,7 +161,7 @@ export default function LessonPlaceholder({
               <div className="relative z-10 space-y-6">
                 <TActivityIcon size="64px" className="text-[#00BFFF] mx-auto drop-shadow-xl group-hover/info:scale-110 transition-transform" />
                 <p className="text-slate-500 text-xl leading-relaxed font-medium">
-                  Bạn đang xem nội dung tóm tắt của <strong>{title}</strong>. Hãy đọc kỹ từng phần để nắm vững kiến thức nhé!
+                  Bạn đang xem nội dung tóm tắt của <strong>{heading}</strong>. Hãy đọc kỹ từng phần để nắm vững kiến thức nhé!
                 </p>
               </div>
             </div>

@@ -1,23 +1,17 @@
 ﻿import React, { useRef, useState } from "react";
 import { Play, Clock, Star, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { SUBJECTS } from "../constants/subjects";
-import { SUBJECT_LESSONS } from "../data/catalog/subjectLessons";
+import { getHomeSubjects, getSubjectById, getSubjectLessonCards, SUBJECTS } from "../subjects/registry";
 import { cn } from "../lib/utils";
-import { type View } from "../router/views";
 
 interface DashboardProps {
-  setCurrentView: (view: View) => void;
-  navigateToPath?: (path: string) => void;
-  setSelectedLessonTitle: (title: string) => void;
+  navigateToPath: (path: string) => void;
   selectedSubjectId: string;
   setSelectedSubjectId: (id: string) => void;
 }
 
 export default function Dashboard({
-  setCurrentView,
   navigateToPath,
-  setSelectedLessonTitle,
   selectedSubjectId,
   setSelectedSubjectId,
 }: DashboardProps) {
@@ -49,14 +43,12 @@ export default function Dashboard({
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const selectedSubject = SUBJECTS.find((subject) => subject.id === selectedSubjectId);
+  const selectedSubject = getSubjectById(selectedSubjectId);
   const currentLessons = selectedSubjectId
-    ? SUBJECT_LESSONS[selectedSubjectId] || []
-    : [
-        SUBJECT_LESSONS.khtn[0],
-        SUBJECT_LESSONS.toan[0],
-        SUBJECT_LESSONS["ngu-van"][0],
-      ];
+    ? getSubjectLessonCards(selectedSubjectId)
+    : getHomeSubjects()
+        .map((subject) => subject.lessonCards?.[0])
+        .filter(Boolean);
 
   return (
     <div className="max-w-7xl mx-auto px-8 py-4 space-y-10">
@@ -122,13 +114,8 @@ export default function Dashboard({
             onClick={() => {
               if (selectedSubjectId && currentLessons.length > 0) {
                 const firstLesson = currentLessons[0];
-                setSelectedLessonTitle(firstLesson.title);
-                if (firstLesson.routePath && navigateToPath) {
+                if (firstLesson.routePath) {
                   navigateToPath(firstLesson.routePath);
-                  return;
-                }
-                if (firstLesson.fallbackView) {
-                  setCurrentView(firstLesson.fallbackView);
                 }
               } else {
                 document
@@ -174,7 +161,7 @@ export default function Dashboard({
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-[#333]">Môn học của tôi</h2>
           <button
-            onClick={() => setCurrentView("library")}
+            onClick={() => navigateToPath("/library")}
             className="text-[#00BFFF] font-bold flex items-center gap-1 hover:underline"
           >
             Tất cả môn học <ChevronRight className="w-4 h-4" />
@@ -260,13 +247,8 @@ export default function Dashboard({
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => {
-                  if (lesson.routePath && navigateToPath) {
+                  if (lesson.routePath) {
                     navigateToPath(lesson.routePath);
-                  } else if (lesson.fallbackView) {
-                    setCurrentView(lesson.fallbackView);
-                  } else {
-                    setSelectedLessonTitle(lesson.title);
-                    setCurrentView("lesson-placeholder");
                   }
                 }}
                 className="bg-white rounded-3xl overflow-hidden border border-[#E0F0FF] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer"

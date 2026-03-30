@@ -1,27 +1,20 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import type { View } from "./views";
 import Dashboard from "../views/Dashboard";
 import Library from "../views/Library";
 import LessonPlaceholder from "../views/LessonPlaceholder";
 import { LESSON_ROUTES } from "../lessons/registry";
 
 interface AppRoutesProps {
-  navigate: (view: View) => void;
   navigateToPath: (path: string) => void;
   goBack: () => void;
-  selectedLessonTitle: string;
-  setSelectedLessonTitle: (title: string) => void;
   selectedSubjectId: string;
   setSelectedSubjectId: (id: string) => void;
 }
 
 export default function AppRoutes({
-  navigate,
   navigateToPath,
   goBack,
-  selectedLessonTitle,
-  setSelectedLessonTitle,
   selectedSubjectId,
   setSelectedSubjectId,
 }: AppRoutesProps) {
@@ -32,9 +25,7 @@ export default function AppRoutes({
         path="/dashboard"
         element={
           <Dashboard
-            setCurrentView={navigate}
             navigateToPath={navigateToPath}
-            setSelectedLessonTitle={setSelectedLessonTitle}
             selectedSubjectId={selectedSubjectId}
             setSelectedSubjectId={setSelectedSubjectId}
           />
@@ -54,11 +45,9 @@ export default function AppRoutes({
         element={<Navigate to="/lesson-30/characteristics" replace />}
       />
       <Route
-        path="/lesson-placeholder"
+        path="/lesson-placeholder/:lessonId"
         element={
           <LessonPlaceholder
-            setCurrentView={navigate}
-            title={selectedLessonTitle}
             goBack={goBack}
           />
         }
@@ -67,7 +56,7 @@ export default function AppRoutes({
         path="/library"
         element={
           <Library
-            setCurrentView={navigate}
+            navigateToPath={navigateToPath}
             goBack={goBack}
             setSelectedSubjectId={setSelectedSubjectId}
           />

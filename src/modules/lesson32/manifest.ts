@@ -15,7 +15,6 @@ export const lesson32Manifest: LessonManifest = {
   subjectId: "khtn",
   title: "Bài 32: Dinh dưỡng và tiêu hóa",
   routePath: "/lesson-32",
-  fallbackView: "lesson-32-overview",
   card: {
     id: 3,
     title: "Bài 32: Dinh dưỡng và tiêu hóa",
@@ -25,7 +24,6 @@ export const lesson32Manifest: LessonManifest = {
     duration: "50 phút",
     rating: 4.7,
     routePath: "/lesson-32",
-    fallbackView: "lesson-32-overview",
   },
   tabs: [
     { label: "Tổng quan", path: "/lesson-32", icon: BookOpen },

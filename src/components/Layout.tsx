@@ -19,36 +19,35 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
-import { type View } from "../router/views";
-import { SUBJECTS } from "../constants/subjects";
+import { SUBJECTS } from "../subjects/registry";
 import { getLessonsBySubject } from "../lessons/registry";
 
 interface LayoutProps {
   children: React.ReactNode;
-  currentView: View;
   currentPath: string;
-  setCurrentView: (view: View) => void;
   navigateToPath: (path: string) => void;
-  setSelectedLessonTitle: (title: string) => void;
-  selectedLessonTitle: string;
   selectedSubjectId: string;
   setSelectedSubjectId: (id: string) => void;
 }
 
 export default function Layout({
   children,
-  currentView,
   currentPath,
-  setCurrentView,
   navigateToPath,
-  setSelectedLessonTitle,
-  selectedLessonTitle,
   selectedSubjectId,
   setSelectedSubjectId,
 }: LayoutProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSubjectsExpanded, setIsSubjectsExpanded] = useState(true);
-  const [isKHTNExpanded, setIsKHTNExpanded] = useState(true);
+  const [expandedSubjects, setExpandedSubjects] = useState<Record<string, boolean>>(
+    () =>
+      Object.fromEntries(
+        SUBJECTS.filter((subject) => subject.sidebar?.showLessons).map((subject) => [
+          subject.id,
+          subject.sidebar?.defaultExpanded ?? false,
+        ]),
+      ),
+  );
   const [expandedLesson, setExpandedLesson] = useState<string | null>("30");
 
   const sectionIconMap = {
@@ -61,23 +60,47 @@ export default function Layout({
     user: User,
   };
 
-  const lessons = getLessonsBySubject("khtn").map((lesson) => ({
-    id: lesson.id,
-    label: lesson.sidebar?.label ?? `Bài ${lesson.id}`,
-    title: lesson.title,
-    fullName: lesson.sidebar?.fullName ?? lesson.title,
-    path: lesson.routePath,
-    fallbackView: lesson.fallbackView,
-    sections: (lesson.sidebar?.sections ?? []).map((section) => ({
-      id: section.id,
-      label: section.label,
-      path: section.path,
-      icon: sectionIconMap[section.iconKey],
-    })),
-  }));
+  const subjectLessons = SUBJECTS.reduce<
+    Record<
+      string,
+      Array<{
+        id: string;
+        label: string;
+        title: string;
+        fullName: string;
+        path?: string;
+        sections: Array<{
+          id: string;
+          label: string;
+          path: string;
+          icon: React.ComponentType<{ className?: string }>;
+        }>;
+      }>
+    >
+  >((acc, subject) => {
+    if (!subject.sidebar?.showLessons) {
+      return acc;
+    }
 
-  const isSectionActive = (lessonId: string) => {
-    const lesson = lessons.find((l) => l.id === lessonId);
+    acc[subject.id] = getLessonsBySubject(subject.id).map((lesson) => ({
+      id: lesson.id,
+      label: lesson.sidebar?.label ?? `Bài ${lesson.id}`,
+      title: lesson.title,
+      fullName: lesson.sidebar?.fullName ?? lesson.title,
+      path: lesson.routePath,
+      sections: (lesson.sidebar?.sections ?? []).map((section) => ({
+        id: section.id,
+        label: section.label,
+        path: section.path,
+        icon: sectionIconMap[section.iconKey],
+      })),
+    }));
+
+    return acc;
+  }, {});
+
+  const isSectionActive = (subjectId: string, lessonId: string) => {
+    const lesson = subjectLessons[subjectId]?.find((item) => item.id === lessonId);
     return lesson?.sections.some((section) => section.path === currentPath) || false;
   };
 
@@ -137,7 +160,7 @@ export default function Layout({
             }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group mb-1",
-              currentView === "dashboard" && selectedSubjectId === ""
+              currentPath === "/dashboard" && selectedSubjectId === ""
                 ? "bg-[#F0F8FF] text-[#00BFFF] shadow-sm"
                 : "text-[#666] hover:bg-[#F0F8FF] hover:text-[#00BFFF]",
               isSidebarCollapsed && "px-0 justify-center",
@@ -146,7 +169,7 @@ export default function Layout({
             <Home
               className={cn(
                 "w-5 h-5 min-w-[20px]",
-                currentView === "dashboard" && selectedSubjectId === ""
+                currentPath === "/dashboard" && selectedSubjectId === ""
                   ? "text-[#00BFFF]"
                   : "text-[#BBB]",
               )}
@@ -206,11 +229,14 @@ export default function Layout({
                     <button
                       onClick={() => {
                         setSelectedSubjectId(subject.id);
-                        if (subject.id === "khtn") {
-                          setIsKHTNExpanded(!isKHTNExpanded);
+                        if (subject.sidebar?.showLessons) {
+                          setExpandedSubjects((current) => ({
+                            ...current,
+                            [subject.id]: !current[subject.id],
+                          }));
                         }
-                        if (currentView !== "dashboard") {
-                          setCurrentView("dashboard");
+                        if (currentPath !== "/dashboard") {
+                          navigateToPath("/dashboard");
                         }
                       }}
                       className={cn(
@@ -229,31 +255,28 @@ export default function Layout({
                         )}
                       />
                       <span className="text-sm">{subject.name}</span>
-                      {subject.id === "khtn" && (
+                      {subject.sidebar?.showLessons && (
                         <ChevronRight
                           className={cn(
                             "w-3 h-3 ml-auto transition-transform",
-                            isKHTNExpanded ? "rotate-90" : "",
+                            expandedSubjects[subject.id] ? "rotate-90" : "",
                           )}
                         />
                       )}
                     </button>
 
-                    {/* KHTN Lessons Level */}
-                    {subject.id === "khtn" && (
+                    {subject.sidebar?.showLessons && (
                       <AnimatePresence>
-                        {isKHTNExpanded && (
+                        {expandedSubjects[subject.id] && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             className="space-y-1 ml-4 border-l-2 border-[#F0F8FF] pl-2"
                           >
-                            {lessons.map((lesson) => {
+                            {(subjectLessons[subject.id] ?? []).map((lesson) => {
                               const isLessonActive =
-                                isSectionActive(lesson.id) ||
-                                (currentView === "lesson-placeholder" &&
-                                  selectedLessonTitle === lesson.title) ||
+                                isSectionActive(subject.id, lesson.id) ||
                                 (lesson.path
                                   ? currentPath.startsWith(lesson.path)
                                   : false);
@@ -264,18 +287,6 @@ export default function Layout({
                                       if (lesson.path) {
                                         setExpandedLesson(lesson.id);
                                         navigateToPath(lesson.path);
-                                      } else if (lesson.sections.length > 0) {
-                                        setExpandedLesson(lesson.id);
-                                        setCurrentView(
-                                          lesson.sections[0].id as View,
-                                        );
-                                      } else {
-                                        setSelectedLessonTitle(lesson.title);
-                                        setCurrentView(
-                                          (lesson.fallbackView as View) ||
-                                            "lesson-placeholder",
-                                        );
-                                        setExpandedLesson(lesson.id);
                                       }
                                     }}
                                     className={cn(

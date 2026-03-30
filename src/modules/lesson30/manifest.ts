@@ -7,7 +7,6 @@ export const lesson30Manifest: LessonManifest = {
   subjectId: "khtn",
   title: "Bài 30: Khái quát về cơ thể người",
   routePath: "/lesson-30",
-  fallbackView: "lesson-overview",
   card: {
     id: 1,
     title: "Bài 30: Khái quát về cơ thể người",
@@ -17,7 +16,6 @@ export const lesson30Manifest: LessonManifest = {
     duration: "45 phút",
     rating: 4.8,
     routePath: "/lesson-30",
-    fallbackView: "lesson-overview",
   },
   tabs: [
     { label: "Tổng quan", path: "/lesson-30", icon: BookOpen },

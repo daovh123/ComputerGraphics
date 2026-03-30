@@ -14,7 +14,6 @@ export const lesson33Manifest: LessonManifest = {
   subjectId: "khtn",
   title: "Bài 33: Máu và hệ tuần hoàn",
   routePath: "/lesson-33",
-  fallbackView: "lesson-33-overview",
   card: {
     id: 4,
     title: "Bài 33: Máu và hệ tuần hoàn",
@@ -24,7 +23,6 @@ export const lesson33Manifest: LessonManifest = {
     duration: "55 phút",
     rating: 4.8,
     routePath: "/lesson-33",
-    fallbackView: "lesson-33-overview",
   },
   tabs: [
     { label: "Tổng quan", path: "/lesson-33", icon: BookOpen },

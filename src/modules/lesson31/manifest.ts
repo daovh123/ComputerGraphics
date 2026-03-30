@@ -1,12 +1,12 @@
 import type { LessonManifest } from "../../lessons/types";
+import { lesson31Placeholder } from "../../data/lesson31/placeholder";
 
 export const lesson31Manifest: LessonManifest = {
   id: "31",
   order: 31,
   subjectId: "khtn",
   title: "Bài 31: Hệ vận động ở người",
-  routePath: "/lesson-31",
-  fallbackView: "lesson-placeholder",
+  routePath: "/lesson-placeholder/31",
   card: {
     id: 2,
     title: "Bài 31: Hệ vận động ở người",
@@ -15,11 +15,11 @@ export const lesson31Manifest: LessonManifest = {
     progress: 40,
     duration: "60 phút",
     rating: 4.9,
-    routePath: "/lesson-31",
-    fallbackView: "lesson-placeholder",
+    routePath: "/lesson-placeholder/31",
   },
   sidebar: {
     label: "Bài 31",
     fullName: "Hệ vận động ở người",
   },
+  placeholder: lesson31Placeholder,
 };

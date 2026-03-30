@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 import type React from "react";
-import type { View } from "../router/views";
 
 export type SidebarIconKey =
   | "book"
@@ -40,7 +39,21 @@ export interface LessonCardMeta {
   duration: string;
   rating: number;
   routePath?: string;
-  fallbackView?: View;
+}
+
+export interface LessonPlaceholderPart {
+  id: number;
+  title: string;
+  content: string;
+}
+
+export interface LessonPlaceholderMeta {
+  title?: string;
+  eyebrow?: string;
+  summary?: string;
+  videoStatusLabel?: string;
+  rating?: number;
+  parts: LessonPlaceholderPart[];
 }
 
 export interface LessonManifest {
@@ -49,10 +62,10 @@ export interface LessonManifest {
   subjectId: string;
   title: string;
   routePath?: string;
-  fallbackView?: View;
   card?: LessonCardMeta;
   tabs?: LessonTabConfig[];
   sidebar?: LessonSidebarConfig;
+  placeholder?: LessonPlaceholderMeta;
 }
 
 export interface LessonRouteConfig {
