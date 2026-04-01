@@ -3,7 +3,7 @@ import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { useLessonStepProgression } from "../../../components/lesson-player/useLessonStepEnterAction";
 import { lessonOverview } from "../data/overview";
 
-export default function Lesson33LearnObjectives() {
+export default function Objectives() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useLessonStepProgression({

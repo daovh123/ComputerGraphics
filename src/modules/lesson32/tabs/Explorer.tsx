@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
-import DigestiveScene from "./DigestiveScene";
-import { lesson32OrgansData } from "./data/organs";
+import DigestiveScene from "../DigestiveScene";
+import { lesson32OrgansData } from "../data/organs";
 
-export default function Lesson32Explorer() {
+export default function Explorer() {
   const organs = useMemo(
     () => [...lesson32OrgansData].sort((a, b) => a.order - b.order),
     [],

@@ -4,7 +4,7 @@ import LessonHeader from "../../components/LessonHeader";
 import LessonTabs from "../../components/LessonTabs";
 import { lesson33Manifest } from "./manifest";
 
-export default function Lesson33Shell({
+export default function Shell({
   children,
   pathname,
 }: {

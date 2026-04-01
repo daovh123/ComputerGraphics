@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
-import { lesson32KnowledgeContent } from "./data/content";
+import { lesson32KnowledgeContent } from "../data/content";
 
-export default function Lesson32Quiz() {
+export default function Quiz() {
   const quizQuestions = lesson32KnowledgeContent.quiz;
   const finalActivity = lesson32KnowledgeContent.activity;
 

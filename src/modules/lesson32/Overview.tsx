@@ -23,7 +23,7 @@ type QuickLink = {
   iconColor: string;
 };
 
-export default function Lesson32Overview() {
+export default function Overview() {
   const sections = lesson32OverviewData.sections;
 
   const quickLinks: QuickLink[] = [

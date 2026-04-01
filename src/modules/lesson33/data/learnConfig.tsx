@@ -1,9 +1,9 @@
 import React from "react";
 import type { LessonLearnConfig } from "../../../components/lesson-player/types";
 import { createLessonStepPath } from "../../../lessons/learnRoutes";
-import Lesson33LearnBlood from "../learn/Lesson33LearnBlood";
-import Lesson33LearnCover from "../learn/Lesson33LearnCover";
-import Lesson33LearnObjectives from "../learn/Lesson33LearnObjectives";
+import BloodComposition from "../learn/BloodComposition";
+import Cover from "../learn/Cover";
+import Objectives from "../learn/Objectives";
 import { preloadAngiologyModel } from "../learn/AngiologyViewer";
 
 const lesson33BasePath = "/lesson-33";
@@ -18,21 +18,21 @@ export const lesson33LearnConfig: LessonLearnConfig = {
       title: "Máu và dòng chảy sự sống",
       path: createLessonStepPath(lesson33BasePath, "mo-dau"),
       width: "wide",
-      content: <Lesson33LearnCover />,
+      content: <Cover />,
     },
     {
       id: "muc-tieu",
       title: "Điều em sẽ nắm được",
       path: createLessonStepPath(lesson33BasePath, "muc-tieu"),
       width: "wide",
-      content: <Lesson33LearnObjectives />,
+      content: <Objectives />,
     },
     {
       id: "thanh-phan-mau",
       title: "Máu gồm những gì?",
       path: createLessonStepPath(lesson33BasePath, "thanh-phan-mau"),
       width: "wide",
-      content: <Lesson33LearnBlood />,
+      content: <BloodComposition />,
     },
   ],
   completion: {

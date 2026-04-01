@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { diseases } from "./data/diseases";
+import { diseases } from "../data/diseases";
 import { ShieldAlert, AlertTriangle, ShieldCheck, RefreshCcw } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
-export default function Lesson33Diseases() {
+export default function Diseases() {
   const [activeTab, setActiveTab] = useState<"cause" | "prevention">("cause");
 
   return (

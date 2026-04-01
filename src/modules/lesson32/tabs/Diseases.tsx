@@ -1,7 +1,7 @@
 import React from "react";
-import { lesson32KnowledgeContent } from "./data/content";
+import { lesson32KnowledgeContent } from "../data/content";
 
-export default function Lesson32Diseases() {
+export default function Diseases() {
   const diseases = lesson32KnowledgeContent.diseases;
 
   return (

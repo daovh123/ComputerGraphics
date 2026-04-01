@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react";
 import AngiologyViewer from "./AngiologyViewer";
 
-export default function Lesson33LearnCover() {
+export default function Cover() {
   return (
     <section className="grid min-h-[calc(100vh-12rem)] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
       <motion.div

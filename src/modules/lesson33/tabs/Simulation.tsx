@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { HeartPulse, Droplet, Users, RefreshCcw, CheckCircle2, XCircle } from "lucide-react";
-import { cn } from "../../lib/utils";
-import { bloodTypes } from "./data/blood";
+import { cn } from "../../../lib/utils";
+import { bloodTypes } from "../data/blood";
 import { motion, AnimatePresence } from "motion/react";
 
-export default function Lesson33Simulation() {
+export default function Simulation() {
   const [donorType, setDonorType] = useState<string | null>(null);
   const [recipientType, setRecipientType] = useState<string | null>(null);
   const [result, setResult] = useState<"success" | "fail" | null>(null);

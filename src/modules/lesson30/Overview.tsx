@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Play, CheckCircle2, ChevronRight, Activity, Layers, ActivitySquare, UserCircle2 } from "lucide-react";
 import { lessonOverview } from "./data/overview";
 
-export default function Lesson30Overview() {
+export default function Overview() {
   const navigate = useNavigate();
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 

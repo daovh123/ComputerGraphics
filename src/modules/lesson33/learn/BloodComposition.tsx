@@ -170,7 +170,7 @@ function BloodTube({
   );
 }
 
-export default function Lesson33LearnBlood() {
+export default function BloodComposition() {
   const [mode, setMode] = useState<"intro" | "explore">("intro");
   const [activeLayerId, setActiveLayerId] = useState("plasma");
 

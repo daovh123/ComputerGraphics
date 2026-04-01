@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { lesson32DigestionSteps } from "./data/digestionSteps";
+import { lesson32DigestionSteps } from "../data/digestionSteps";
 
-export default function Lesson32Simulation() {
+export default function Simulation() {
   const steps = useMemo(
     () => [...lesson32DigestionSteps].sort((a, b) => a.order - b.order),
     [],

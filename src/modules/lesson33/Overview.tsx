@@ -3,7 +3,7 @@ import { Activity, CheckCircle2, Droplet, Layers, Play } from "lucide-react";
 import LessonDetailPage from "../../components/LessonDetailPage";
 import { lessonOverview } from "./data/overview";
 
-export default function Lesson33Overview() {
+export default function Overview() {
   return (
     <LessonDetailPage
       badge={{

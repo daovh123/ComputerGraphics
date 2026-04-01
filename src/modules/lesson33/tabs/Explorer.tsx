@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { organs } from "./data/organs";
+import { organs } from "../data/organs";
 import { CheckCircle2, ChevronRight, Info, Video, Layers, Activity, Maximize2 } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 const models = [
   {
@@ -17,7 +17,7 @@ const models = [
   }
 ];
 
-export default function Lesson33Explorer() {
+export default function Explorer() {
   const navigate = useNavigate();
   const [selectedOrgan, setSelectedOrgan] = useState(organs[0]);
   const [activeModel, setActiveModel] = useState(models[0].id);

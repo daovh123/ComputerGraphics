@@ -1,7 +1,7 @@
 import React from "react";
-import { lesson32KnowledgeContent } from "./data/content";
+import { lesson32KnowledgeContent } from "../data/content";
 
-export default function Lesson32Nutrition() {
+export default function Nutrition() {
   const nutrition = lesson32KnowledgeContent.nutrition;
 
   return (
