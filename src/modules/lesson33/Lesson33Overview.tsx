@@ -13,10 +13,10 @@ export default function Lesson33Overview() {
       }}
       title={lessonOverview.title}
       summary={lessonOverview.description}
-      primaryAction={{ label: "Khám phá ngay", path: "/lesson-33/explorer" }}
+      primaryAction={{ label: "Bắt đầu học", path: "/lesson-33/learn/mo-dau" }}
       secondaryAction={{
-        label: "Tìm hiểu về máu",
-        path: "/lesson-33/blood",
+        label: "Khám phá mô hình",
+        path: "/lesson-33/explorer",
         icon: Play,
         variant: "secondary",
       }}

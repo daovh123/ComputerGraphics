@@ -7,7 +7,8 @@ export interface LessonPlayerStepLink {
 }
 
 export interface LessonPlayerStep extends LessonPlayerStepLink {
-  summary: string;
+  keyboardHint?: string;
+  width?: "default" | "wide" | "full";
 }
 
 export interface LessonPlayerResolvedStep extends LessonPlayerStep {

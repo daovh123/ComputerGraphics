@@ -1,8 +1,10 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import type { LessonRouteConfig } from "../../lessons/types";
 import Lesson33Blood from "./Lesson33Blood";
 import Lesson33Diseases from "./Lesson33Diseases";
 import Lesson33Explorer from "./Lesson33Explorer";
+import Lesson33LearnPlayer from "./Lesson33LearnPlayer";
 import Lesson33Overview from "./Lesson33Overview";
 import Lesson33Quiz from "./Lesson33Quiz";
 import Lesson33Shell from "./Lesson33Shell";
@@ -16,6 +18,14 @@ export const lesson33Routes: LessonRouteConfig[] = [
         <Lesson33Overview />
       </Lesson33Shell>
     ),
+  },
+  {
+    path: "/lesson-33/learn",
+    element: <Navigate to="/lesson-33/learn/mo-dau" replace />,
+  },
+  {
+    path: "/lesson-33/learn/:stepId",
+    element: <Lesson33LearnPlayer />,
   },
   {
     path: "/lesson-33/explorer",
