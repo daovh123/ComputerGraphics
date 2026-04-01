@@ -2,14 +2,10 @@ import {
   AmbientLight,
   Box3,
   DirectionalLight,
-  Mesh,
-  MeshStandardMaterial,
   Object3D,
   PerspectiveCamera,
-  PlaneGeometry,
   Scene,
   SRGBColorSpace,
-  TextureLoader,
   Vector3,
   WebGLRenderer,
 } from "three";
@@ -28,8 +24,9 @@ function normalizeKey(value: string): string {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ");
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function getBaseName(filePath: string): string {
@@ -63,15 +60,159 @@ const imageUrls = import.meta.glob(
 const modelsByKey = buildUrlIndex(modelUrls);
 const imagesByKey = buildUrlIndex(imageUrls);
 
-function resolveLesson30KeyFromSystemId(systemId: string): string | null {
-  const system = LESSON30_SYSTEMS.find((s) => s.id === systemId);
-  if (!system) return null;
+const KEY_ALIASES: Record<string, string[]> = {
+  [normalizeKey("human")]: [normalizeKey("nguoi")],
 
-  if (system.id === "giac-quan") {
-    return normalizeKey("giác quan");
+  // Lesson 30: mapping for sense-related assets.
+  [normalizeKey("giác quan")]: [normalizeKey("đầu (tai, mắt, mũi, miệng)")],
+  [normalizeKey("các giác quan")]: [
+    normalizeKey("đầu (tai, mắt, mũi, miệng)"),
+  ],
+  [normalizeKey("tai")]: [normalizeKey("đầu (tai, mắt, mũi, miệng)")],
+  [normalizeKey("mũi")]: [normalizeKey("đầu (tai, mắt, mũi, miệng)")],
+  [normalizeKey("mắt")]: [normalizeKey("đầu (tai, mắt, mũi, miệng)")],
+  [normalizeKey("miệng")]: [normalizeKey("đầu (tai, mắt, mũi, miệng)")],
+  [normalizeKey("lưỡi/miệng")]: [
+    normalizeKey("đầu (tai, mắt, mũi, miệng)"),
+  ],
+  [normalizeKey("da")]: [normalizeKey("da_nguoi")],
+  [normalizeKey("da/tay")]: [normalizeKey("da_nguoi")],
+
+  // Lesson 30: reproductive system uses a combined PNG (no 3D).
+  [normalizeKey("hệ sinh dục")]: [normalizeKey("cơ quan sinh dục nam + nữ")],
+  [normalizeKey("sinh dục")]: [normalizeKey("cơ quan sinh dục nam + nữ")],
+  [normalizeKey("sinh duc")]: [normalizeKey("cơ quan sinh dục nam + nữ")],
+  [normalizeKey("cơ quan sinh dục")]: [
+    normalizeKey("cơ quan sinh dục nam + nữ"),
+  ],
+  [normalizeKey("cơ quan sinh dục nam")]: [
+    normalizeKey("cơ quan sinh dục nam + nữ"),
+  ],
+  [normalizeKey("cơ quan sinh dục nữ")]: [
+    normalizeKey("cơ quan sinh dục nam + nữ"),
+  ],
+
+  // Lesson 30: organ aliases for available models.
+  [normalizeKey("não bộ")]: [normalizeKey("nao_nguoi")],
+  [normalizeKey("khí quản")]: [normalizeKey("khí quản, phế quản, phổi")],
+  [normalizeKey("phế quản")]: [normalizeKey("khí quản, phế quản, phổi")],
+  [normalizeKey("phổi")]: [normalizeKey("khí quản, phế quản, phổi")],
+  [normalizeKey("ruột non")]: [
+    normalizeKey("ruột non, ruột già , trực tràng"),
+  ],
+  [normalizeKey("ruột già")]: [
+    normalizeKey("ruột non, ruột già , trực tràng"),
+  ],
+  [normalizeKey("trực tràng")]: [
+    normalizeKey("ruột non, ruột già , trực tràng"),
+  ],
+};
+
+function resolveAssetByKey(key: string): ResolvedAsset {
+  const modelUrl = modelsByKey.get(key);
+  if (modelUrl) return { kind: "gltf", url: modelUrl };
+
+  const imageUrl = imagesByKey.get(key);
+  if (imageUrl) return { kind: "image", url: imageUrl };
+
+  return { kind: "none" };
+}
+
+function resolveAssetByKeyPreferImage(key: string): ResolvedAsset {
+  const imageUrl = imagesByKey.get(key);
+  if (imageUrl) return { kind: "image", url: imageUrl };
+
+  const modelUrl = modelsByKey.get(key);
+  if (modelUrl) return { kind: "gltf", url: modelUrl };
+
+  return { kind: "none" };
+}
+
+function resolveAssetByKeyWithAliases(key: string): ResolvedAsset {
+  const direct = resolveAssetByKey(key);
+  if (direct.kind !== "none") return direct;
+
+  const aliases = KEY_ALIASES[key];
+  if (!aliases) return { kind: "none" };
+
+  for (const aliasKey of aliases) {
+    const resolved = resolveAssetByKey(aliasKey);
+    if (resolved.kind !== "none") return resolved;
   }
 
-  return normalizeKey(system.name);
+  return { kind: "none" };
+}
+
+function resolveAssetByKeyWithAliasesPreferImage(key: string): ResolvedAsset {
+  const direct = resolveAssetByKeyPreferImage(key);
+  if (direct.kind !== "none") return direct;
+
+  const aliases = KEY_ALIASES[key];
+  if (!aliases) return { kind: "none" };
+
+  for (const aliasKey of aliases) {
+    const resolved = resolveAssetByKeyPreferImage(aliasKey);
+    if (resolved.kind !== "none") return resolved;
+  }
+
+  return { kind: "none" };
+}
+
+function resolveLesson30ReproductiveAsset(): ResolvedAsset {
+  const candidates = [
+    normalizeKey("cơ quan sinh dục nam + nữ"),
+    normalizeKey("cơ quan sinh dục"),
+    normalizeKey("hệ sinh dục"),
+    normalizeKey("sinh dục"),
+    normalizeKey("sinh duc"),
+  ];
+
+  for (const key of candidates) {
+    const resolved = resolveAssetByKeyWithAliasesPreferImage(key);
+    if (resolved.kind === "image") return resolved;
+  }
+
+  return { kind: "none" };
+}
+
+function resolveLesson30SystemAsset(systemId: string): ResolvedAsset {
+  if (normalizeKey(systemId) === normalizeKey("sinh duc")) {
+    return resolveLesson30ReproductiveAsset();
+  }
+
+  const system = LESSON30_SYSTEMS.find((s) => s.id === systemId);
+  if (!system) {
+    return resolveAssetByKeyWithAliases(normalizeKey(systemId));
+  }
+
+  const candidates = new Set<string>();
+  candidates.add(normalizeKey(system.name));
+  candidates.add(normalizeKey(system.id));
+
+  const withoutPrefix = system.name.replace(/^hệ\s+/i, "");
+  if (withoutPrefix !== system.name) {
+    candidates.add(normalizeKey(withoutPrefix));
+  }
+
+  if (system.id === "giac-quan") {
+    candidates.add(normalizeKey("giác quan"));
+    candidates.add(normalizeKey("các giác quan"));
+    candidates.add(normalizeKey("đầu (tai, mắt, mũi, miệng)"));
+  }
+
+  for (const key of candidates) {
+    const resolved = resolveAssetByKeyWithAliases(key);
+    if (resolved.kind !== "none") return resolved;
+  }
+
+  return { kind: "none" };
+}
+
+function resolveLesson30HumanAsset(): ResolvedAsset {
+  // Keep `human` as a stable key; it aliases to `nguoi` if needed.
+  const resolved = resolveAssetByKeyWithAliases(normalizeKey("human"));
+  if (resolved.kind !== "none") return resolved;
+  return resolveAssetByKeyWithAliases(normalizeKey("nguoi"));
 }
 
 function resolveAssetForSlot(slotIdRaw: string): ResolvedAsset {
@@ -79,34 +220,76 @@ function resolveAssetForSlot(slotIdRaw: string): ResolvedAsset {
 
   // Try direct match first (if user names assets same as slot ids).
   const directKey = normalizeKey(slotId);
-  const directModel = modelsByKey.get(directKey);
-  if (directModel) return { kind: "gltf", url: directModel };
+  const directResolved = resolveAssetByKeyWithAliases(directKey);
+  if (directResolved.kind !== "none") return directResolved;
 
-  const directImage = imagesByKey.get(directKey);
-  if (directImage) return { kind: "image", url: directImage };
+  // Lesson 30: organ selector pattern, with fallback to system/human.
+  const organMatch = slotId.match(/^lesson30-organ-([a-z-]+):(.+)$/);
+  if (organMatch) {
+    const systemId = organMatch[1];
+    const organLabel = organMatch[2];
+
+    if (normalizeKey(systemId) === normalizeKey("sinh duc")) {
+      const reproResolved = resolveLesson30ReproductiveAsset();
+      if (reproResolved.kind !== "none") return reproResolved;
+      return { kind: "none" };
+    }
+
+    const organKey = normalizeKey(organLabel);
+
+    const organResolved = resolveAssetByKeyWithAliases(organKey);
+    if (organResolved.kind !== "none") return organResolved;
+
+    const systemResolved = resolveLesson30SystemAsset(systemId);
+    if (systemResolved.kind !== "none") return systemResolved;
+
+    const humanResolved = resolveLesson30HumanAsset();
+    if (humanResolved.kind !== "none") return humanResolved;
+  }
 
   // Lesson 30: system/role cards use IDs; map to Vietnamese asset names.
   const systemMatch = slotId.match(/^lesson30-(system|role)-([a-z-]+)$/);
   if (systemMatch) {
     const systemId = systemMatch[2];
-    const systemKey = resolveLesson30KeyFromSystemId(systemId);
-    if (systemKey) {
-      const modelUrl = modelsByKey.get(systemKey);
-      if (modelUrl) return { kind: "gltf", url: modelUrl };
 
-      const imageUrl = imagesByKey.get(systemKey);
-      if (imageUrl) return { kind: "image", url: imageUrl };
+    if (normalizeKey(systemId) === normalizeKey("sinh duc")) {
+      const reproResolved = resolveLesson30ReproductiveAsset();
+      if (reproResolved.kind !== "none") return reproResolved;
+      return { kind: "none" };
     }
+
+    const systemResolved = resolveLesson30SystemAsset(systemId);
+    if (systemResolved.kind !== "none") return systemResolved;
+
+    const humanResolved = resolveLesson30HumanAsset();
+    if (humanResolved.kind !== "none") return humanResolved;
+  }
+
+  // Lesson 30: Overview (Khái quát)
+  // Avoid showing the exact same human model in both cards.
+  if (slotId === "lesson30-khai-quat-parts") {
+    const humanResolved = resolveLesson30HumanAsset();
+    if (humanResolved.kind !== "none") return humanResolved;
+  }
+
+  if (slotId === "lesson30-khai-quat-layers") {
+    // Default to skin if available; fallback to human.
+    const skinResolved = resolveAssetByKeyWithAliases(normalizeKey("da"));
+    if (skinResolved.kind !== "none") return skinResolved;
+
+    const humanResolved = resolveLesson30HumanAsset();
+    if (humanResolved.kind !== "none") return humanResolved;
   }
 
   // Dedicated hero slots: show the human model when available.
   if (
     slotId === "lesson30-overview-hero" ||
     slotId === "lesson30-khai-quat-hero" ||
-    slotId === "lesson30-summary-hero"
+    slotId === "lesson30-summary-hero" ||
+    slotId === "lesson30-overview-body"
   ) {
-    const humanUrl = modelsByKey.get(normalizeKey("human"));
-    if (humanUrl) return { kind: "gltf", url: humanUrl };
+    const humanResolved = resolveLesson30HumanAsset();
+    if (humanResolved.kind !== "none") return humanResolved;
   }
 
   return { kind: "none" };
@@ -175,6 +358,35 @@ function disposeObject(object: Object3D) {
 }
 
 function mountThreeIntoElement(el: HTMLElement, asset: ResolvedAsset): () => void {
+  if (asset.kind === "image" && asset.url) {
+    const img = document.createElement("img");
+    img.src = asset.url;
+    img.alt = "";
+    img.decoding = "async";
+    img.loading = "lazy";
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.display = "block";
+    img.style.objectFit = "contain";
+    img.style.pointerEvents = "none";
+    img.setAttribute("data-lesson30-asset", "img");
+
+    const computed = window.getComputedStyle(el);
+    const borderRadius = computed.borderRadius;
+    if (borderRadius) {
+      img.style.borderRadius = borderRadius;
+      el.style.overflow = "hidden";
+    }
+
+    el.appendChild(img);
+
+    return () => {
+      if (img.parentElement === el) {
+        el.removeChild(img);
+      }
+    };
+  }
+
   const renderer = new WebGLRenderer({ antialias: true, alpha: true });
   renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -270,32 +482,6 @@ function mountThreeIntoElement(el: HTMLElement, asset: ResolvedAsset): () => voi
         unmount();
       },
     );
-  } else if (asset.kind === "image" && asset.url) {
-    const loader = new TextureLoader();
-    loader.load(
-      asset.url,
-      (tex) => {
-        if (cancelled) return;
-        tex.colorSpace = SRGBColorSpace;
-        const width = (tex.image as { width?: number }).width ?? 1;
-        const height = (tex.image as { height?: number }).height ?? 1;
-        const aspect = width > 0 && height > 0 ? width / height : 1;
-
-        const plane = new Mesh(
-          new PlaneGeometry(aspect, 1),
-          new MeshStandardMaterial({ map: tex, roughness: 0.9, metalness: 0 }),
-        );
-        plane.position.set(0, 0, 0);
-        scene.add(plane);
-        fitCameraToObject(camera, plane, controls);
-        render();
-      },
-      undefined,
-      () => {
-        if (cancelled) return;
-        unmount();
-      },
-    );
   }
 
   return unmount;
@@ -345,8 +531,8 @@ export function mountLesson30ThreeSlots(root: HTMLElement): () => void {
         mounted.delete(el);
       }
 
-      // Avoid double-mounting if something else already injected a canvas.
-      if (el.querySelector("canvas")) {
+      // Avoid double-mounting if something else already injected an asset.
+      if (el.querySelector("canvas, [data-lesson30-asset]")) {
         continue;
       }
 

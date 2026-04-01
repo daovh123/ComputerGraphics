@@ -2,6 +2,7 @@ import React from "react";
 import { ChevronRight, Layers } from "lucide-react";
 import { type View } from "../../router/views";
 import { BODY_LAYERS, BODY_PARTS } from "../../data/lesson30/overview";
+import Fullscreenable from "../../components/Fullscreenable";
 
 export default function Lesson30BodyOverview({
   setCurrentView,
@@ -13,7 +14,7 @@ export default function Lesson30BodyOverview({
       <div className="bg-white rounded-[40px] p-8 md:p-12 border border-[#E0F0FF] shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[540px] h-[540px] bg-cyan-50 rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-        <div className="relative z-10 space-y-4">
+        <div className="relative z-10 space-y-2">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F0F8FF] rounded-full text-[#00BFFF] font-bold text-sm border border-[#E0F0FF]">
             <Layers className="w-4 h-4" />
             <span>Khái quát</span>
@@ -51,9 +52,9 @@ export default function Lesson30BodyOverview({
             </div>
 
             <div className="rounded-3xl border border-[#E0F0FF] bg-[#F5F9FF] p-4">
-              <div
+              <Fullscreenable
                 className="w-full aspect-[16/10] rounded-2xl bg-slate-900"
-                data-three-slot="lesson30-khai-quat-parts"
+                dataThreeSlot="lesson30-khai-quat-parts"
               />
             </div>
           </div>
@@ -80,24 +81,13 @@ export default function Lesson30BodyOverview({
             </div>
 
             <div className="rounded-3xl border border-[#E0F0FF] bg-[#F5F9FF] p-4">
-              <div
+              <Fullscreenable
                 className="w-full aspect-[16/10] rounded-2xl bg-slate-900"
-                data-three-slot="lesson30-khai-quat-layers"
+                dataThreeSlot="lesson30-khai-quat-layers"
               />
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-6 space-y-4">
-        <h3 className="text-xl font-extrabold text-[#333]">Minh hoạ 3D</h3>
-        <p className="text-[#666] leading-relaxed">
-          Khung dưới đây để bạn gắn mô hình cơ thể người tổng quát (Three.js).
-        </p>
-        <div
-          className="w-full aspect-[16/9] rounded-2xl border border-[#E0F0FF] bg-[#F5F9FF]"
-          data-three-slot="lesson30-khai-quat-hero"
-        />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">

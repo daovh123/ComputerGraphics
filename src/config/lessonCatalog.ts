@@ -26,6 +26,7 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     fallbackView: "lesson-30-overview",
     sections: [
       { id: "lesson-30-overview", label: "Tổng quan", iconKey: "book" },
+      { id: "lesson-30-khai-quat", label: "Khái quát", iconKey: "layers" },
       { id: "lesson-30-role", label: "Vai trò", iconKey: "activity" },
       { id: "lesson-30-van-dong", label: "Hệ vận động", iconKey: "layers" },
       { id: "lesson-30-tuan-hoan", label: "Hệ tuần hoàn", iconKey: "layers" },
@@ -165,6 +166,7 @@ export const khtnLessonCards: SubjectLessonCard[] = [
 
 export const lesson30Tabs: LessonTabConfig[] = [
   { label: "Tổng quan", path: "/lesson-30", icon: BookOpen },
+  { label: "Khái quát", path: "/lesson-30/khai-quat", icon: Layers },
   { label: "Vai trò", path: "/lesson-30/vai-tro", icon: Activity },
   { label: "Hệ vận động", path: "/lesson-30/he-van-dong", icon: Layers },
   { label: "Hệ tuần hoàn", path: "/lesson-30/he-tuan-hoan", icon: HeartPulse },

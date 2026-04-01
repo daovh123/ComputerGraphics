@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, Layers } from "lucide-react";
 import { type View } from "../../router/views";
+import { cn } from "../../lib/utils";
+import Fullscreenable from "../../components/Fullscreenable";
 import {
   LESSON30_SYSTEMS,
   type Lesson30SystemId,
@@ -15,11 +17,30 @@ export default function Lesson30System({
   systemId: Lesson30SystemId;
 }) {
   const system = getLesson30System(systemId);
+  const [selectedOrgan, setSelectedOrgan] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSelectedOrgan(null);
+  }, [systemId]);
+
   const systemIndex = LESSON30_SYSTEMS.findIndex((s) => s.id === systemId);
   const nextSystem =
     systemIndex >= 0 ? LESSON30_SYSTEMS[systemIndex + 1] : undefined;
   const nextView: View = nextSystem ? nextSystem.viewId : "lesson-30-summary";
   const nextLabel = nextSystem ? `Tiếp theo: ${nextSystem.name}` : "Tới Tổng kết";
+
+  const organButtons =
+    system.id === "sinh-duc"
+      ? ["Cơ quan sinh dục nam + nữ"]
+      : system.organs;
+
+  const viewerSlot = selectedOrgan
+    ? `lesson30-organ-${system.id}:${selectedOrgan}`
+    : system.threeSlot;
+
+  useEffect(() => {
+    setSelectedOrgan(organButtons[0] ?? null);
+  }, [systemId]);
 
   return (
     <div className="space-y-8">
@@ -41,19 +62,29 @@ export default function Lesson30System({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-6 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-6 space-y-4 lg:col-span-1">
           <h3 className="text-xl font-extrabold text-[#333]">
             Cơ quan tiêu biểu
           </h3>
           <div className="flex flex-wrap gap-2">
-            {system.organs.map((organ) => (
-              <span
+            {organButtons.map((organ) => (
+              <button
                 key={organ}
-                className="px-4 py-2 rounded-2xl bg-[#F5F9FF] border border-[#E0F0FF] text-[#333] font-bold"
+                type="button"
+                onClick={() =>
+                  setSelectedOrgan((prev) => (prev === organ ? null : organ))
+                }
+                aria-pressed={selectedOrgan === organ}
+                className={cn(
+                  "px-4 py-2 rounded-2xl border font-bold transition-colors",
+                  selectedOrgan === organ
+                    ? "bg-white border-[#00BFFF] text-[#00BFFF]"
+                    : "bg-[#F5F9FF] border-[#E0F0FF] text-[#333] hover:bg-[#F0F8FF] hover:border-[#00BFFF]",
+                )}
               >
                 {organ}
-              </span>
+              </button>
             ))}
           </div>
 
@@ -63,10 +94,10 @@ export default function Lesson30System({
           </div>
         </div>
 
-        <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-4">
-          <div
+        <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-4 lg:col-span-2">
+          <Fullscreenable
             className="w-full aspect-[16/10] rounded-2xl border border-[#E0F0FF] bg-[#F5F9FF]"
-            data-three-slot={system.threeSlot}
+            dataThreeSlot={viewerSlot}
           />
         </div>
       </div>

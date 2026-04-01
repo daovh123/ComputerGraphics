@@ -7,6 +7,7 @@ import {
   UserCircle2,
 } from "lucide-react";
 import { type View } from "../../router/views";
+import Fullscreenable from "../../components/Fullscreenable";
 import {
   BODY_LAYERS,
   BODY_PARTS,
@@ -62,18 +63,15 @@ export default function Lesson30Overview({
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-[32px] rotate-3 opacity-20 group-hover:rotate-6 transition-transform" />
             <div className="absolute inset-0 bg-white rounded-[32px] shadow-2xl p-4 transform -rotate-2 group-hover:rotate-0 transition-transform">
               <div className="w-full h-full bg-[#1a1a1a] rounded-2xl overflow-hidden relative">
-                <div
+                <Fullscreenable
                   className="w-full h-full bg-slate-900"
-                  data-three-slot="lesson30-overview-hero"
+                  dataThreeSlot="lesson30-overview-hero"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 pointer-events-none">
                   <div className="text-white space-y-1">
                     <p className="font-bold text-lg">Vùng minh hoạ</p>
                     <p className="text-sm text-white/80">(Bạn gắn model 3D sau)</p>
                   </div>
-                </div>
-                <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30 text-white">
-                  <Layers className="w-6 h-6" />
                 </div>
               </div>
             </div>
@@ -190,9 +188,9 @@ export default function Lesson30Overview({
           </div>
 
           <div className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-4">
-            <div
+            <Fullscreenable
               className="w-full aspect-[16/10] rounded-2xl border border-[#E0F0FF] bg-[#F5F9FF]"
-              data-three-slot="lesson30-overview-body"
+              dataThreeSlot="lesson30-overview-body"
             />
           </div>
         </div>

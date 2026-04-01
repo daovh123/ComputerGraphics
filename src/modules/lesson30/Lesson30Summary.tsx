@@ -3,6 +3,7 @@ import { CheckCircle2, ChevronRight, Layers } from "lucide-react";
 import { type View } from "../../router/views";
 import { BODY_LAYERS, BODY_PARTS } from "../../data/lesson30/overview";
 import { LESSON30_SYSTEMS } from "../../data/lesson30/systems";
+import Fullscreenable from "../../components/Fullscreenable";
 
 export default function Lesson30Summary({
   setCurrentView,
@@ -72,9 +73,9 @@ export default function Lesson30Summary({
           <p className="text-[#666] leading-relaxed">
             Bạn có thể gắn mô hình cơ thể người tổng quát vào khung dưới đây.
           </p>
-          <div
+          <Fullscreenable
             className="w-full aspect-[16/9] rounded-2xl border border-[#E0F0FF] bg-[#F5F9FF]"
-            data-three-slot="lesson30-summary-hero"
+            dataThreeSlot="lesson30-summary-hero"
           />
         </div>
       </div>

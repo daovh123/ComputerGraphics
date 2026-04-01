@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Group } from "three";
+import Fullscreenable from "../../components/Fullscreenable";
 import { lesson32OrgansData } from "../../data/lesson32/organs";
 import { Lesson32OrganData } from "../../data/lesson32/types";
 
@@ -124,7 +125,7 @@ export default function DigestiveScene({
   }, [modelStatus, onModelStatusChange]);
 
   return (
-    <div className="w-full h-[520px] bg-gradient-to-b from-[#f8fbff] to-[#eef7ff] rounded-3xl border border-[#E0F0FF] overflow-hidden">
+    <Fullscreenable className="w-full h-[520px] bg-gradient-to-b from-[#f8fbff] to-[#eef7ff] rounded-3xl border border-[#E0F0FF] overflow-hidden">
       <Canvas camera={{ position: [0, 0.4, 2.8], fov: 45 }} shadows>
         <ambientLight intensity={0.5} />
         <directionalLight position={[2, 3, 3]} intensity={1.1} castShadow />
@@ -157,6 +158,6 @@ export default function DigestiveScene({
 
         <OrbitControls enablePan={false} maxDistance={4} minDistance={1.6} />
       </Canvas>
-    </div>
+    </Fullscreenable>
   );
 }
