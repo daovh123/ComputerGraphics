@@ -4,14 +4,13 @@ import type { View } from "./views";
 import Dashboard from "../views/Dashboard";
 import Library from "../views/Library";
 import LessonPlaceholder from "../views/LessonPlaceholder";
-import Lesson30BiologicalClock from "../modules/lesson30/Lesson30BiologicalClock";
-import Lesson30BodyParts from "../modules/lesson30/Lesson30BodyParts";
-import Lesson30Challenge from "../modules/lesson30/Lesson30Challenge";
-import Lesson30Characteristics from "../modules/lesson30/Lesson30Characteristics";
-import Lesson30Coordination from "../modules/lesson30/Lesson30Coordination";
+import Lesson30BodyOverview from "../modules/lesson30/Lesson30BodyOverview";
 import Lesson30Overview from "../modules/lesson30/Lesson30Overview";
+import Lesson30Quiz from "../modules/lesson30/Lesson30Quiz";
+import Lesson30Role from "../modules/lesson30/Lesson30Role";
 import Lesson30Shell from "../modules/lesson30/Lesson30Shell";
 import Lesson30Summary from "../modules/lesson30/Lesson30Summary";
+import Lesson30System from "../modules/lesson30/Lesson30System";
 import Lesson31Module from "../modules/lesson31/Lesson31Module";
 import Lesson32Diseases from "../modules/lesson32/Lesson32Diseases";
 import Lesson32Explorer from "../modules/lesson32/Lesson32Explorer";
@@ -63,75 +62,121 @@ export default function AppRoutes({
           />
         }
       />
-      <Route path="/lesson-overview" element={<Navigate to="/lesson-30" replace />} />
+
+      {/* Lesson 30 */}
       <Route
         path="/lesson-30"
         element={
           <Lesson30Shell>
-            <Lesson30Overview setCurrentView={navigate} goBack={goBack} />
+            <Lesson30Overview setCurrentView={navigate} />
           </Lesson30Shell>
         }
       />
-      <Route path="/body-parts" element={<Navigate to="/lesson-30/body-parts" replace />} />
       <Route
-        path="/lesson-30/body-parts"
+        path="/lesson-30/khai-quat"
         element={
           <Lesson30Shell>
-            <Lesson30BodyParts setCurrentView={navigate} goBack={goBack} />
+            <Lesson30BodyOverview setCurrentView={navigate} />
           </Lesson30Shell>
         }
       />
-      <Route path="/coordination" element={<Navigate to="/lesson-30/coordination" replace />} />
       <Route
-        path="/lesson-30/coordination"
+        path="/lesson-30/vai-tro"
         element={
           <Lesson30Shell>
-            <Lesson30Coordination setCurrentView={navigate} goBack={goBack} />
+            <Lesson30Role setCurrentView={navigate} />
           </Lesson30Shell>
         }
       />
       <Route
-        path="/biological-clock"
-        element={<Navigate to="/lesson-30/biological-clock" replace />}
-      />
-      <Route
-        path="/lesson-30/biological-clock"
+        path="/lesson-30/he-van-dong"
         element={
           <Lesson30Shell>
-            <Lesson30BiologicalClock setCurrentView={navigate} goBack={goBack} />
+            <Lesson30System setCurrentView={navigate} systemId="van-dong" />
           </Lesson30Shell>
         }
       />
-      <Route path="/summary" element={<Navigate to="/lesson-30/summary" replace />} />
       <Route
-        path="/lesson-30/summary"
+        path="/lesson-30/he-tuan-hoan"
         element={
           <Lesson30Shell>
-            <Lesson30Summary setCurrentView={navigate} goBack={goBack} />
+            <Lesson30System setCurrentView={navigate} systemId="tuan-hoan" />
           </Lesson30Shell>
         }
       />
-      <Route path="/challenge" element={<Navigate to="/lesson-30/challenge" replace />} />
       <Route
-        path="/lesson-30/challenge"
+        path="/lesson-30/he-ho-hap"
         element={
           <Lesson30Shell>
-            <Lesson30Challenge setCurrentView={navigate} goBack={goBack} />
+            <Lesson30System setCurrentView={navigate} systemId="ho-hap" />
           </Lesson30Shell>
         }
       />
       <Route
-        path="/characteristics"
-        element={<Navigate to="/lesson-30/characteristics" replace />}
-      />
-      <Route
-        path="/lesson-30/characteristics"
+        path="/lesson-30/he-tieu-hoa"
         element={
           <Lesson30Shell>
-            <Lesson30Characteristics setCurrentView={navigate} goBack={goBack} />
+            <Lesson30System setCurrentView={navigate} systemId="tieu-hoa" />
           </Lesson30Shell>
         }
       />
+      <Route
+        path="/lesson-30/he-bai-tiet"
+        element={
+          <Lesson30Shell>
+            <Lesson30System setCurrentView={navigate} systemId="bai-tiet" />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/he-than-kinh"
+        element={
+          <Lesson30Shell>
+            <Lesson30System setCurrentView={navigate} systemId="than-kinh" />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/he-noi-tiet"
+        element={
+          <Lesson30Shell>
+            <Lesson30System setCurrentView={navigate} systemId="noi-tiet" />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/he-sinh-duc"
+        element={
+          <Lesson30Shell>
+            <Lesson30System setCurrentView={navigate} systemId="sinh-duc" />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/giac-quan"
+        element={
+          <Lesson30Shell>
+            <Lesson30System setCurrentView={navigate} systemId="giac-quan" />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/tong-ket"
+        element={
+          <Lesson30Shell>
+            <Lesson30Summary setCurrentView={navigate} />
+          </Lesson30Shell>
+        }
+      />
+      <Route
+        path="/lesson-30/quiz"
+        element={
+          <Lesson30Shell>
+            <Lesson30Quiz setCurrentView={navigate} />
+          </Lesson30Shell>
+        }
+      />
+
       <Route path="/lesson-31" element={<Lesson31Module />} />
       <Route
         path="/lesson-placeholder"

@@ -1,45 +1,20 @@
-import {
-  LayersIcon as TLayersIcon,
-  ActivityIcon as TActivityIcon,
-} from "tdesign-icons-react";
-
 export const lessonOverview = {
   title: "Khái quát về cơ thể người",
-  description: "Bài học giúp em hình dung tổng quát về cấu tạo của cơ thể người, nhận biết các hệ cơ quan và sự phối hợp nhịp nhàng giữa chúng để tạo thành một khối thống nhất.",
+  description:
+    "Bài học giúp em nhận biết các phần chính của cơ thể người và nêu được vai trò của một số hệ cơ quan tiêu biểu.",
   objectives: [
-    "Kể tên được các cơ quan và hệ cơ quan trong cơ thể người.",
-    "Nêu được chức năng chính của từng hệ cơ quan.",
-    "Chứng minh được cơ thể người là một khối thống nhất thông qua sự phối hợp của các cơ quan.",
-    "Khám phá các điểm đặc trưng của riêng từng cá nhân trong loài người."
-  ]
-};
+    "Kể tên được 5 phần chính của cơ thể người (đầu, cổ, thân, tay và chân).",
+    "Nêu được các lớp bao bọc cơ thể từ ngoài vào trong (da → mỡ → cơ → xương).",
+    "Kể tên được một số hệ cơ quan và cơ quan tiêu biểu của mỗi hệ.",
+    "Nêu được vai trò chính của các hệ cơ quan trong cơ thể người.",
+  ],
+} as const;
 
-export const sections = [
-  {
-    id: 1,
-    title: "I. Các hệ cơ quan trong cơ thể",
-    content:
-      "Cơ thể người được cấu tạo từ các hệ cơ quan khác nhau, mỗi hệ đảm nhận một chức năng riêng biệt nhưng phối hợp chặt chẽ với nhau.",
-    icon: TLayersIcon,
-  },
-  {
-    id: 2,
-    title: "II. Hệ vận động",
-    content:
-      "Bao gồm xương và cơ, giúp cơ thể di chuyển và nâng đỡ trọng lượng.",
-    icon: TActivityIcon,
-  },
-  {
-    id: 3,
-    title: "III. Hệ tuần hoàn",
-    content:
-      "Bao gồm tim và hệ thống mạch máu, vận chuyển oxy và chất dinh dưỡng đến các tế bào.",
-    icon: TActivityIcon,
-  },
-  {
-    id: 4,
-    title: "IV. Hệ hô hấp",
-    content: "Giúp cơ thể lấy oxy từ môi trường và thải khí cacbonic ra ngoài.",
-    icon: TActivityIcon,
-  },
-];
+export const BODY_PARTS = ["Đầu", "Cổ", "Thân", "Tay", "Chân"] as const;
+
+export const BODY_LAYERS = ["Da", "Mỡ", "Cơ", "Xương"] as const;
+
+export const DISCUSSION = {
+  prompt: "Cơ thể người có mấy phần? Kể tên các phần đó.",
+  answer: "Cơ thể người gồm các phần: đầu, cổ, thân, tay và chân.",
+} as const;

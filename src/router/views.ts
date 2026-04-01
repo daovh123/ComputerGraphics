@@ -1,12 +1,19 @@
 export type View =
   | "dashboard"
-  | "lesson-overview"
-  | "body-parts"
-  | "coordination"
-  | "biological-clock"
-  | "summary"
-  | "challenge"
-  | "characteristics"
+  | "lesson-30-overview"
+  | "lesson-30-khai-quat"
+  | "lesson-30-role"
+  | "lesson-30-van-dong"
+  | "lesson-30-tuan-hoan"
+  | "lesson-30-ho-hap"
+  | "lesson-30-tieu-hoa"
+  | "lesson-30-bai-tiet"
+  | "lesson-30-than-kinh"
+  | "lesson-30-noi-tiet"
+  | "lesson-30-sinh-duc"
+  | "lesson-30-giac-quan"
+  | "lesson-30-summary"
+  | "lesson-30-quiz"
   | "lesson-placeholder"
   | "library"
   | "lesson-32-overview"
@@ -25,13 +32,20 @@ export type View =
 
 export const VIEW_PATHS: Record<View, string> = {
   dashboard: "/dashboard",
-  "lesson-overview": "/lesson-30",
-  "body-parts": "/lesson-30/body-parts",
-  coordination: "/lesson-30/coordination",
-  "biological-clock": "/lesson-30/biological-clock",
-  summary: "/lesson-30/summary",
-  challenge: "/lesson-30/challenge",
-  characteristics: "/lesson-30/characteristics",
+  "lesson-30-overview": "/lesson-30",
+  "lesson-30-khai-quat": "/lesson-30/khai-quat",
+  "lesson-30-role": "/lesson-30/vai-tro",
+  "lesson-30-van-dong": "/lesson-30/he-van-dong",
+  "lesson-30-tuan-hoan": "/lesson-30/he-tuan-hoan",
+  "lesson-30-ho-hap": "/lesson-30/he-ho-hap",
+  "lesson-30-tieu-hoa": "/lesson-30/he-tieu-hoa",
+  "lesson-30-bai-tiet": "/lesson-30/he-bai-tiet",
+  "lesson-30-than-kinh": "/lesson-30/he-than-kinh",
+  "lesson-30-noi-tiet": "/lesson-30/he-noi-tiet",
+  "lesson-30-sinh-duc": "/lesson-30/he-sinh-duc",
+  "lesson-30-giac-quan": "/lesson-30/giac-quan",
+  "lesson-30-summary": "/lesson-30/tong-ket",
+  "lesson-30-quiz": "/lesson-30/quiz",
   "lesson-placeholder": "/lesson-placeholder",
   library: "/library",
   "lesson-32-overview": "/lesson-32",

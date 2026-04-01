@@ -9,7 +9,7 @@ interface LessonTabsProps {
 
 export default function LessonTabs({ tabs }: LessonTabsProps) {
   return (
-    <div className="flex gap-2 p-2 bg-white rounded-2xl shadow-sm border border-[#E0F0FF] overflow-x-auto no-scrollbar">
+    <div className="flex flex-nowrap md:flex-wrap gap-2 p-2 bg-white rounded-2xl shadow-sm border border-[#E0F0FF] overflow-x-auto md:overflow-x-visible no-scrollbar">
       {tabs.map((tab) => (
         <NavLink
           key={tab.path}
