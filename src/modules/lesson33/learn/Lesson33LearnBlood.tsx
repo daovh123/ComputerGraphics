@@ -1,10 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "../../../lib/utils";
-import {
-  useLessonStepBackAction,
-  useLessonStepEnterAction,
-} from "../../../components/lesson-player/useLessonStepEnterAction";
+import { useLessonStepProgression } from "../../../components/lesson-player/useLessonStepEnterAction";
 
 type BloodLayer = {
   id: string;
@@ -183,9 +180,9 @@ export default function Lesson33LearnBlood() {
     [activeLayerId],
   );
 
-  useLessonStepEnterAction({
-    canHandle: () => mode === "intro" || activeIndex < bloodLayers.length - 1,
-    run: () => {
+  useLessonStepProgression({
+    canGoNext: mode === "intro" || activeIndex < bloodLayers.length - 1,
+    onNext: () => {
       if (mode === "intro") {
         setMode("explore");
         return;
@@ -197,11 +194,8 @@ export default function Lesson33LearnBlood() {
         setActiveLayerId(nextLayer.id);
       }
     },
-  });
-
-  useLessonStepBackAction({
-    canHandle: () => mode === "explore",
-    run: () => {
+    canGoBack: mode === "explore",
+    onBack: () => {
       if (activeIndex > 0) {
         setActiveLayerId(bloodLayers[activeIndex - 1].id);
         return;
@@ -235,8 +229,6 @@ export default function Lesson33LearnBlood() {
       </section>
     );
   }
-
-  const isTextOnRight = activeIndex % 2 === 1;
 
   return (
     <section className="grid min-h-[calc(100vh-12rem)] items-center gap-12 lg:grid-cols-[1fr_1fr]">

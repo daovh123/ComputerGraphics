@@ -71,4 +71,5 @@ export interface LessonManifest {
 export interface LessonRouteConfig {
   path: string;
   element: React.ReactElement;
+  chrome?: "app" | "lesson";
 }

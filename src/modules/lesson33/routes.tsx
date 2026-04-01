@@ -22,10 +22,12 @@ export const lesson33Routes: LessonRouteConfig[] = [
   {
     path: "/lesson-33/learn",
     element: <Navigate to="/lesson-33/learn/mo-dau" replace />,
+    chrome: "lesson",
   },
   {
     path: "/lesson-33/learn/:stepId",
     element: <Lesson33LearnPlayer />,
+    chrome: "lesson",
   },
   {
     path: "/lesson-33/explorer",

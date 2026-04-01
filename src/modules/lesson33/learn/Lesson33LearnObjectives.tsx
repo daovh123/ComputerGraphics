@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
-import {
-  useLessonStepBackAction,
-  useLessonStepEnterAction,
-} from "../../../components/lesson-player/useLessonStepEnterAction";
+import { useLessonStepProgression } from "../../../components/lesson-player/useLessonStepEnterAction";
 import { lessonOverview } from "../data/overview";
 
 export default function Lesson33LearnObjectives() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useLessonStepEnterAction({
-    canHandle: () => activeIndex < lessonOverview.objectives.length - 1,
-    run: () => {
+  useLessonStepProgression({
+    canGoNext: activeIndex < lessonOverview.objectives.length - 1,
+    onNext: () => {
       setActiveIndex((current) =>
         Math.min(current + 1, lessonOverview.objectives.length - 1),
       );
     },
-  });
-
-  useLessonStepBackAction({
-    canHandle: () => activeIndex > 0,
-    run: () => {
+    canGoBack: activeIndex > 0,
+    onBack: () => {
       setActiveIndex((current) => Math.max(current - 1, 0));
     },
   });

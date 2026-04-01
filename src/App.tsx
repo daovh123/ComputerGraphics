@@ -4,8 +4,9 @@
  */
 
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import Layout from "./components/Layout";
+import { LESSON_ROUTES } from "./lessons/registry";
 import AppRoutes from "./router/AppRoutes";
 
 export default function App() {
@@ -13,7 +14,11 @@ export default function App() {
   const routerNavigate = useNavigate();
   const currentPath =
     location.pathname === "/" ? "/dashboard" : location.pathname;
-  const isLessonModePath = /^\/lesson-\d+\/learn(\/|$)/.test(currentPath);
+  const isLessonModePath = LESSON_ROUTES.some(
+    (route) =>
+      route.chrome === "lesson" &&
+      Boolean(matchPath({ path: route.path, end: true }, currentPath)),
+  );
 
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
 
