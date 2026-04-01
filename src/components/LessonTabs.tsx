@@ -2,14 +2,31 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import type { LessonTabConfig } from "../config/lessonTypes";
 import { cn } from "../lib/utils";
+import { LESSON_CARD_BASE } from "./lessonClassNames";
 
 interface LessonTabsProps {
   tabs: LessonTabConfig[];
+  variant?: "card" | "embedded";
+  className?: string;
 }
 
-export default function LessonTabs({ tabs }: LessonTabsProps) {
+export default function LessonTabs({
+  tabs,
+  variant = "card",
+  className,
+}: LessonTabsProps) {
   return (
-    <div className="flex flex-nowrap md:flex-wrap gap-2 p-2 bg-white rounded-2xl shadow-sm border border-[#E0F0FF] overflow-x-auto md:overflow-x-visible no-scrollbar">
+    <div
+      className={cn(
+        variant === "card"
+          ? [
+              LESSON_CARD_BASE,
+              "flex flex-nowrap md:flex-wrap gap-2 p-2 rounded-2xl overflow-x-auto md:overflow-x-visible no-scrollbar",
+            ]
+          : "flex flex-nowrap md:flex-wrap gap-2 overflow-x-auto md:overflow-x-visible no-scrollbar",
+        className,
+      )}
+    >
       {tabs.map((tab) => (
         <NavLink
           key={tab.path}

@@ -104,9 +104,6 @@ export default function Lesson30Role({
               className="w-full aspect-[16/10] rounded-2xl bg-slate-900"
               data-illustration-slot={`lesson30-role-${system.id}`}
             />
-            <p className="mt-3 text-sm text-[#666] font-bold">
-              Hình minh hoạ (thêm sau)
-            </p>
           </div>
         </div>
       </div>

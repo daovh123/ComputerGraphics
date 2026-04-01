@@ -105,7 +105,7 @@ export default function Lesson30Quiz({
         <div className="absolute top-0 right-0 w-[520px] h-[520px] bg-purple-50 rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
         <div className="relative z-10 space-y-3">
           <h2 className="text-3xl md:text-4xl font-black text-[#333]">
-            Quiz kiểu Kahoot
+            Quiz
           </h2>
           <p className="text-[#666] text-lg leading-relaxed max-w-3xl">
             Trả lời nhanh – đúng được nhiều điểm hơn. Mỗi câu có giới hạn thời
