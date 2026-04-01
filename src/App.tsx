@@ -13,6 +13,7 @@ export default function App() {
   const routerNavigate = useNavigate();
   const currentPath =
     location.pathname === "/" ? "/dashboard" : location.pathname;
+  const isLessonModePath = /^\/lesson-\d+\/learn(\/|$)/.test(currentPath);
 
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
 
@@ -26,6 +27,19 @@ export default function App() {
     routerNavigate(-1);
   };
 
+  const routes = (
+    <AppRoutes
+      navigateToPath={navigateToPath}
+      goBack={goBack}
+      selectedSubjectId={selectedSubjectId}
+      setSelectedSubjectId={setSelectedSubjectId}
+    />
+  );
+
+  if (isLessonModePath) {
+    return routes;
+  }
+
   return (
     <Layout
       currentPath={currentPath}
@@ -33,12 +47,7 @@ export default function App() {
       selectedSubjectId={selectedSubjectId}
       setSelectedSubjectId={setSelectedSubjectId}
     >
-      <AppRoutes
-        navigateToPath={navigateToPath}
-        goBack={goBack}
-        selectedSubjectId={selectedSubjectId}
-        setSelectedSubjectId={setSelectedSubjectId}
-      />
+      {routes}
     </Layout>
   );
 }
