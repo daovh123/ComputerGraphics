@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Expand,
-  List,
   Shrink,
   X,
 } from "lucide-react";
@@ -14,7 +13,10 @@ import type {
   LessonPlayerBackAction,
   LessonPlayerEnterAction,
 } from "./lesson-player/LessonPlayerInteractionContext";
+import LessonPlayerOutline from "./lesson-player/LessonPlayerOutline";
 import type { LessonPlayerStepLink } from "./lesson-player/types";
+import { useLessonPlayerFullscreen } from "./lesson-player/useLessonPlayerFullscreen";
+import { useLessonPlayerKeyboard } from "./lesson-player/useLessonPlayerKeyboard";
 
 interface LessonPlayerLayoutProps {
   lessonTitle: string;
@@ -52,197 +54,26 @@ export default function LessonPlayerLayout({
   isNextCompletion = false,
 }: LessonPlayerLayoutProps) {
   const [isOutlineOpen, setIsOutlineOpen] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showFullscreenTopbar, setShowFullscreenTopbar] = useState(true);
-  const outlineRef = useRef<HTMLDivElement | null>(null);
-  const shellRef = useRef<HTMLDivElement | null>(null);
-  const topbarHideTimerRef = useRef<number | null>(null);
   const navigate = useNavigate();
+  const { shellRef, isFullscreen, showFullscreenTopbar, toggleFullscreen } =
+    useLessonPlayerFullscreen();
   const progressPercent = totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0;
   const isCompletionTrigger = isNextCompletion && !enterCanHandle;
 
-  const scheduleFullscreenTopbarHide = () => {
-    if (topbarHideTimerRef.current) {
-      window.clearTimeout(topbarHideTimerRef.current);
-    }
-
-    topbarHideTimerRef.current = window.setTimeout(() => {
-      setShowFullscreenTopbar(false);
-    }, 2200);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!outlineRef.current?.contains(event.target as Node)) {
-        setIsOutlineOpen(false);
-      }
-    };
-
-    if (isOutlineOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOutlineOpen]);
-
-  useEffect(() => {
-    const node = shellRef.current;
-
-    if (!node) {
-      return;
-    }
-
-    const handleFullscreenChange = () => {
-      const active = document.fullscreenElement === node;
-      setIsFullscreen(active);
-      setShowFullscreenTopbar(true);
-
-      if (active) {
-        scheduleFullscreenTopbarHide();
-      } else if (topbarHideTimerRef.current) {
-        window.clearTimeout(topbarHideTimerRef.current);
-      }
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isFullscreen) {
-      return;
-    }
-
-    const showControls = () => {
-      setShowFullscreenTopbar(true);
-      scheduleFullscreenTopbarHide();
-    };
-
-    const handleMouseMove = (event: MouseEvent) => {
-      if (event.clientY <= 88) {
-        showControls();
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("pointerdown", showControls);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("pointerdown", showControls);
-    };
-  }, [isFullscreen]);
-
-  useEffect(() => {
-    const handlePrevious = () => {
-      if (backCanHandle) {
-        backAction.run();
-        return;
-      }
-
-      if (previousPath) {
-        navigate(previousPath);
-      }
-    };
-
-    const handleNext = () => {
-      if (enterCanHandle) {
-        enterAction.run();
-        return;
-      }
-
-      if (nextPath) {
-        navigate(nextPath);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      const isTypingTarget =
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        target?.isContentEditable;
-
-      if (isTypingTarget) {
-        return;
-      }
-
-      if (event.key === "ArrowLeft" && (previousPath || backCanHandle)) {
-        event.preventDefault();
-        handlePrevious();
-        return;
-      }
-
-      if (event.key === "ArrowRight" && nextPath) {
-        event.preventDefault();
-        handleNext();
-        return;
-      }
-
-      if (event.key === "Enter") {
-        if (enterCanHandle || nextPath) {
-          event.preventDefault();
-          handleNext();
-        }
-
-        return;
-      }
-
-      if (event.key.toLowerCase() === "m") {
-        event.preventDefault();
-        setIsOutlineOpen((current) => !current);
-        return;
-      }
-
-      if (event.key.toLowerCase() === "f") {
-        event.preventDefault();
-
-        if (document.fullscreenElement) {
-          void document.exitFullscreen();
-          return;
-        }
-
-        shellRef.current?.requestFullscreen();
-        return;
-      }
-
-      if (/^[1-9]$/.test(event.key)) {
-        const step = steps[Number(event.key) - 1];
-
-        if (step) {
-          event.preventDefault();
-          navigate(step.path);
-        }
-
-        return;
-      }
-
-      if (event.key.toLowerCase() === "q" || event.key === "Escape") {
-        event.preventDefault();
-        navigate(exitPath);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [
-    backAction,
-    backCanHandle,
-    enterAction,
-    enterCanHandle,
-    exitPath,
-    navigate,
-    nextPath,
+  useLessonPlayerKeyboard({
     previousPath,
+    nextPath,
+    exitPath,
     steps,
-  ]);
+    enterAction,
+    backAction,
+    enterCanHandle,
+    backCanHandle,
+    onNavigate: navigate,
+    onExit: () => undefined,
+    onToggleOutline: () => setIsOutlineOpen((current) => !current),
+    onToggleFullscreen: toggleFullscreen,
+  });
 
   return (
     <div
@@ -273,14 +104,7 @@ export default function LessonPlayerLayout({
             <div className="flex shrink-0 items-center gap-2">
               <button
                 type="button"
-                onClick={() => {
-                  if (document.fullscreenElement) {
-                    void document.exitFullscreen();
-                    return;
-                  }
-
-                  void shellRef.current?.requestFullscreen();
-                }}
+                onClick={toggleFullscreen}
                 aria-label={isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}
                 title={isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#D7E8FF] bg-white/90 text-[#334155] hover:bg-white"
@@ -291,53 +115,14 @@ export default function LessonPlayerLayout({
                   <Expand className="h-4 w-4" />
                 )}
               </button>
-              <div className="relative" ref={outlineRef}>
-                <button
-                  type="button"
-                  onClick={() => setIsOutlineOpen((current) => !current)}
-                  className="inline-flex h-10 items-center gap-2 rounded-full border border-[#D7E8FF] bg-white/90 px-4 py-2 text-sm font-semibold text-[#334155] hover:bg-white"
-                >
-                  <List className="h-4 w-4" />
-                  <span>Mục lục</span>
-                </button>
-                {isOutlineOpen ? (
-                  <div className="absolute right-0 top-full mt-3 flex max-h-[70vh] w-[22rem] flex-col overflow-hidden rounded-[24px] border border-[#D7E8FF] bg-white/95 p-3 shadow-2xl shadow-sky-100/80">
-                    <div className="mb-2 px-2">
-                      <p className="text-sm font-black text-[#1F2937]">Lộ trình bài học</p>
-                      <p className="text-xs text-[#6B7280]">Nhấn số hoặc chọn bước để chuyển nhanh.</p>
-                    </div>
-                    <div className="space-y-1 overflow-y-auto pr-1">
-                      {steps.map((step, index) => (
-                        <Link
-                          key={step.id}
-                          to={step.path}
-                          onClick={() => setIsOutlineOpen(false)}
-                          className={cn(
-                            "block rounded-2xl px-3 py-3 text-sm transition-colors",
-                            index + 1 === currentStep
-                              ? "bg-[#E6F4FF] text-[#0369A1]"
-                              : "text-[#334155] hover:bg-[#F8FCFF]",
-                          )}
-                        >
-                          <span className="block text-xs font-bold uppercase tracking-wide text-[#64748B]">
-                            Bước {index + 1}
-                          </span>
-                          <span className="block font-semibold">{step.title}</span>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="mt-3 border-t border-[#EEF2F7] pt-3">
-                      <Link
-                        to={exitPath}
-                        onClick={() => setIsOutlineOpen(false)}
-                        className="block rounded-2xl px-3 py-2 text-sm font-semibold text-[#334155] hover:bg-[#F8FCFF]"
-                      >
-                        Về trang bài học
-                      </Link>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+              <LessonPlayerOutline
+                steps={steps}
+                currentStep={currentStep}
+                exitPath={exitPath}
+                isOpen={isOutlineOpen}
+                onToggle={() => setIsOutlineOpen((current) => !current)}
+                onClose={() => setIsOutlineOpen(false)}
+              />
               <Link
                 to={exitPath}
                 aria-label="Thoát bài học"

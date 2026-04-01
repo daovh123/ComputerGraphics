@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import LessonPlayerCompleteScreen, {
   type LessonPlayerCompleteAction,
@@ -10,24 +10,18 @@ import {
   LessonPlayerInteractionProvider,
   type LessonPlayerEnterAction,
 } from "./lesson-player/LessonPlayerInteractionContext";
-import type { LessonPlayerResolvedStep } from "./lesson-player/types";
+import type {
+  LessonLearnConfig,
+  LessonPlayerResolvedStep,
+} from "./lesson-player/types";
 
-interface LessonPlayerProps {
-  lessonTitle: string;
-  exitPath: string;
-  steps: LessonPlayerResolvedStep[];
-  completion?: {
-    title?: string;
-    description?: string;
-    highlights?: LessonPlayerCompleteHighlight[];
-    actions?: LessonPlayerCompleteAction[];
-  };
-}
+interface LessonPlayerProps extends LessonLearnConfig {}
 
 export default function LessonPlayer({
   lessonTitle,
   exitPath,
   steps,
+  preload,
   completion,
 }: LessonPlayerProps) {
   const { stepId } = useParams<{ stepId: string }>();
@@ -42,6 +36,10 @@ export default function LessonPlayer({
   const completionPath = `${exitPath}/learn/complete`;
   const isCompletionStep = stepId === "complete";
   const currentIndex = steps.findIndex((step) => step.id === stepId);
+
+  useEffect(() => {
+    preload?.();
+  }, [preload]);
 
   if (!isCompletionStep && currentIndex === -1) {
     return <Navigate to={steps[0].path} replace />;

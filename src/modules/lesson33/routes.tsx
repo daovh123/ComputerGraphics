@@ -1,37 +1,45 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { createLessonLearnRoutes } from "../../lessons/learnRoutes";
 import type { LessonRouteConfig } from "../../lessons/types";
-import Lesson33Blood from "./Lesson33Blood";
-import Lesson33Diseases from "./Lesson33Diseases";
-import Lesson33Explorer from "./Lesson33Explorer";
-import Lesson33LearnPlayer from "./Lesson33LearnPlayer";
-import Lesson33Overview from "./Lesson33Overview";
-import Lesson33Quiz from "./Lesson33Quiz";
-import Lesson33Shell from "./Lesson33Shell";
-import Lesson33Simulation from "./Lesson33Simulation";
+
+const Lesson33Blood = lazy(() => import("./Lesson33Blood"));
+const Lesson33Diseases = lazy(() => import("./Lesson33Diseases"));
+const Lesson33Explorer = lazy(() => import("./Lesson33Explorer"));
+const Lesson33LearnPlayer = lazy(() => import("./Lesson33LearnPlayer"));
+const Lesson33Overview = lazy(() => import("./Lesson33Overview"));
+const Lesson33Quiz = lazy(() => import("./Lesson33Quiz"));
+const Lesson33Shell = lazy(() => import("./Lesson33Shell"));
+const Lesson33Simulation = lazy(() => import("./Lesson33Simulation"));
+
+function LessonRouteFallback() {
+  return (
+    <div className="flex min-h-[50vh] items-center justify-center px-6 text-sm font-semibold text-[#475569]">
+      Đang tải nội dung bài học...
+    </div>
+  );
+}
+
+function withLessonFallback(element: React.ReactElement) {
+  return <Suspense fallback={<LessonRouteFallback />}>{element}</Suspense>;
+}
 
 export const lesson33Routes: LessonRouteConfig[] = [
   {
     path: "/lesson-33",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33">
         <Lesson33Overview />
       </Lesson33Shell>
     ),
   },
-  {
-    path: "/lesson-33/learn",
-    element: <Navigate to="/lesson-33/learn/mo-dau" replace />,
-    chrome: "lesson",
-  },
-  {
-    path: "/lesson-33/learn/:stepId",
-    element: <Lesson33LearnPlayer />,
-    chrome: "lesson",
-  },
+  ...createLessonLearnRoutes(
+    "/lesson-33",
+    "mo-dau",
+    withLessonFallback(<Lesson33LearnPlayer />),
+  ),
   {
     path: "/lesson-33/explorer",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33/explorer">
         <Lesson33Explorer />
       </Lesson33Shell>
@@ -39,7 +47,7 @@ export const lesson33Routes: LessonRouteConfig[] = [
   },
   {
     path: "/lesson-33/blood",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33/blood">
         <Lesson33Blood />
       </Lesson33Shell>
@@ -47,7 +55,7 @@ export const lesson33Routes: LessonRouteConfig[] = [
   },
   {
     path: "/lesson-33/simulation",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33/simulation">
         <Lesson33Simulation />
       </Lesson33Shell>
@@ -55,7 +63,7 @@ export const lesson33Routes: LessonRouteConfig[] = [
   },
   {
     path: "/lesson-33/diseases",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33/diseases">
         <Lesson33Diseases />
       </Lesson33Shell>
@@ -63,7 +71,7 @@ export const lesson33Routes: LessonRouteConfig[] = [
   },
   {
     path: "/lesson-33/quiz",
-    element: (
+    element: withLessonFallback(
       <Lesson33Shell pathname="/lesson-33/quiz">
         <Lesson33Quiz />
       </Lesson33Shell>
