@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ChevronRight,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { lesson32OverviewData } from "../../data/lesson32/overview";
+import DigestiveSceneViewer from "./DigestiveSceneViewer.tsx";
 
 type QuickLink = {
   id: string;
@@ -121,14 +122,17 @@ export default function Lesson32Overview() {
             <div className="absolute inset-0 bg-gradient-to-tr from-amber-500 to-emerald-500 rounded-[32px] rotate-3 opacity-20 group-hover:rotate-6 transition-transform"></div>
             <div className="absolute inset-0 bg-white rounded-[32px] shadow-2xl p-4 transform -rotate-2 group-hover:rotate-0 transition-transform">
               <div className="w-full h-full bg-[#0f172a] rounded-2xl overflow-hidden relative">
-                <iframe
-                  title="Mô hình hệ tiêu hóa 3D"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; fullscreen"
-                  src="https://sketchfab.com/models/8c4c69035f4f4773813533d7ca56e516/embed?autostart=1&preload=1&ui_theme=dark&dnt=1"
-                  className="w-full h-full object-cover"
-                />
+                <Suspense
+                  fallback={
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-white text-center">
+                        <p>Đang tải mô hình...</p>
+                      </div>
+                    </div>
+                  }
+                >
+                  <DigestiveSceneViewer modelName="he-tieu-hoa" />
+                </Suspense>
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 pointer-events-none">
                   <div className="text-white space-y-1">
                     <p className="font-bold text-lg">Mô hình hệ tiêu hóa 3D</p>

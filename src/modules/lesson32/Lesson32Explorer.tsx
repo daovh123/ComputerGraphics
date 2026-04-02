@@ -1,15 +1,25 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import DigestiveScene from "./DigestiveScene";
 import { lesson32OrgansData } from "../../data/lesson32/organs";
+import { getDiscoveredModels, debugOrganModels, debugAllAssets } from "../../lib/three/lesson32Slots";
 
 export default function Lesson32Explorer() {
   const organs = useMemo(
     () => [...lesson32OrgansData].sort((a, b) => a.order - b.order),
     [],
   );
-  const [selectedOrganId, setSelectedOrganId] = useState(organs[0].id);
+
+  // Debug: log all discovered models and organ resolutions on mount
+  useEffect(() => {
+    console.log("=== LESSON32 EXPLORER MOUNTED ===");
+    debugAllAssets();
+    const organIds = organs.map(o => o.id);
+    debugOrganModels(["digestive-system", ...organIds]);
+  }, [organs]);
+
+  const [selectedOrganId, setSelectedOrganId] = useState("mieng");
   const [modelStatus, setModelStatus] = useState<
-    "loading" | "ready" | "fallback"
+    "loading" | "ready" | "error"
   >("loading");
 
   const selectedIndex = useMemo(
@@ -44,8 +54,8 @@ export default function Lesson32Explorer() {
   const modelStatusText =
     modelStatus === "ready"
       ? "Mô hình 3D sẵn sàng"
-      : modelStatus === "fallback"
-        ? "Đang dùng mô hình tạm để demo"
+      : modelStatus === "error"
+        ? "Không thể tải mô hình"
         : "Đang tải mô hình 3D";
 
   return (

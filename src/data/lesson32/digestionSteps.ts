@@ -2,10 +2,10 @@ import { Lesson32DigestionStep } from "./types";
 
 export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
   {
-    id: "step-mouth",
+    id: "step-mieng",
     order: 1,
-    slug: "mouth",
-    organId: "mouth",
+    slug: "mieng",
+    organId: "mieng",
     title: "Miệng",
     shortDescription: "Thức ăn được nhai nhỏ, đảo trộn và thấm nước bọt.",
     mechanicalDigestion: true,
@@ -16,10 +16,10 @@ export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
     summaryBadges: ["Cơ học", "Hóa học"],
   },
   {
-    id: "step-esophagus",
+    id: "step-thuc-quan",
     order: 2,
-    slug: "esophagus",
-    organId: "esophagus",
+    slug: "thuc-quan",
+    organId: "thuc-quan",
     title: "Thực quản",
     shortDescription: "Thức ăn di chuyển xuống dạ dày nhờ nhu động.",
     mechanicalDigestion: false,
@@ -30,10 +30,10 @@ export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
     summaryBadges: ["Vận chuyển"],
   },
   {
-    id: "step-stomach",
+    id: "step-da-day",
     order: 3,
-    slug: "stomach",
-    organId: "stomach",
+    slug: "da-day",
+    organId: "da-day",
     title: "Dạ dày",
     shortDescription: "Dạ dày co bóp và nhào trộn thức ăn với dịch vị.",
     mechanicalDigestion: true,
@@ -44,10 +44,10 @@ export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
     summaryBadges: ["Cơ học", "Hóa học"],
   },
   {
-    id: "step-small-intestine",
+    id: "step-ruot-non",
     order: 4,
-    slug: "small-intestine",
-    organId: "small-intestine",
+    slug: "ruot-non",
+    organId: "ruot-non",
     title: "Ruột non",
     shortDescription:
       "Tiêu hóa mạnh, nhận hỗ trợ từ gan và tụy, hấp thu phần lớn chất dinh dưỡng.",
@@ -59,10 +59,10 @@ export const lesson32DigestionSteps: Lesson32DigestionStep[] = [
     summaryBadges: ["Cơ học", "Hóa học", "Hấp thu", "Hỗ trợ tiêu hóa"],
   },
   {
-    id: "step-large-intestine",
+    id: "step-ruot-gia",
     order: 5,
-    slug: "large-intestine",
-    organId: "large-intestine",
+    slug: "ruot-gia",
+    organId: "ruot-gia",
     title: "Ruột già",
     shortDescription:
       "Hấp thu thêm nước, tạo phân và đẩy dần về cuối ống tiêu hóa.",
