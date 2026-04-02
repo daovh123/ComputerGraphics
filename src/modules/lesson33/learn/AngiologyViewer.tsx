@@ -7,12 +7,20 @@ import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { cn } from "../../../lib/utils";
 
 const ANGIOLOGY_MODEL_PATH = "/models/lesson-33/angiology.glb";
+const HIDDEN_NODE_NAME_PATTERNS = [/^labelgroup/i, /^label/i];
+const MODEL_SCALE_FACTOR = 0.9;
 
 let cachedAngiologySource: Group | null = null;
 let cachedAngiologyPromise: Promise<Group> | null = null;
 
 function prepareScene(scene: Group) {
   scene.traverse((child) => {
+    if (
+      HIDDEN_NODE_NAME_PATTERNS.some((pattern) => pattern.test(child.name))
+    ) {
+      child.visible = false;
+    }
+
     if ("castShadow" in child) {
       child.castShadow = true;
     }
@@ -115,7 +123,8 @@ function FittedModel({ model }: { model: Group }) {
     const heightScale = (visibleHeight * 0.88) / (modelSize.y || 1);
     const widthScale = (visibleWidth * 0.78) / (modelSize.x || 1);
     const depthScale = 2.8 / (modelSize.z || 1);
-    const scale = Math.min(heightScale, widthScale, depthScale);
+    const scale =
+      Math.min(heightScale, widthScale, depthScale) * MODEL_SCALE_FACTOR;
 
     return {
       object: model,
@@ -197,7 +206,7 @@ export default function AngiologyViewer({
   return (
     <div
       className={cn(
-        "h-[clamp(28rem,calc(100vh-12rem),42rem)] w-full overflow-hidden",
+        "h-[clamp(22rem,calc(100vh-18rem),32rem)] w-full overflow-hidden",
         className,
       )}
     >
