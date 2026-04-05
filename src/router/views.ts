@@ -14,6 +14,13 @@ export type View =
   | "lesson-30-giac-quan"
   | "lesson-30-summary"
   | "lesson-30-quiz"
+  | "lesson-31-overview"
+  | "lesson-31-anatomy"
+  | "lesson-31-movement-function"
+  | "lesson-31-diseases"
+  | "lesson-31-model3d"
+  | "lesson-31-quiz"
+  | "lesson-31-summary"
   | "lesson-placeholder"
   | "library"
   | "lesson-32-overview"
@@ -46,6 +53,13 @@ export const VIEW_PATHS: Record<View, string> = {
   "lesson-30-giac-quan": "/lesson-30/giac-quan",
   "lesson-30-summary": "/lesson-30/tong-ket",
   "lesson-30-quiz": "/lesson-30/quiz",
+  "lesson-31-overview": "/lesson-31",
+  "lesson-31-anatomy": "/lesson-31/anatomy",
+  "lesson-31-movement-function": "/lesson-31/movement-function",
+  "lesson-31-diseases": "/lesson-31/diseases",
+  "lesson-31-model3d": "/lesson-31/model3d",
+  "lesson-31-quiz": "/lesson-31/quiz",
+  "lesson-31-summary": "/lesson-31/summary",
   "lesson-placeholder": "/lesson-placeholder",
   library: "/library",
   "lesson-32-overview": "/lesson-32",

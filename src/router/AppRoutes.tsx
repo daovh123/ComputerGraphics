@@ -177,7 +177,31 @@ export default function AppRoutes({
         }
       />
 
-      <Route path="/lesson-31" element={<Lesson31Module />} />
+      <Route path="/lesson-31" element={<Lesson31Module initialTab="overview" />} />
+      <Route
+        path="/lesson-31/anatomy"
+        element={<Lesson31Module initialTab="anatomy" />}
+      />
+      <Route
+        path="/lesson-31/movement-function"
+        element={<Lesson31Module initialTab="movement-function" />}
+      />
+      <Route
+        path="/lesson-31/diseases"
+        element={<Lesson31Module initialTab="diseases" />}
+      />
+      <Route
+        path="/lesson-31/model3d"
+        element={<Lesson31Module initialTab="model3d" />}
+      />
+      <Route
+        path="/lesson-31/quiz"
+        element={<Lesson31Module initialTab="quiz" />}
+      />
+      <Route
+        path="/lesson-31/summary"
+        element={<Lesson31Module initialTab="summary" />}
+      />
       <Route
         path="/lesson-placeholder"
         element={

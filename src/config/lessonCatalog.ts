@@ -46,8 +46,16 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     label: "Bài 31",
     fullName: "Hệ vận động ở người",
     routePath: "/lesson-31",
-    fallbackView: "lesson-placeholder",
-    sections: [],
+    fallbackView: "lesson-31-overview",
+    sections: [
+      { id: "lesson-31-overview", label: "Tổng quan", iconKey: "book" },
+      { id: "lesson-31-anatomy", label: "Cấu tạo & chức năng", iconKey: "layers" },
+      { id: "lesson-31-movement-function", label: "Chức năng vận động", iconKey: "activity" },
+      { id: "lesson-31-diseases", label: "Bệnh hệ vận động", iconKey: "clock" },
+      { id: "lesson-31-model3d", label: "Mô hình 3D", iconKey: "layers" },
+      { id: "lesson-31-quiz", label: "Quiz", iconKey: "game" },
+      { id: "lesson-31-summary", label: "Tổng kết", iconKey: "check" },
+    ],
   },
   {
     id: "32",
@@ -112,13 +120,14 @@ export const khtnLessonCards: SubjectLessonCard[] = [
   {
     id: 2,
     title: "Bài 31: Hệ vận động ở người",
-    description: "Cấu tạo xương, cơ, khớp và các bệnh liên quan...",
+    description:
+      "Cấu tạo hệ vận động gồm xương và cơ, các chức năng nâng đỡ, bảo vệ và vận động.",
     image: "https://picsum.photos/seed/bio2/400/300",
     progress: 40,
     duration: "60 phút",
     rating: 4.9,
     routePath: "/lesson-31",
-    fallbackView: "lesson-placeholder",
+    fallbackView: "lesson-31-overview",
   },
   {
     id: 3,
