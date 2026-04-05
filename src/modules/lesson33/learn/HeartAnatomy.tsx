@@ -32,9 +32,17 @@ const heartZones = [
   },
 ];
 
+const zoneHotspots: Record<string, { top: string; left: string; label: string }> = {
+  heart: { top: "43%", left: "48%", label: "Tim" },
+  arteries: { top: "28%", left: "58%", label: "Động mạch" },
+  veins: { top: "58%", left: "38%", label: "Tĩnh mạch" },
+  capillaries: { top: "68%", left: "60%", label: "Mao mạch" },
+};
+
 export default function HeartAnatomy() {
   const [activeZoneId, setActiveZoneId] = useState(heartZones[0].id);
   const activeZone = heartZones.find((zone) => zone.id === activeZoneId) ?? heartZones[0];
+  const activeHotspot = zoneHotspots[activeZoneId];
 
   return (
     <section className="grid min-h-[calc(100vh-12rem)] gap-10 lg:grid-cols-[1.05fr_0.95fr]">
@@ -47,10 +55,84 @@ export default function HeartAnatomy() {
             <h2 className="mt-2 text-3xl font-black text-[#0F172A]">Tim và hệ mạch</h2>
           </div>
           <div className="rounded-2xl border border-white/70 bg-white/70 px-4 py-2 text-sm font-semibold text-[#334155]">
-            Xoay để xem tổng thể
+            Bấm trực tiếp vào điểm sáng trên mô hình
           </div>
         </div>
-        <AngiologyViewer className="rounded-[28px] bg-white/70" />
+        <div className="relative">
+          <AngiologyViewer className="rounded-[28px] bg-white/70" />
+          <div
+            className="pointer-events-none absolute z-[5] rounded-full bg-[linear-gradient(90deg,rgba(14,165,233,0.7),rgba(14,165,233,0.08))]"
+            style={{
+              top: activeHotspot.top,
+              left: activeHotspot.left,
+              width: "22%",
+              height: "2px",
+              transform: "translateY(-50%)",
+            }}
+          />
+          <div
+            className="pointer-events-none absolute z-[5] rounded-full bg-[#0EA5E9]/70"
+            style={{
+              top: activeHotspot.top,
+              left: "calc(" + activeHotspot.left + " + 22%)",
+              width: "10px",
+              height: "10px",
+              transform: "translate(-50%, -50%)",
+              boxShadow: "0 0 0 8px rgba(14,165,233,0.10)",
+            }}
+          />
+          {heartZones.map((zone) => {
+            const hotspot = zoneHotspots[zone.id];
+            const isActive = zone.id === activeZoneId;
+
+            return (
+              <button
+                key={zone.id}
+                type="button"
+                onClick={() => setActiveZoneId(zone.id)}
+                className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
+                style={{ top: hotspot.top, left: hotspot.left }}
+              >
+                <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-transparent" />
+                <span className="relative flex flex-col items-center">
+                  <span
+                    className={
+                      isActive
+                        ? "flex h-7 w-7 items-center justify-center rounded-full bg-[#0EA5E9] shadow-[0_0_0_10px_rgba(14,165,233,0.16)]"
+                        : "flex h-6 w-6 items-center justify-center rounded-full bg-white/95 shadow-[0_0_0_8px_rgba(255,255,255,0.45)]"
+                    }
+                  >
+                    <span
+                      className={
+                        isActive
+                          ? "h-3 w-3 rounded-full bg-white"
+                          : "h-3 w-3 rounded-full bg-[#0EA5E9]"
+                      }
+                    />
+                  </span>
+                  <span
+                    className={
+                      isActive
+                        ? "mt-2 inline-flex rounded-full bg-[#0F172A] px-3 py-1 text-xs font-bold text-white shadow-lg"
+                        : "mt-2 inline-flex rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-[#0F172A] shadow-sm"
+                    }
+                  >
+                    {hotspot.label}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="mt-5 rounded-[24px] border border-[#D7E8FF] bg-white/75 px-5 py-4">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#94A3B8]">
+            Phần đang được chọn trên mô hình
+          </p>
+          <p className="mt-2 text-xl font-black text-[#0F172A]">{activeHotspot.label}</p>
+          <p className="mt-2 text-sm leading-7 text-[#475569]">
+            Người học có thể bấm trực tiếp vào các điểm sáng để đổi nội dung mô tả ở cột phải.
+          </p>
+        </div>
       </div>
 
       <div className="space-y-5">

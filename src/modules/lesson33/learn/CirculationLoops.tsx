@@ -98,26 +98,61 @@ export default function CirculationLoops() {
 
         <div className="mt-8 rounded-[28px] bg-[linear-gradient(145deg,#082F49,#0EA5E9_50%,#E0F2FE)] p-6 text-white">
           <div className="grid gap-4">
-            {circulationStages.map((stage, index) => (
-              <div
-                key={stage.id}
-                className={
-                  stage.id === activeStageId
-                    ? "rounded-[22px] border border-white/30 bg-white/15 p-4 backdrop-blur"
-                    : "rounded-[22px] border border-white/10 bg-black/10 p-4"
-                }
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-base font-bold">
-                    {index + 1}. {stage.title}
-                  </p>
-                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${stage.accent}`}>
-                    {stage.loop}
-                  </span>
+            <div className="rounded-[24px] border border-white/10 bg-black/10 p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/65">
+                Sơ đồ rút gọn
+              </p>
+              <div className="mt-4 grid gap-3">
+                <div className="flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+                  <span className="font-bold">Tim phải</span>
+                  <span className="text-sm text-white/70">Máu giàu CO2</span>
                 </div>
-                <p className="mt-2 text-sm leading-6 text-white/80">{stage.description}</p>
+                <div className="text-center text-xl font-black text-white/70">↓</div>
+                <div className="flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+                  <span className="font-bold">Phổi</span>
+                  <span className="text-sm text-white/70">Trao đổi khí</span>
+                </div>
+                <div className="text-center text-xl font-black text-white/70">↓</div>
+                <div className="flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+                  <span className="font-bold">Tim trái</span>
+                  <span className="text-sm text-white/70">Máu giàu O2</span>
+                </div>
+                <div className="text-center text-xl font-black text-white/70">↓</div>
+                <div className="flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+                  <span className="font-bold">Cơ thể</span>
+                  <span className="text-sm text-white/70">Trao đổi chất</span>
+                </div>
               </div>
-            ))}
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-[22px] bg-white/12 p-4 backdrop-blur">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/65">
+                  Thuộc vòng
+                </p>
+                <span className={`mt-3 inline-flex rounded-full px-3 py-1 text-xs font-bold ${activeStage.accent}`}>
+                  {activeStage.loop}
+                </span>
+              </div>
+              <div className="rounded-[22px] bg-white/12 p-4 backdrop-blur">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/65">
+                  Ý nghĩa
+                </p>
+                <p className="mt-3 text-sm leading-6 text-white/85">
+                  {activeStageId === "start" || activeStageId === "return"
+                    ? "Giúp máu trao đổi khí ở phổi."
+                    : "Giúp máu nuôi toàn bộ cơ thể."}
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/65">
+                Chặng đang xem
+              </p>
+              <p className="mt-3 text-lg font-bold">{activeStage.title}</p>
+              <p className="mt-2 text-sm leading-6 text-white/80">{activeStage.description}</p>
+            </div>
           </div>
         </div>
 
