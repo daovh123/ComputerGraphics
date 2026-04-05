@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { bloodComponents, bloodTypes } from "../data/blood";
 import { Droplet, Type, Activity, Share2, Info } from "lucide-react";
 import { cn } from "../../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Blood() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"components" | "types">("components");
   const [selectedBlood, setSelectedBlood] = useState(bloodTypes[0]);
 
@@ -166,7 +168,11 @@ export default function Blood() {
                   
                   <div className="w-full h-px bg-[#F0F8FF] my-4"></div>
                   
-                  <button className="w-full bg-[#1a1a1a] text-white py-4 rounded-2xl font-bold text-sm shadow-xl hover:bg-black transition-all flex items-center justify-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/lesson-33/simulation")}
+                    className="w-full bg-[#1a1a1a] text-white py-4 rounded-2xl font-bold text-sm shadow-xl hover:bg-black transition-all flex items-center justify-center gap-2"
+                  >
                     <Activity className="w-4 h-4" /> Bắt đầu bài tập mô phỏng truyền máu
                   </button>
                 </div>

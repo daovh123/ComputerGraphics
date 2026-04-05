@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import { diseases } from "../data/diseases";
 import { ShieldAlert, AlertTriangle, ShieldCheck, RefreshCcw } from "lucide-react";
 import { cn } from "../../../lib/utils";
+import CirculationHealthLab from "../components/CirculationHealthLab";
+import PatientCaseTrainer from "../components/PatientCaseTrainer";
 
 export default function Diseases() {
-  const [activeTab, setActiveTab] = useState<"cause" | "prevention">("cause");
+  const [activeTabs, setActiveTabs] = useState<Record<string, "cause" | "prevention">>(() =>
+    diseases.reduce<Record<string, "cause" | "prevention">>((acc, disease) => {
+      acc[disease.id] = "cause";
+      return acc;
+    }, {}),
+  );
 
   return (
     <div className="space-y-12">
@@ -17,7 +24,10 @@ export default function Diseases() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {diseases.map((disease) => (
+        {diseases.map((disease) => {
+          const activeTab = activeTabs[disease.id] ?? "cause";
+
+          return (
           <div key={disease.id} className="bg-white rounded-[40px] border border-[#E0F0FF] shadow-sm overflow-hidden flex flex-col group hover:shadow-xl hover:shadow-[#00BFFF]/10 transition-all duration-300">
             {/* Image Header */}
             <div className="h-56 relative overflow-hidden">
@@ -34,13 +44,17 @@ export default function Diseases() {
             {/* Toggle Logic */}
             <div className="flex bg-[#F5F9FF] border-b border-[#E0F0FF]">
               <button 
-                onClick={() => setActiveTab("cause")}
+                onClick={() =>
+                  setActiveTabs((current) => ({ ...current, [disease.id]: "cause" }))
+                }
                 className={cn("flex-1 py-4 font-bold text-sm transition-colors text-center border-b-2", activeTab === "cause" ? "border-[#00BFFF] text-[#00BFFF]" : "border-transparent text-[#666] hover:text-[#00BFFF]")}
               >
                 Nguyên nhân & Triệu chứng
               </button>
               <button 
-                onClick={() => setActiveTab("prevention")}
+                onClick={() =>
+                  setActiveTabs((current) => ({ ...current, [disease.id]: "prevention" }))
+                }
                 className={cn("flex-1 py-4 font-bold text-sm transition-colors text-center border-b-2", activeTab === "prevention" ? "border-green-500 text-green-500" : "border-transparent text-[#666] hover:text-green-500")}
               >
                 Phòng ngừa
@@ -89,8 +103,11 @@ export default function Diseases() {
               )}
             </div>
           </div>
-        ))}
+        )})}
       </div>
+
+      <CirculationHealthLab />
+      <PatientCaseTrainer />
     </div>
   );
 }

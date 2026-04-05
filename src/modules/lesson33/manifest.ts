@@ -7,6 +7,7 @@ import {
   UserCircle2,
 } from "lucide-react";
 import type { LessonManifest } from "../../lessons/types";
+import lesson33Card from "./assets/lesson-33-card.svg";
 
 export const lesson33Manifest: LessonManifest = {
   id: "33",
@@ -18,7 +19,7 @@ export const lesson33Manifest: LessonManifest = {
     id: 4,
     title: "Bài 33: Máu và hệ tuần hoàn",
     description: "Thành phần máu, cấu tạo tim, mạch máu...",
-    image: "https://picsum.photos/seed/bio4/400/300",
+    image: lesson33Card,
     progress: 0,
     duration: "55 phút",
     rating: 4.8,

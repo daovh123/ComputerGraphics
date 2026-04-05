@@ -3,6 +3,7 @@ import { HeartPulse, Droplet, Users, RefreshCcw, CheckCircle2, XCircle } from "l
 import { cn } from "../../../lib/utils";
 import { bloodTypes } from "../data/blood";
 import { motion, AnimatePresence } from "motion/react";
+import CirculationFlowLab from "../components/CirculationFlowLab";
 
 export default function Simulation() {
   const [donorType, setDonorType] = useState<string | null>(null);
@@ -165,6 +166,8 @@ export default function Simulation() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <CirculationFlowLab />
     </div>
   );
 }

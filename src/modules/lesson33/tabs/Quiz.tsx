@@ -4,6 +4,7 @@ import { quizData } from "../data/quiz";
 import { CheckCircle2, XCircle, Star, ChevronRight, RefreshCcw, Gamepad2, Info } from "lucide-react";
 import { cn } from "../../../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
+import BloodRoleChallenge from "../components/BloodRoleChallenge";
 
 export default function Quiz() {
   const navigate = useNavigate();
@@ -174,6 +175,7 @@ export default function Quiz() {
           </motion.div>
         )}
       </AnimatePresence>
+      <BloodRoleChallenge />
     </div>
   );
 }

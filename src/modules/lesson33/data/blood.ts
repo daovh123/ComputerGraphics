@@ -1,4 +1,5 @@
 import { BloodComponent, BloodType } from './types';
+import lesson33Card from "../assets/lesson-33-card.svg";
 
 export const bloodComponents: BloodComponent[] = [
   {
@@ -7,7 +8,7 @@ export const bloodComponents: BloodComponent[] = [
     percentage: "55%",
     function: "Duy trì trạng thái lỏng của máu và vận chuyển các chất dinh dưỡng, chất thải, hormone.",
     color: "#FCD34D", // yellow
-    image: "https://picsum.photos/seed/plasma/300/300" 
+    image: lesson33Card
   },
   {
     id: "rbc",
@@ -15,7 +16,7 @@ export const bloodComponents: BloodComponent[] = [
     percentage: "43%",
     function: "Vận chuyển Oxy từ phổi đến tế bào và CO2 từ tế bào về phổi. Có hình đĩa lõm hai mặt để tăng diện tích tiếp xúc.",
     color: "#EF4444", // red
-    image: "https://picsum.photos/seed/rbc/300/300"
+    image: lesson33Card
   },
   {
     id: "wbc",
@@ -23,7 +24,7 @@ export const bloodComponents: BloodComponent[] = [
     percentage: "1%",
     function: "Bảo vệ cơ thể khỏi các tác nhân gây bệnh (vi khuẩn, virus) qua cơ chế thực bào và tiết kháng thể.",
     color: "#E2E8F0", // white-ish
-    image: "https://picsum.photos/seed/wbc/300/300"
+    image: lesson33Card
   },
   {
     id: "platelets",
@@ -31,7 +32,7 @@ export const bloodComponents: BloodComponent[] = [
     percentage: "1%",
     function: "Tham gia quá trình đông máu, giúp cơ thể không bị mất máu khi bị thương.",
     color: "#8B5CF6", // purple
-    image: "https://picsum.photos/seed/platelets/300/300"
+    image: lesson33Card
   }
 ];
 

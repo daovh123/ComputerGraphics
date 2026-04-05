@@ -2,7 +2,10 @@ import React from "react";
 import type { LessonLearnConfig } from "../../../components/lesson-player/types";
 import { createLessonStepPath } from "../../../lessons/learnRoutes";
 import BloodComposition from "../learn/BloodComposition";
+import CirculationLoops from "../learn/CirculationLoops";
 import Cover from "../learn/Cover";
+import HeartAnatomy from "../learn/HeartAnatomy";
+import ImmuneMarkers from "../learn/ImmuneMarkers";
 import Objectives from "../learn/Objectives";
 import { preloadAngiologyModel } from "../learn/AngiologyViewer";
 
@@ -33,6 +36,27 @@ export const lesson33LearnConfig: LessonLearnConfig = {
       path: createLessonStepPath(lesson33BasePath, "thanh-phan-mau"),
       width: "wide",
       content: <BloodComposition />,
+    },
+    {
+      id: "nhom-mau",
+      title: "Kháng nguyên, kháng thể và nhóm máu",
+      path: createLessonStepPath(lesson33BasePath, "nhom-mau"),
+      width: "wide",
+      content: <ImmuneMarkers />,
+    },
+    {
+      id: "tim-va-he-mach",
+      title: "Tim và các mạch máu",
+      path: createLessonStepPath(lesson33BasePath, "tim-va-he-mach"),
+      width: "wide",
+      content: <HeartAnatomy />,
+    },
+    {
+      id: "hai-vong-tuan-hoan",
+      title: "Hai vòng tuần hoàn",
+      path: createLessonStepPath(lesson33BasePath, "hai-vong-tuan-hoan"),
+      width: "wide",
+      content: <CirculationLoops />,
     },
   ],
   completion: {

@@ -1,0 +1,25 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="url(#bg)"/>
+  <circle cx="202" cy="181" r="122" fill="url(#pulse)" opacity="0.4"/>
+  <circle cx="1007" cy="149" r="84" fill="#F8FAFC" opacity="0.35"/>
+  <circle cx="1035" cy="730" r="148" fill="#BAE6FD" opacity="0.3"/>
+  <path d="M343 297C404 211 544 204 614 285C653 330 668 384 668 384C668 384 688 338 721 301C785 232 915 230 980 306C1049 386 1035 520 940 615L690 865C677 877 659 877 646 865L394 614C300 520 284 381 343 297Z" fill="#E11D48"/>
+  <path d="M333 321C385 248 507 242 568 310C602 348 618 402 618 402C618 402 638 362 668 329C723 268 835 265 892 331C955 404 943 516 863 596L651 807L438 595C358 515 281 395 333 321Z" fill="#FB7185"/>
+  <path d="M164 601C225 560 300 552 370 577C427 597 474 637 534 648C596 661 663 640 724 621C785 602 851 585 914 598C968 609 1018 642 1055 685" stroke="#E0F2FE" stroke-width="18" stroke-linecap="round"/>
+  <path d="M141 640C194 690 255 734 324 752C379 766 441 763 493 742C561 715 615 663 686 644C756 626 832 644 891 683C938 714 978 759 1038 776" stroke="#7DD3FC" stroke-width="14" stroke-linecap="round" opacity="0.7"/>
+  <rect x="118" y="119" width="282" height="170" rx="32" fill="#082F49" opacity="0.9"/>
+  <text x="156" y="180" fill="#E0F2FE" font-family="Arial, sans-serif" font-size="42" font-weight="700">Bài 33</text>
+  <text x="156" y="234" fill="#BAE6FD" font-family="Arial, sans-serif" font-size="26">Máu và hệ tuần hoàn</text>
+  <text x="156" y="270" fill="#7DD3FC" font-family="Arial, sans-serif" font-size="20">Khoa học tự nhiên 8</text>
+  <defs>
+    <linearGradient id="bg" x1="117" y1="63" x2="1076" y2="845" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#082F49"/>
+      <stop offset="0.52" stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#E0F2FE"/>
+    </linearGradient>
+    <radialGradient id="pulse" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(202 181) rotate(90) scale(122)">
+      <stop stop-color="#FCA5A5"/>
+      <stop offset="1" stop-color="#FCA5A5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
