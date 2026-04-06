@@ -11,7 +11,13 @@ import Lesson30Role from "../modules/lesson30/Lesson30Role";
 import Lesson30Shell from "../modules/lesson30/Lesson30Shell";
 import Lesson30Summary from "../modules/lesson30/Lesson30Summary";
 import Lesson30System from "../modules/lesson30/Lesson30System";
-import Lesson31Module from "../modules/lesson31/Lesson31Module";
+import Lesson31Diseases from "../modules/lesson31/Lesson31Diseases";
+import Lesson31Explorer from "../modules/lesson31/Lesson31Explorer";
+import Lesson31Overview from "../modules/lesson31/Lesson31Overview";
+import Lesson31Protection from "../modules/lesson31/Lesson31Protection";
+import Lesson31Quiz from "../modules/lesson31/Lesson31Quiz";
+import Lesson31Shell from "../modules/lesson31/Lesson31Shell";
+import Lesson31Simulation from "../modules/lesson31/Lesson31Simulation";
 import Lesson32Diseases from "../modules/lesson32/Lesson32Diseases";
 import Lesson32Explorer from "../modules/lesson32/Lesson32Explorer";
 import Lesson32FoodSafety from "../modules/lesson32/Lesson32FoodSafety";
@@ -177,7 +183,55 @@ export default function AppRoutes({
         }
       />
 
-      <Route path="/lesson-31" element={<Lesson31Module />} />
+      {/* Lesson 31 */}
+      <Route
+        path="/lesson-31"
+        element={
+          <Lesson31Shell>
+            <Lesson31Overview />
+          </Lesson31Shell>
+        }
+      />
+      <Route
+        path="/lesson-31/explorer"
+        element={
+          <Lesson31Shell>
+            <Lesson31Explorer />
+          </Lesson31Shell>
+        }
+      />
+      <Route
+        path="/lesson-31/simulation"
+        element={
+          <Lesson31Shell>
+            <Lesson31Simulation />
+          </Lesson31Shell>
+        }
+      />
+      <Route
+        path="/lesson-31/diseases"
+        element={
+          <Lesson31Shell>
+            <Lesson31Diseases />
+          </Lesson31Shell>
+        }
+      />
+      <Route
+        path="/lesson-31/protection"
+        element={
+          <Lesson31Shell>
+            <Lesson31Protection />
+          </Lesson31Shell>
+        }
+      />
+      <Route
+        path="/lesson-31/quiz"
+        element={
+          <Lesson31Shell>
+            <Lesson31Quiz />
+          </Lesson31Shell>
+        }
+      />
       <Route
         path="/lesson-placeholder"
         element={

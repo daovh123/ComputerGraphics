@@ -16,6 +16,12 @@ export type View =
   | "lesson-30-quiz"
   | "lesson-placeholder"
   | "library"
+  | "lesson-31-overview"
+  | "lesson-31-explorer"
+  | "lesson-31-simulation"
+  | "lesson-31-diseases"
+  | "lesson-31-protection"
+  | "lesson-31-quiz"
   | "lesson-32-overview"
   | "lesson-32-explorer"
   | "lesson-32-simulation"
@@ -48,6 +54,12 @@ export const VIEW_PATHS: Record<View, string> = {
   "lesson-30-quiz": "/lesson-30/quiz",
   "lesson-placeholder": "/lesson-placeholder",
   library: "/library",
+  "lesson-31-overview": "/lesson-31",
+  "lesson-31-explorer": "/lesson-31/explorer",
+  "lesson-31-simulation": "/lesson-31/simulation",
+  "lesson-31-diseases": "/lesson-31/diseases",
+  "lesson-31-protection": "/lesson-31/protection",
+  "lesson-31-quiz": "/lesson-31/quiz",
   "lesson-32-overview": "/lesson-32",
   "lesson-32-explorer": "/lesson-32/explorer",
   "lesson-32-simulation": "/lesson-32/simulation",

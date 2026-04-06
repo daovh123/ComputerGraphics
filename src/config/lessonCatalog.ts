@@ -1,4 +1,4 @@
-﻿import {
+import {
   Activity,
   BookOpen,
   ClipboardCheck,
@@ -46,8 +46,15 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     label: "Bài 31",
     fullName: "Hệ vận động ở người",
     routePath: "/lesson-31",
-    fallbackView: "lesson-placeholder",
-    sections: [],
+    fallbackView: "lesson-31-overview",
+    sections: [
+      { id: "lesson-31-overview", label: "Tổng quan", iconKey: "book" },
+      { id: "lesson-31-explorer", label: "Khám phá 3D", iconKey: "layers" },
+      { id: "lesson-31-simulation", label: "Mô phỏng", iconKey: "activity" },
+      { id: "lesson-31-diseases", label: "Bệnh tật", iconKey: "clock" },
+      { id: "lesson-31-protection", label: "Bảo vệ & Sơ cứu", iconKey: "check" },
+      { id: "lesson-31-quiz", label: "Trắc nghiệm", iconKey: "game" },
+    ],
   },
   {
     id: "32",
@@ -118,7 +125,7 @@ export const khtnLessonCards: SubjectLessonCard[] = [
     duration: "60 phút",
     rating: 4.9,
     routePath: "/lesson-31",
-    fallbackView: "lesson-placeholder",
+    fallbackView: "lesson-31-overview",
   },
   {
     id: 3,
@@ -179,6 +186,15 @@ export const lesson30Tabs: LessonTabConfig[] = [
   { label: "Giác quan", path: "/lesson-30/giac-quan", icon: Activity },
   { label: "Tổng kết", path: "/lesson-30/tong-ket", icon: ClipboardCheck },
   { label: "Quiz", path: "/lesson-30/quiz", icon: Gamepad2 },
+];
+
+export const lesson31Tabs: LessonTabConfig[] = [
+  { label: "Tổng quan", path: "/lesson-31", icon: BookOpen },
+  { label: "Khám phá 3D", path: "/lesson-31/explorer", icon: Layers },
+  { label: "Mô phỏng", path: "/lesson-31/simulation", icon: PlayCircle },
+  { label: "Bệnh tật", path: "/lesson-31/diseases", icon: ShieldCheck },
+  { label: "Bảo vệ & Sơ cứu", path: "/lesson-31/protection", icon: Shield },
+  { label: "Kho đề", path: "/lesson-31/quiz", icon: ClipboardCheck },
 ];
 
 export const lesson32Tabs: LessonTabConfig[] = [
