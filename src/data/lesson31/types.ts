@@ -44,3 +44,35 @@ export interface Lesson31ProtectionData {
     procedures: FirstAidProcedure[];
   };
 }
+
+export interface Lesson31QuizQuestion {
+  id: string;
+  prompt?: string;
+  question?: string;
+  options: string[];
+  correctAnswerIndex: number;
+  feedback?: string;
+  explanation?: string;
+  category: string;
+}
+
+export interface Lesson31ActivityItem {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+}
+
+export interface Lesson31FinalActivity {
+  id: string;
+  title: string;
+  instruction: string;
+  items: Lesson31ActivityItem[];
+  feedbackSummary: string;
+}
+
+export interface Lesson31Content {
+  diseases: Lesson31Disease[];
+  protection: Lesson31ProtectionData;
+  quiz: Lesson31QuizQuestion[];
+  activity: Lesson31FinalActivity;
+}
