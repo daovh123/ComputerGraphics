@@ -70,9 +70,20 @@ export interface Lesson31FinalActivity {
   feedbackSummary: string;
 }
 
+export interface Lesson31SimulationStep {
+  id: string;
+  order: number;
+  title: string;
+  shortDescription: string;
+  phase: "Thần kinh" | "Co cơ" | "Đòn bẩy";
+  keyComponents: string[];
+  summaryBadges: string[];
+}
+
 export interface Lesson31Content {
   diseases: Lesson31Disease[];
   protection: Lesson31ProtectionData;
   quiz: Lesson31QuizQuestion[];
   activity: Lesson31FinalActivity;
+  simulation: Lesson31SimulationStep[];
 }
