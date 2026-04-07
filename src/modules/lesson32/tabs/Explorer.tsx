@@ -9,7 +9,7 @@ export default function Explorer() {
   );
   const [selectedOrganId, setSelectedOrganId] = useState(organs[0].id);
   const [modelStatus, setModelStatus] = useState<
-    "loading" | "ready" | "fallback"
+    "loading" | "ready" | "error"
   >("loading");
 
   const selectedIndex = useMemo(
@@ -44,8 +44,8 @@ export default function Explorer() {
   const modelStatusText =
     modelStatus === "ready"
       ? "Mô hình 3D sẵn sàng"
-      : modelStatus === "fallback"
-        ? "Đang dùng mô hình tạm để demo"
+      : modelStatus === "error"
+        ? "Không thể tải mô hình"
         : "Đang tải mô hình 3D";
 
   return (

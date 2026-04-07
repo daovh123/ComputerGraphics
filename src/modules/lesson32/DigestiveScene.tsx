@@ -1,162 +1,167 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { Group } from "three";
-import { lesson32OrgansData } from "./data/organs";
-import { Lesson32OrganData } from "./data/types";
+import { Box3, Group, Vector3 } from "three";
+import Fullscreenable from "../../components/Fullscreenable";
+import { resolveAssetImage, resolveOrganModel } from "../../lib/three/lesson32Slots";
 
-interface DigestiveSceneProps {
-  selectedOrganId: string;
-  onSelectOrgan: (organId: string) => void;
-  onModelStatusChange?: (status: "loading" | "ready" | "fallback") => void;
+function normalizeModelScale(model: Group): number {
+  const box = new Box3().setFromObject(model);
+  const size = box.getSize(new Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+  if (maxDim <= 0) {
+    return 1;
+  }
+  return 1 / maxDim;
 }
 
-interface OrganMarkersProps {
-  organs: Lesson32OrganData[];
-  selectedOrganId: string;
-  onSelectOrgan: (organId: string) => void;
-  markerOpacity?: number;
-}
-
-function OrganMarkers({
-  organs,
-  selectedOrganId,
-  onSelectOrgan,
-  markerOpacity = 0.3,
-}: OrganMarkersProps) {
-  return (
-    <group>
-      {organs.map((organ) => {
-        const isActive = selectedOrganId === organ.id;
-        return (
-          <group key={organ.id} position={organ.position}>
-            <mesh
-              onClick={() => onSelectOrgan(organ.id)}
-              castShadow
-              receiveShadow
-            >
-              <sphereGeometry
-                args={isActive ? [0.2, 28, 28] : [0.15, 24, 24]}
-              />
-              <meshStandardMaterial
-                color={organ.color}
-                transparent
-                opacity={isActive ? 0.95 : markerOpacity}
-                emissive={isActive ? "#ffffff" : "#000000"}
-                emissiveIntensity={isActive ? 0.85 : 0}
-                roughness={0.25}
-                metalness={0.1}
-              />
-            </mesh>
-            {isActive && (
-              <Html position={[0, 0.32, 0]} center>
-                <div className="px-3 py-1 rounded-lg bg-[#111827] text-white text-xs font-bold whitespace-nowrap">
-                  {organ.shortLabel}
-                </div>
-              </Html>
-            )}
-          </group>
-        );
-      })}
-    </group>
+function useOrganModel(organId?: string) {
+  const [model, setModel] = useState<Group | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">(
+    "loading",
   );
-}
-
-function useDigestiveModel() {
-  const [modelStatus, setModelStatus] = useState<
-    "loading" | "ready" | "fallback"
-  >("loading");
-  const [loadedModel, setLoadedModel] = useState<Group | null>(null);
 
   useEffect(() => {
+    const resolved = organId ? resolveOrganModel(organId) : null;
+    const modelUrl = resolved?.available ? resolved.url : undefined;
+
+    if (!modelUrl) {
+      const imageResolved = organId ? resolveAssetImage(organId) : null;
+      if (imageResolved?.available && imageResolved.url) {
+        setImageUrl(imageResolved.url);
+        setModel(null);
+        setStatus("ready");
+      } else {
+        setModel(null);
+        setImageUrl(null);
+        setStatus("error");
+      }
+      return;
+    }
+
     let mounted = true;
     const loader = new GLTFLoader();
-    setModelStatus("loading");
+    setStatus("loading");
 
     loader.load(
-      "/models/lesson-32-digestive.glb",
+      modelUrl,
       (gltf) => {
-        if (!mounted) {
-          return;
-        }
-        setLoadedModel(gltf.scene.clone());
-        setModelStatus("ready");
+        if (!mounted) return;
+
+        const clonedScene = gltf.scene.clone();
+
+        const scale = normalizeModelScale(clonedScene);
+        clonedScene.scale.set(scale, scale, scale);
+
+        const box = new Box3().setFromObject(clonedScene);
+        const center = box.getCenter(new Vector3());
+        clonedScene.position.sub(center);
+
+        setModel(clonedScene);
+        setImageUrl(null);
+        setStatus("ready");
       },
       undefined,
-      () => {
-        if (!mounted) {
-          return;
+      (error) => {
+        if (!mounted) return;
+        console.error(`Failed to load model for ${organId}:`, error);
+
+        const imageResolved = organId ? resolveAssetImage(organId) : null;
+        if (imageResolved?.available && imageResolved.url) {
+          setImageUrl(imageResolved.url);
+          setModel(null);
+          setStatus("ready");
+        } else {
+          setModel(null);
+          setImageUrl(null);
+          setStatus("error");
         }
-        setLoadedModel(null);
-        setModelStatus("fallback");
       },
     );
 
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [organId]);
 
-  return { loadedModel, modelStatus };
+  return { model, imageUrl, status };
+}
+
+function OrganImage({ imageUrl }: { imageUrl: string }) {
+  return (
+    <Html center>
+      <div className="flex items-center justify-center w-80 h-80">
+        <img
+          src={imageUrl}
+          alt="Organ"
+          className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+        />
+      </div>
+    </Html>
+  );
+}
+
+function OrganModel({ model }: { model: Group }) {
+  return (
+    <group>
+      <primitive object={model} />
+    </group>
+  );
+}
+
+interface DigestiveSceneProps {
+  selectedOrganId: string;
+  onSelectOrgan: (organId: string) => void;
+  onModelStatusChange?: (status: "loading" | "ready" | "error") => void;
 }
 
 export default function DigestiveScene({
   selectedOrganId,
-  onSelectOrgan,
+  onSelectOrgan: _onSelectOrgan,
   onModelStatusChange,
 }: DigestiveSceneProps) {
-  const { loadedModel, modelStatus } = useDigestiveModel();
-  const organOverlays = useMemo(() => {
-    return (
-      <OrganMarkers
-        organs={lesson32OrgansData}
-        selectedOrganId={selectedOrganId}
-        onSelectOrgan={onSelectOrgan}
-      />
-    );
-  }, [onSelectOrgan, selectedOrganId]);
+  const {
+    model: organModel,
+    imageUrl: organImageUrl,
+    status: organModelStatus,
+  } = useOrganModel(selectedOrganId);
 
   useEffect(() => {
-    if (onModelStatusChange) {
-      onModelStatusChange(modelStatus);
-    }
-  }, [modelStatus, onModelStatusChange]);
+    onModelStatusChange?.(organModelStatus);
+  }, [organModelStatus, onModelStatusChange]);
 
   return (
-    <div className="w-full h-[520px] bg-gradient-to-b from-[#f8fbff] to-[#eef7ff] rounded-3xl border border-[#E0F0FF] overflow-hidden">
-      <Canvas camera={{ position: [0, 0.4, 2.8], fov: 45 }} shadows>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[2, 3, 3]} intensity={1.1} castShadow />
-        <directionalLight position={[-2, 2, -2]} intensity={0.5} />
-        {!loadedModel ? (
-          <OrganMarkers
-            organs={lesson32OrgansData}
-            selectedOrganId={selectedOrganId}
-            onSelectOrgan={onSelectOrgan}
-            markerOpacity={0.45}
-          />
-        ) : (
-          <group>
-            <primitive
-              object={loadedModel}
-              scale={1.3}
-              position={[0, -0.55, 0]}
-            />
-            {organOverlays}
-          </group>
-        )}
+    <Fullscreenable className="w-full h-[520px] bg-gradient-to-b from-[#f8fbff] to-[#eef7ff] rounded-3xl border border-[#E0F0FF] overflow-hidden">
+      <Canvas camera={{ position: [0, 0, 3], fov: 50 }} shadows>
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[3, 5, 4]} intensity={1.2} castShadow />
+        <directionalLight position={[-3, 2, -3]} intensity={0.6} />
 
-        {modelStatus === "loading" && (
+        {organModel && <OrganModel model={organModel} />}
+
+        {organImageUrl && !organModel && <OrganImage imageUrl={organImageUrl} />}
+
+        {organModelStatus === "loading" && (
           <Html center>
             <div className="px-3 py-1 rounded-lg bg-[#0f172a] text-white text-xs font-semibold">
-              Đang tải mô hình 3D...
+              Đang tải...
             </div>
           </Html>
         )}
 
-        <OrbitControls enablePan={false} maxDistance={4} minDistance={1.6} />
+        <OrbitControls
+          enablePan
+          enableZoom
+          enableRotate
+          autoRotate={false}
+          maxDistance={8}
+          minDistance={0.5}
+          dampingFactor={0.05}
+          enableDamping
+        />
       </Canvas>
-    </div>
+    </Fullscreenable>
   );
 }

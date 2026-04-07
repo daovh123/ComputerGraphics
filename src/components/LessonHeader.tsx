@@ -1,21 +1,37 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "../lib/utils";
+import { LESSON_CARD_BASE } from "./lessonClassNames";
 
 interface LessonHeaderProps {
   title: string;
   subtitle?: string;
   icon?: React.ReactNode;
+  variant?: "card" | "embedded";
+  className?: string;
 }
 
 export default function LessonHeader({
   title,
   subtitle = "Khoa học tự nhiên 8",
   icon,
+  variant = "card",
+  className,
 }: LessonHeaderProps) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-sm border border-[#E0F0FF] flex items-center justify-between flex-wrap gap-4">
+    <div
+      className={cn(
+        variant === "card"
+          ? [
+              LESSON_CARD_BASE,
+              "rounded-3xl p-6 flex items-center justify-between flex-wrap gap-4",
+            ]
+          : "flex items-center justify-between flex-wrap gap-4",
+        className,
+      )}
+    >
       <div className="space-y-1">
         <div className="flex items-center gap-2 text-sm font-bold text-[#00BFFF] uppercase tracking-wider">
           <span>{subtitle}</span>

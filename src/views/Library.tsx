@@ -1,16 +1,17 @@
 ﻿import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
-import { SUBJECTS } from "../subjects/registry";
+import { SUBJECTS } from "../constants/subjects";
+import { type View } from "../router/views";
 
 interface LibraryProps {
-  navigateToPath: (path: string) => void;
+  setCurrentView: (view: View) => void;
   goBack: () => void;
   setSelectedSubjectId: (id: string) => void;
 }
 
 export default function Library({
-  navigateToPath,
+  setCurrentView,
   goBack,
   setSelectedSubjectId,
 }: LibraryProps) {
@@ -43,7 +44,7 @@ export default function Library({
             whileHover={{ y: -5 }}
             onClick={() => {
               setSelectedSubjectId(subject.id);
-              navigateToPath("/dashboard");
+              setCurrentView("dashboard");
             }}
             className="bg-white rounded-2xl p-6 shadow-sm border border-[#E0F0FF] hover:shadow-md transition-all cursor-pointer group"
           >

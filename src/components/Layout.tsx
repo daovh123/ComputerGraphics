@@ -19,35 +19,36 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
-import { SUBJECTS } from "../subjects/registry";
-import { getLessonsBySubject } from "../lessons/registry";
+import { type View } from "../router/views";
+import { SUBJECTS } from "../constants/subjects";
+import { khtnLessonNavItems } from "../config/lessonCatalog";
 
 interface LayoutProps {
   children: React.ReactNode;
+  currentView: View;
   currentPath: string;
+  setCurrentView: (view: View) => void;
   navigateToPath: (path: string) => void;
+  setSelectedLessonTitle: (title: string) => void;
+  selectedLessonTitle: string;
   selectedSubjectId: string;
   setSelectedSubjectId: (id: string) => void;
 }
 
 export default function Layout({
   children,
+  currentView,
   currentPath,
+  setCurrentView,
   navigateToPath,
+  setSelectedLessonTitle,
+  selectedLessonTitle,
   selectedSubjectId,
   setSelectedSubjectId,
 }: LayoutProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSubjectsExpanded, setIsSubjectsExpanded] = useState(true);
-  const [expandedSubjects, setExpandedSubjects] = useState<Record<string, boolean>>(
-    () =>
-      Object.fromEntries(
-        SUBJECTS.filter((subject) => subject.sidebar?.showLessons).map((subject) => [
-          subject.id,
-          subject.sidebar?.defaultExpanded ?? false,
-        ]),
-      ),
-  );
+  const [isKHTNExpanded, setIsKHTNExpanded] = useState(true);
   const [expandedLesson, setExpandedLesson] = useState<string | null>("30");
 
   const sectionIconMap = {
@@ -60,48 +61,22 @@ export default function Layout({
     user: User,
   };
 
-  const subjectLessons = SUBJECTS.reduce<
-    Record<
-      string,
-      Array<{
-        id: string;
-        label: string;
-        title: string;
-        fullName: string;
-        path?: string;
-        sections: Array<{
-          id: string;
-          label: string;
-          path: string;
-          icon: React.ComponentType<{ className?: string }>;
-        }>;
-      }>
-    >
-  >((acc, subject) => {
-    if (!subject.sidebar?.showLessons) {
-      return acc;
-    }
+  const lessons = khtnLessonNavItems.map((lesson) => ({
+    id: lesson.id,
+    label: lesson.label,
+    fullName: lesson.fullName,
+    path: lesson.routePath,
+    fallbackView: lesson.fallbackView,
+    sections: lesson.sections.map((section) => ({
+      id: section.id,
+      label: section.label,
+      icon: sectionIconMap[section.iconKey],
+    })),
+  }));
 
-    acc[subject.id] = getLessonsBySubject(subject.id).map((lesson) => ({
-      id: lesson.id,
-      label: lesson.sidebar?.label ?? `Bài ${lesson.id}`,
-      title: lesson.title,
-      fullName: lesson.sidebar?.fullName ?? lesson.title,
-      path: lesson.routePath,
-      sections: (lesson.sidebar?.sections ?? []).map((section) => ({
-        id: section.id,
-        label: section.label,
-        path: section.path,
-        icon: sectionIconMap[section.iconKey],
-      })),
-    }));
-
-    return acc;
-  }, {});
-
-  const isSectionActive = (subjectId: string, lessonId: string) => {
-    const lesson = subjectLessons[subjectId]?.find((item) => item.id === lessonId);
-    return lesson?.sections.some((section) => section.path === currentPath) || false;
+  const isSectionActive = (lessonId: string) => {
+    const lesson = lessons.find((l) => l.id === lessonId);
+    return lesson?.sections.some((s) => s.id === currentView) || false;
   };
 
   return (
@@ -160,7 +135,7 @@ export default function Layout({
             }}
             className={cn(
               "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group mb-1",
-              currentPath === "/dashboard" && selectedSubjectId === ""
+              currentView === "dashboard" && selectedSubjectId === ""
                 ? "bg-[#F0F8FF] text-[#00BFFF] shadow-sm"
                 : "text-[#666] hover:bg-[#F0F8FF] hover:text-[#00BFFF]",
               isSidebarCollapsed && "px-0 justify-center",
@@ -169,7 +144,7 @@ export default function Layout({
             <Home
               className={cn(
                 "w-5 h-5 min-w-[20px]",
-                currentPath === "/dashboard" && selectedSubjectId === ""
+                currentView === "dashboard" && selectedSubjectId === ""
                   ? "text-[#00BFFF]"
                   : "text-[#BBB]",
               )}
@@ -229,14 +204,11 @@ export default function Layout({
                     <button
                       onClick={() => {
                         setSelectedSubjectId(subject.id);
-                        if (subject.sidebar?.showLessons) {
-                          setExpandedSubjects((current) => ({
-                            ...current,
-                            [subject.id]: !current[subject.id],
-                          }));
+                        if (subject.id === "khtn") {
+                          setIsKHTNExpanded(!isKHTNExpanded);
                         }
-                        if (currentPath !== "/dashboard") {
-                          navigateToPath("/dashboard");
+                        if (currentView !== "dashboard") {
+                          setCurrentView("dashboard");
                         }
                       }}
                       className={cn(
@@ -255,28 +227,31 @@ export default function Layout({
                         )}
                       />
                       <span className="text-sm">{subject.name}</span>
-                      {subject.sidebar?.showLessons && (
+                      {subject.id === "khtn" && (
                         <ChevronRight
                           className={cn(
                             "w-3 h-3 ml-auto transition-transform",
-                            expandedSubjects[subject.id] ? "rotate-90" : "",
+                            isKHTNExpanded ? "rotate-90" : "",
                           )}
                         />
                       )}
                     </button>
 
-                    {subject.sidebar?.showLessons && (
+                    {/* KHTN Lessons Level */}
+                    {subject.id === "khtn" && (
                       <AnimatePresence>
-                        {expandedSubjects[subject.id] && (
+                        {isKHTNExpanded && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             className="space-y-1 ml-4 border-l-2 border-[#F0F8FF] pl-2"
                           >
-                            {(subjectLessons[subject.id] ?? []).map((lesson) => {
+                            {lessons.map((lesson) => {
                               const isLessonActive =
-                                isSectionActive(subject.id, lesson.id) ||
+                                isSectionActive(lesson.id) ||
+                                (currentView === "lesson-placeholder" &&
+                                  selectedLessonTitle === lesson.fullName) ||
                                 (lesson.path
                                   ? currentPath.startsWith(lesson.path)
                                   : false);
@@ -287,6 +262,18 @@ export default function Layout({
                                       if (lesson.path) {
                                         setExpandedLesson(lesson.id);
                                         navigateToPath(lesson.path);
+                                      } else if (lesson.sections.length > 0) {
+                                        setExpandedLesson(lesson.id);
+                                        setCurrentView(
+                                          lesson.sections[0].id as View,
+                                        );
+                                      } else {
+                                        setSelectedLessonTitle(lesson.fullName);
+                                        setCurrentView(
+                                          (lesson.fallbackView as View) ||
+                                            "lesson-placeholder",
+                                        );
+                                        setExpandedLesson(lesson.id);
                                       }
                                     }}
                                     className={cn(
@@ -335,10 +322,14 @@ export default function Layout({
                                           {lesson.sections.map((section) => (
                                             <button
                                               key={section.id}
-                                              onClick={() => navigateToPath(section.path)}
+                                              onClick={() =>
+                                                setCurrentView(
+                                                  section.id as View,
+                                                )
+                                              }
                                               className={cn(
                                                 "w-full flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 group",
-                                                currentPath === section.path
+                                                currentView === section.id
                                                   ? "text-[#00BFFF] bg-[#F0F8FF] font-bold"
                                                   : "text-[#888] hover:text-[#00BFFF] hover:bg-[#F5F9FF]",
                                               )}
@@ -346,7 +337,7 @@ export default function Layout({
                                               <section.icon
                                                 className={cn(
                                                   "w-3.5 h-3.5",
-                                                  currentPath === section.path
+                                                  currentView === section.id
                                                     ? "text-[#00BFFF]"
                                                     : "text-[#CCC] group-hover:text-[#00BFFF]",
                                                 )}
