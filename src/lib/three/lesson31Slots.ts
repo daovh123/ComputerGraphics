@@ -35,6 +35,7 @@ const modelsByKey = buildUrlIndex(modelUrls);
 
 const ORGAN_ALIASES: Record<string, string[]> = {
   "he-van-dong": [
+    normalizeKey("ct_derived_human_skeleton"),
     normalizeKey("hệ vận động"),
   ],
   "he-co": [

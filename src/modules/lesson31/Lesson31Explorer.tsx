@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
-import { Layers } from "lucide-react";
+import { Layers, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import MusculoskeletalScene from "./MusculoskeletalScene";
 import { lesson31OrgansData } from "../../data/lesson31/organs";
+import { lesson31BonesData } from "../../data/lesson31/bones";
 
 export default function Lesson31Explorer() {
   const organs = useMemo(
@@ -11,11 +12,16 @@ export default function Lesson31Explorer() {
   );
 
   const [selectedOrganId, setSelectedOrganId] = useState(organs[0].id);
+  const [selectedBoneId, setSelectedBoneId] = useState<string | null>(null);
 
   const selectedOrgan = useMemo(
     () => organs.find((o) => o.id === selectedOrganId) || organs[0],
     [organs, selectedOrganId]
   );
+
+  const selectedBoneInfo = useMemo(() => {
+    return selectedBoneId ? lesson31BonesData[selectedBoneId] : null;
+  }, [selectedBoneId]);
 
   return (
     <div className="space-y-8">
@@ -47,7 +53,10 @@ export default function Lesson31Explorer() {
               <button
                 key={organ.id}
                 type="button"
-                onClick={() => setSelectedOrganId(organ.id)}
+                onClick={() => {
+                  setSelectedOrganId(organ.id);
+                  setSelectedBoneId(null); // Reset bone selection on organ change
+                }}
                 aria-pressed={selectedOrganId === organ.id}
                 className={cn(
                   "px-5 py-3 rounded-2xl border font-bold transition-colors w-full text-left flex justify-between items-center group",
@@ -80,8 +89,29 @@ export default function Lesson31Explorer() {
           </div>
         </aside>
 
-        <section className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-4 lg:col-span-2 min-h-[500px]">
-           <MusculoskeletalScene selectedOrganId={selectedOrganId} />
+        <section className="bg-white rounded-[32px] border border-[#E0F0FF] shadow-sm p-4 lg:col-span-2 min-h-[500px] relative">
+           <MusculoskeletalScene 
+              selectedOrganId={selectedOrganId} 
+              onPartClick={setSelectedBoneId}
+           />
+
+           {/* HUD Overlay cho thông tin Xương */}
+           {selectedBoneInfo && (
+             <div className="absolute top-8 right-8 w-72 bg-white/80 backdrop-blur-md border border-white rounded-2xl shadow-xl shadow-blue-900/10 p-5 animate-in fade-in slide-in-from-top-4 duration-300">
+               <button 
+                 onClick={() => setSelectedBoneId(null)}
+                 className="absolute top-3 right-3 p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition-colors"
+               >
+                  <X className="w-4 h-4" />
+               </button>
+               <h4 className="text-lg font-black text-blue-600 mb-2 pr-6 leading-tight">
+                 {selectedBoneInfo.title}
+               </h4>
+               <p className="text-sm text-slate-600 leading-relaxed">
+                 {selectedBoneInfo.description}
+               </p>
+             </div>
+           )}
         </section>
       </div>
     </div>
