@@ -38,7 +38,7 @@ export const khtnLessonNavItems: LessonNavItem[] = [
       { id: "lesson-30-sinh-duc", label: "Hệ sinh dục", iconKey: "layers" },
       { id: "lesson-30-giac-quan", label: "Các giác quan", iconKey: "layers" },
       { id: "lesson-30-summary", label: "Tổng kết", iconKey: "check" },
-      { id: "lesson-30-quiz", label: "Quiz )", iconKey: "game" },
+      { id: "lesson-30-quiz", label: "Trắc nghiệm", iconKey: "game" },
     ],
   },
   {
@@ -53,7 +53,7 @@ export const khtnLessonNavItems: LessonNavItem[] = [
       { id: "lesson-31-movement-function", label: "Chức năng vận động", iconKey: "activity" },
       { id: "lesson-31-diseases", label: "Bệnh hệ vận động", iconKey: "clock" },
       { id: "lesson-31-model3d", label: "Mô hình 3D", iconKey: "layers" },
-      { id: "lesson-31-quiz", label: "Quiz", iconKey: "game" },
+      { id: "lesson-31-quiz", label: "Trắc nghiệm", iconKey: "game" },
       { id: "lesson-31-summary", label: "Tổng kết", iconKey: "check" },
     ],
   },
@@ -81,11 +81,11 @@ export const khtnLessonNavItems: LessonNavItem[] = [
     fallbackView: "lesson-33-overview",
     sections: [
       { id: "lesson-33-overview", label: "Tổng quan", iconKey: "book" },
-      { id: "lesson-33-explorer", label: "Explorer 3D", iconKey: "layers" },
+      { id: "lesson-33-explorer", label: "Khám phá 3D", iconKey: "layers" },
       { id: "lesson-33-blood", label: "Cấu tạo máu", iconKey: "activity" },
       { id: "lesson-33-simulation", label: "Tuần hoàn", iconKey: "clock" },
       { id: "lesson-33-diseases", label: "Bệnh lý", iconKey: "user" },
-      { id: "lesson-33-quiz", label: "Quiz", iconKey: "game" },
+      { id: "lesson-33-quiz", label: "Trắc nghiệm", iconKey: "game" },
     ],
   },
   {
@@ -187,7 +187,17 @@ export const lesson30Tabs: LessonTabConfig[] = [
   { label: "Hệ sinh dục", path: "/lesson-30/he-sinh-duc", icon: UserCircle2 },
   { label: "Giác quan", path: "/lesson-30/giac-quan", icon: Activity },
   { label: "Tổng kết", path: "/lesson-30/tong-ket", icon: ClipboardCheck },
-  { label: "Quiz", path: "/lesson-30/quiz", icon: Gamepad2 },
+  { label: "Trắc nghiệm", path: "/lesson-30/quiz", icon: Gamepad2 },
+];
+
+export const lesson31Tabs: LessonTabConfig[] = [
+  { label: "Tổng quan", path: "/lesson-31", icon: BookOpen },
+  { label: "Cấu tạo & chức năng", path: "/lesson-31/anatomy", icon: Layers },
+  { label: "Chức năng vận động", path: "/lesson-31/movement-function", icon: Activity },
+  { label: "Bệnh hệ vận động", path: "/lesson-31/diseases", icon: ShieldCheck },
+  { label: "Mô hình 3D", path: "/lesson-31/model3d", icon: Layers },
+  { label: "Trắc nghiệm", path: "/lesson-31/quiz", icon: Gamepad2 },
+  { label: "Tổng kết", path: "/lesson-31/summary", icon: ClipboardCheck },
 ];
 
 export const lesson32Tabs: LessonTabConfig[] = [
@@ -197,14 +207,14 @@ export const lesson32Tabs: LessonTabConfig[] = [
   { label: "Bệnh tiêu hóa", path: "/lesson-32/diseases", icon: ShieldCheck },
   { label: "Dinh dưỡng", path: "/lesson-32/nutrition", icon: Leaf },
   { label: "An toàn thực phẩm", path: "/lesson-32/food-safety", icon: Shield },
-  { label: "Kiểm tra", path: "/lesson-32/quiz", icon: ClipboardCheck },
+  { label: "Trắc nghiệm", path: "/lesson-32/quiz", icon: ClipboardCheck },
 ];
 
 export const lesson33Tabs: LessonTabConfig[] = [
   { label: "Tổng quan", path: "/lesson-33", icon: BookOpen },
-  { label: "Explorer 3D", path: "/lesson-33/explorer", icon: Layers },
+  { label: "Khám phá 3D", path: "/lesson-33/explorer", icon: Layers },
   { label: "Cấu tạo máu", path: "/lesson-33/blood", icon: Activity },
   { label: "Tuần hoàn", path: "/lesson-33/simulation", icon: HeartPulse },
   { label: "Bệnh lý", path: "/lesson-33/diseases", icon: UserCircle2 },
-  { label: "Quiz", path: "/lesson-33/quiz", icon: Gamepad2 },
+  { label: "Trắc nghiệm", path: "/lesson-33/quiz", icon: Gamepad2 },
 ];

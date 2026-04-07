@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { type View } from "../../router/views";
 import { quizData } from "../../data/lesson33/quiz";
-import { CheckCircle2, XCircle, Star, ChevronRight, RefreshCcw, Gamepad2, Info } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronRight,
+  Gamepad2,
+  Info,
+  RefreshCcw,
+  XCircle,
+} from "lucide-react";
 import { cn } from "../../lib/utils";
-import { motion, AnimatePresence } from "motion/react";
 
 export default function Lesson33Quiz({ setCurrentView }: { setCurrentView: (view: View) => void }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -12,18 +18,25 @@ export default function Lesson33Quiz({ setCurrentView }: { setCurrentView: (view
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
+  const question = quizData[currentQuestion];
+  const progressLabel = `${currentQuestion + 1}/${quizData.length}`;
+  const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+  const isCorrect = selectedOption === question.correct;
+
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;
     setSelectedOption(index);
     setIsAnswered(true);
     if (index === quizData[currentQuestion].correct) {
-      setScore(score + 1);
+      setScore((prev) => prev + 1);
     }
   };
 
   const handleNext = () => {
+    if (!isAnswered) return;
+
     if (currentQuestion < quizData.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion((prev) => prev + 1);
       setSelectedOption(null);
       setIsAnswered(false);
     } else {
@@ -39,140 +52,167 @@ export default function Lesson33Quiz({ setCurrentView }: { setCurrentView: (view
     setShowResult(false);
   };
 
+  if (showResult) {
+    const percent = Math.round((score / quizData.length) * 100);
+
+    return (
+      <section className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm text-center space-y-4">
+        <h2 className="text-3xl font-extrabold text-[#333]">Hoàn thành trắc nghiệm</h2>
+        <p className="text-[#556070]">
+          Bạn đạt <span className="font-bold text-[#00BFFF]">{score}</span>/{quizData.length} câu đúng.
+        </p>
+
+        <div className="h-2 rounded-full bg-[#E8F3FF] overflow-hidden">
+          <div
+            className="h-full bg-[#00BFFF] transition-all duration-300"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+        <p className="text-sm text-[#64748B]">Tỉ lệ đúng: {percent}%</p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <button
+            type="button"
+            onClick={resetQuiz}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white text-[#00BFFF] border border-[#E0F0FF] hover:border-[#00BFFF] hover:bg-[#F0F8FF] font-bold transition-colors"
+          >
+            <RefreshCcw className="w-4 h-4" /> Làm lại
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView("lesson-33-overview" as View)}
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#00BFFF] text-white font-bold shadow-lg shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-colors"
+          >
+            Về Tổng quan
+          </button>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <div className="max-w-[1000px] mx-auto py-10">
-      <AnimatePresence mode="wait">
-        {!showResult ? (
-          <motion.div
-            key={currentQuestion}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-10 md:p-16 rounded-[40px] md:rounded-[60px] border border-[#E0F0FF] shadow-xl shadow-[#00BFFF]/5 space-y-12"
-          >
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <span className="px-4 py-2 bg-[#F0F8FF] text-[#00BFFF] rounded-full text-sm font-bold tracking-widest uppercase shadow-sm flex items-center gap-2">
-                  <Gamepad2 className="w-5 h-5" />
-                  Câu hỏi {currentQuestion + 1} / {quizData.length}
+    <section className="bg-white border border-[#E0F0FF] rounded-3xl p-8 shadow-sm space-y-6">
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-2xl font-extrabold text-[#333]">Trắc nghiệm Bài 33</h2>
+          <p className="text-sm text-[#64748B]">Chọn đáp án đúng nhất</p>
+        </div>
+
+        <div className="text-right space-y-2">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F0F8FF] text-[#00BFFF] text-xs font-bold uppercase tracking-widest shadow-sm">
+            <Gamepad2 className="w-4 h-4" /> {progressLabel}
+          </span>
+          <div className="text-sm font-bold text-[#666]">Điểm: {score}</div>
+        </div>
+      </div>
+
+      <div className="h-2 rounded-full bg-[#E8F3FF] overflow-hidden">
+        <div
+          className="h-full bg-[#00BFFF] transition-all duration-300"
+          style={{ width: `${progressPercent}%` }}
+        />
+      </div>
+
+      <div className="rounded-2xl border border-[#DDF0FF] bg-[#F8FCFF] p-4 md:p-5">
+        <p className="text-lg md:text-xl font-bold text-[#334155] leading-relaxed">
+          {question.question}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {question.options.map((option, index) => {
+          const isSelected = selectedOption === index;
+          const isCorrectOption = index === question.correct;
+          const showCorrect = isAnswered && isCorrectOption;
+          const showWrong = isAnswered && isSelected && !isCorrectOption;
+
+          return (
+            <button
+              key={option}
+              type="button"
+              onClick={() => handleOptionClick(index)}
+              disabled={isAnswered}
+              className={cn(
+                "p-4 md:p-5 rounded-2xl border text-left transition-colors flex items-start gap-4",
+                !isAnswered &&
+                  "bg-white border-[#DCEEFF] hover:border-[#00BFFF] hover:bg-[#F5F9FF]",
+                showCorrect && "border-green-500 bg-green-50 text-green-700",
+                showWrong && "border-red-500 bg-red-50 text-red-700",
+                isAnswered && !showCorrect && !showWrong &&
+                  (isCorrectOption
+                    ? "border-green-200 bg-green-50/60 text-green-700/80"
+                    : "border-slate-200 bg-slate-50 text-slate-400"),
+              )}
+            >
+              <span
+                className={cn(
+                  "mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl font-black",
+                  !isAnswered && "bg-[#F0F8FF] text-[#00BFFF]",
+                  showCorrect && "bg-green-500 text-white",
+                  showWrong && "bg-red-500 text-white",
+                  isAnswered && !showCorrect && !showWrong &&
+                    (isCorrectOption
+                      ? "bg-green-100 text-green-700"
+                      : "bg-slate-100 text-slate-400"),
+                )}
+              >
+                {String.fromCharCode(65 + index)}
+              </span>
+
+              <span className="flex-1">
+                <span className="block font-bold text-base md:text-lg">
+                  {option}
                 </span>
-                <span className="text-xl font-black text-[#666]">Điểm: {score}</span>
-              </div>
-              <div className="w-full h-3 bg-[#F5F9FF] rounded-full overflow-hidden shadow-inner border border-[#E0F0FF]">
-                <div 
-                  className="h-full bg-gradient-to-r from-[#00BFFF] to-[#00CED1] transition-all duration-700 rounded-full" 
-                  style={{ width: `${((currentQuestion) / quizData.length) * 100}%` }}
-                ></div>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#333] leading-[1.3]">{quizData[currentQuestion].question}</h2>
-            </div>
+              </span>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {quizData[currentQuestion].options.map((option, index) => {
-                const isSelected = selectedOption === index;
-                const isCorrect = index === quizData[currentQuestion].correct;
-                let bgState = "bg-white border-[#E0F0FF] hover:border-[#00BFFF]/50 hover:bg-[#F5F9FF] hover:scale-[1.02] shadow-sm";
-                
-                if (isAnswered) {
-                  if (isSelected && isCorrect) bgState = "bg-green-50 border-green-400 text-green-700 shadow-md shadow-green-500/20";
-                  else if (isSelected && !isCorrect) bgState = "bg-red-50 border-red-400 text-red-700 shadow-md shadow-red-500/20 opacity-80";
-                  else if (!isSelected && isCorrect) bgState = "bg-green-50 border-green-200 text-green-700 shadow-sm opacity-60";
-                  else bgState = "bg-slate-50 border-slate-200 text-slate-400 opacity-50 grayscale";
-                }
+              {isAnswered && isSelected ? (
+                isCorrectOption ? (
+                  <CheckCircle2 className="mt-1 h-6 w-6 text-green-600" />
+                ) : (
+                  <XCircle className="mt-1 h-6 w-6 text-red-600" />
+                )
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
 
-                return (
-                  <button
-                    key={index}
-                    onClick={() => handleOptionClick(index)}
-                    disabled={isAnswered}
-                    className={cn(
-                      "p-6 md:p-8 rounded-[32px] border-2 text-left transition-all duration-300 flex items-center justify-between group",
-                       bgState
-                    )}
-                  >
-                    <div className="flex items-center gap-6">
-                      <div className={cn(
-                        "w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg transition-colors shadow-sm",
-                        isAnswered && isCorrect ? "bg-green-500 text-white" : "",
-                        isAnswered && isSelected && !isCorrect ? "bg-red-500 text-white" : "",
-                        (!isAnswered || (!isSelected && !isCorrect)) ? "bg-[#F0F8FF] text-[#00BFFF] group-hover:bg-[#00BFFF] group-hover:text-white" : ""
-                      )}>
-                        {String.fromCharCode(65 + index)}
-                      </div>
-                      <span className="font-bold text-xl">{option}</span>
-                    </div>
-                    {isAnswered && isSelected && (
-                      isCorrect ? <CheckCircle2 className="w-8 h-8 text-green-500 animate-pulse" /> : <XCircle className="w-8 h-8 text-red-500" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+      {isAnswered ? (
+        <div
+          className={cn(
+            "rounded-xl border p-4 text-sm space-y-2",
+            isCorrect
+              ? "border-green-200 bg-green-50 text-green-800"
+              : "border-red-200 bg-red-50 text-red-800",
+          )}
+        >
+          <p className="font-semibold flex items-start gap-2">
+            <Info className="h-5 w-5 shrink-0 mt-0.5" />
+            <span>{question.explanation}</span>
+          </p>
+          {!isCorrect ? (
+            <p>
+              <span className="font-bold">Đáp án đúng:</span> {question.options[question.correct]}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
-            {isAnswered && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="pt-6 border-t border-[#E0F0FF] space-y-8">
-                <div className={cn(
-                  "p-6 md:p-8 rounded-[32px] border",
-                  selectedOption === quizData[currentQuestion].correct 
-                    ? "bg-green-50 border-green-100 text-green-800"
-                    : "bg-red-50 border-red-100 text-red-800"
-                )}>
-                  <p className="font-bold text-lg leading-relaxed flex items-start gap-4">
-                    <Info className="w-6 h-6 shrink-0 mt-1" />
-                    <span>{quizData[currentQuestion].explanation}</span>
-                  </p>
-                </div>
-                
-                <div className="flex justify-end">
-                  <button
-                    onClick={handleNext}
-                    className="bg-[#00BFFF] text-white px-12 py-5 rounded-2xl font-black text-xl shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] hover:scale-105 transition-all flex items-center gap-2 group"
-                  >
-                    {currentQuestion === quizData.length - 1 ? "Xem kết quả" : "Câu tiếp theo"}
-                    <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white p-16 md:p-24 rounded-[60px] border border-[#E0F0FF] shadow-2xl shadow-[#00BFFF]/5 text-center space-y-12"
-          >
-            <div className="w-40 h-40 bg-[#F5F9FF] rounded-full flex items-center justify-center mx-auto text-yellow-400 border-[8px] border-yellow-100 shadow-xl relative overflow-hidden">
-               <div className="absolute inset-0 bg-yellow-400/20 blur-2xl animate-spin-slow"></div>
-               <Star className="w-20 h-20 fill-current relative z-10 drop-shadow-lg" />
-            </div>
-            
-            <div className="space-y-4">
-              <h2 className="text-5xl font-black text-[#333]">Chúc mừng!</h2>
-              <p className="text-[#666] text-2xl font-medium max-w-lg mx-auto leading-relaxed">
-                Bạn đã hoàn thành bài kiểm tra với số điểm tuyệt vời.
-              </p>
-              <div className="text-8xl font-black text-[#00BFFF] drop-shadow-sm py-4">
-                {score} <span className="text-4xl text-[#999]">/ {quizData.length}</span>
-              </div>
-            </div>
-            
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6 pt-8 border-t border-[#E0F0FF]">
-              <button
-                onClick={resetQuiz}
-                className="w-full md:w-auto bg-white text-[#00BFFF] border-2 border-[#E0F0FF] hover:border-[#00BFFF] px-12 py-5 rounded-2xl font-black text-xl hover:bg-[#F0F8FF] transition-all flex items-center justify-center gap-3"
-              >
-                <RefreshCcw className="w-5 h-5" /> Làm lại
-              </button>
-              <button 
-                onClick={() => setCurrentView("lesson-33-overview" as View)}
-                className="w-full md:w-auto bg-[#00BFFF] text-white px-12 py-5 rounded-2xl font-black text-xl shadow-xl shadow-[#00BFFF]/20 hover:bg-[#009ACD] transition-all"
-              >
-                Trở về Tổng quan
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm text-[#64748B]">
+          {!isAnswered ? "Chọn đáp án" : isCorrect ? "Đúng" : "Sai"}
+        </p>
+
+        <button
+          type="button"
+          onClick={handleNext}
+          disabled={!isAnswered}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#00BFFF] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
+        >
+          {currentQuestion === quizData.length - 1 ? "Xem kết quả" : "Câu tiếp"}
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </section>
   );
 }

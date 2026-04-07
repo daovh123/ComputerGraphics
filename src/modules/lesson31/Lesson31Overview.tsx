@@ -5,17 +5,19 @@ import {
   lesson31Overview,
   lesson31Parts,
   lesson31Summary,
-  lesson31Tabs,
   type BodySystem,
   type BodyView,
   type Lesson31PartItem,
   type Lesson31Tab,
 } from "../../data/lesson31";
+import LessonHeader from "../../components/LessonHeader";
+import LessonTabs from "../../components/LessonTabs";
+import { LESSON_CARD_BASE } from "../../components/lessonClassNames";
+import { lesson31Tabs } from "../../config/lessonCatalog";
+import { cn } from "../../lib/utils";
 import Lesson31Explorer from "./Lesson31Explorer";
-import Lesson31Header from "./Lesson31Header";
 import MovementDiseasesSection from "./MovementDiseasesSection";
 import MovementFunctionSection from "./MovementFunctionSection";
-import Lesson31Tabs from "./Lesson31Tabs";
 import Lesson31Model3D from "./Lesson31Model3D";
 import MovementQuizV2 from "./MovementQuizV2";
 import Lesson31Summary from "./Lesson31Summary";
@@ -25,7 +27,6 @@ interface Lesson31OverviewProps {
 }
 
 export default function Lesson31Overview({ initialTab = "overview" }: Lesson31OverviewProps) {
-  const [activeTab, setActiveTab] = useState<Lesson31Tab>(initialTab);
   const [activeSystem, setActiveSystem] = useState<BodySystem>("skeleton");
   const [activeView, setActiveView] = useState<BodyView>("front");
   const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
@@ -47,17 +48,15 @@ export default function Lesson31Overview({ initialTab = "overview" }: Lesson31Ov
     setSelectedPartId(null);
   }, [activeSystem, activeView]);
 
-  useEffect(() => {
-    setActiveTab(initialTab);
-  }, [initialTab]);
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      <Lesson31Header title={lesson31Header.title} description={lesson31Header.description} />
+      <div className={cn(LESSON_CARD_BASE, "rounded-3xl p-6 space-y-4")}
+      >
+        <LessonHeader title={lesson31Header.title} variant="embedded" />
+        <LessonTabs tabs={lesson31Tabs} variant="embedded" />
+      </div>
 
-      <Lesson31Tabs tabs={lesson31Tabs} activeTab={activeTab} onChange={setActiveTab} />
-
-      {activeTab === "overview" && (
+      {initialTab === "overview" && (
         <section className="bg-white border border-[#E0F0FF] rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
           <h2 className="text-2xl font-extrabold text-[#1F2937]">Tổng quan</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -100,7 +99,7 @@ export default function Lesson31Overview({ initialTab = "overview" }: Lesson31Ov
         </section>
       )}
 
-      {activeTab === "anatomy" && (
+      {initialTab === "anatomy" && (
         <Lesson31Explorer
           system={activeSystem}
           view={activeView}
@@ -113,17 +112,17 @@ export default function Lesson31Overview({ initialTab = "overview" }: Lesson31Ov
         />
       )}
 
-      {activeTab === "movement-function" && <MovementFunctionSection />}
+      {initialTab === "movement-function" && <MovementFunctionSection />}
 
-      {activeTab === "model3d" && (
+      {initialTab === "model3d" && (
         <Lesson31Model3D />
       )}
 
-      {activeTab === "diseases" && <MovementDiseasesSection />}
+      {initialTab === "diseases" && <MovementDiseasesSection />}
 
-      {activeTab === "quiz" && <MovementQuizV2 />}
+      {initialTab === "quiz" && <MovementQuizV2 />}
 
-      {activeTab === "summary" && (
+      {initialTab === "summary" && (
         <Lesson31Summary
           structureTitle={lesson31Summary.structureTitle}
           structureText={lesson31Summary.structureText}

@@ -263,14 +263,14 @@ export default function Lesson32Quiz() {
           <button
             onClick={onCheckAnswer}
             disabled={picked === null || answered}
-            className="px-5 py-2 rounded-xl bg-[#0EA5E9] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
+            className="px-5 py-2 rounded-xl bg-white border border-[#E0F0FF] text-[#00BFFF] font-bold transition-colors hover:bg-[#F0F8FF] hover:border-[#00BFFF] disabled:bg-[#F8FBFF] disabled:text-[#94a3b8] disabled:border-[#E0F0FF]"
           >
             Kiểm tra
           </button>
           <button
             onClick={onNext}
             disabled={!answered}
-            className="px-5 py-2 rounded-xl bg-[#00BFFF] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
+            className="px-5 py-2 rounded-xl bg-[#00BFFF] hover:bg-[#009FD8] disabled:bg-[#B7E8FF] text-white font-bold transition-colors"
           >
             {index === quizQuestions.length - 1 ? "Xem kết quả" : "Câu tiếp"}
           </button>

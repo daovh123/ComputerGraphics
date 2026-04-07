@@ -84,16 +84,16 @@ export default function MovementQuizV2() {
     const percent = Math.round((score / quizQuestions.length) * 100);
 
     return (
-      <section className="bg-white rounded-[20px] border border-[#DDEAF8] shadow-sm p-5 md:p-7">
+      <section className="bg-white border border-[#E0F0FF] rounded-3xl shadow-sm p-6 md:p-8">
         <div className="max-w-2xl mx-auto text-center space-y-4">
           <h2 className="text-3xl font-extrabold text-[#0F172A]">Kết quả bài quiz</h2>
           <p className="text-[#475569]">
-            Em trả lời đúng <span className="font-bold text-[#0EA5E9]">{score}</span> /{" "}
+            Em trả lời đúng <span className="font-bold text-[#00BFFF]">{score}</span> /{" "}
             <span className="font-bold">{quizQuestions.length}</span> câu.
           </p>
           <div className="h-3 rounded-full bg-[#E8F3FF] overflow-hidden">
             <div
-              className="h-full bg-[#0EA5E9] transition-all duration-500"
+              className="h-full bg-[#00BFFF] transition-all duration-500"
               style={{ width: `${percent}%` }}
             />
           </div>
@@ -102,7 +102,7 @@ export default function MovementQuizV2() {
           <button
             type="button"
             onClick={onRestart}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#0EA5E9] text-white font-bold hover:bg-[#0284C7] transition-colors"
+            className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#00BFFF] text-white font-bold hover:bg-[#009FD8] transition-colors"
           >
             Chơi lại
           </button>
@@ -112,7 +112,7 @@ export default function MovementQuizV2() {
   }
 
   return (
-    <section className="bg-white rounded-[20px] border border-[#DDEAF8] shadow-sm p-5 md:p-7 space-y-5">
+    <section className="bg-white border border-[#E0F0FF] rounded-3xl shadow-sm p-6 md:p-8 space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-[#0F172A]">Kiểm tra kiến thức</h2>
@@ -138,7 +138,7 @@ export default function MovementQuizV2() {
         </div>
         <div className="h-2.5 rounded-full bg-[#E8F3FF] overflow-hidden">
           <div
-            className="h-full bg-[#0EA5E9] transition-all duration-300"
+            className="h-full bg-[#00BFFF] transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -163,12 +163,12 @@ export default function MovementQuizV2() {
               disabled={isLocked}
               className={cn(
                 "text-left p-4 rounded-2xl border bg-white transition-all duration-200 hover:-translate-y-[1px]",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#38BDF8]/50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00BFFF]/30",
                 showCorrect && "border-[#22C55E] bg-[#DCFCE7] text-[#166534]",
                 showWrong && "border-[#EF4444] bg-[#FEE2E2] text-[#991B1B]",
                 !showCorrect &&
                   !showWrong &&
-                  "border-[#D1D5DB] hover:border-[#7DD3FC] hover:bg-[#F0F9FF] text-[#334155]",
+                  "border-[#DCEEFF] hover:border-[#00BFFF]/60 hover:bg-[#F0F9FF] text-[#334155]",
               )}
             >
               <span className="font-semibold">{option}</span>

@@ -32,7 +32,7 @@ export const lesson32Manifest: LessonManifest = {
     { label: "Bệnh tiêu hóa", path: "/lesson-32/diseases", icon: ShieldCheck },
     { label: "Dinh dưỡng", path: "/lesson-32/nutrition", icon: Leaf },
     { label: "An toàn thực phẩm", path: "/lesson-32/food-safety", icon: Shield },
-    { label: "Kiểm tra", path: "/lesson-32/quiz", icon: ClipboardCheck },
+    { label: "Trắc nghiệm", path: "/lesson-32/quiz", icon: ClipboardCheck },
   ],
   sidebar: {
     label: "Bài 32",
