@@ -5,8 +5,9 @@ import { Box3, Group, PerspectiveCamera, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { cn } from "../../../lib/utils";
+import angiologyModelUrl from "../assets/angiology.glb?url";
 
-const ANGIOLOGY_MODEL_PATH = "/models/lesson-33/angiology.glb";
+const ANGIOLOGY_MODEL_PATH = angiologyModelUrl;
 const HIDDEN_NODE_NAME_PATTERNS = [/^labelgroup/i, /^label/i];
 const MODEL_SCALE_FACTOR = 0.9;
 

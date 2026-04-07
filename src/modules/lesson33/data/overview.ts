@@ -1,4 +1,4 @@
-import { Activity, Droplet } from "lucide-react";
+import { Activity, Droplet, Sparkles } from "lucide-react";
 
 export const lessonOverview = {
   title: "Máu và Hệ tuần hoàn",
@@ -11,6 +11,15 @@ export const lessonOverview = {
     "Trình bày được sự tuần hoàn của máu trong cơ thể (2 vòng tuần hoàn)."
   ],
   quickActions: [
+    {
+      id: "learn",
+      title: "Chế độ học",
+      description: "Đi theo lộ trình từng bước của bài 33",
+      path: "/lesson-33/learn/mo-dau",
+      icon: Sparkles,
+      iconBgClassName: "bg-emerald-500/20",
+      iconClassName: "text-emerald-300",
+    },
     {
       id: "explorer",
       title: "Mô hình 3D Trái tim",

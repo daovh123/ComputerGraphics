@@ -1,5 +1,5 @@
 import React from "react";
-import { Activity, CheckCircle2, Droplet, Layers, Play } from "lucide-react";
+import { Activity, CheckCircle2, Droplet, Layers, Sparkles } from "lucide-react";
 import LessonDetailPage from "../../components/LessonDetailPage";
 import DemoModeStrip from "./components/DemoModeStrip";
 import HeartbeatAudioCard from "./components/HeartbeatAudioCard";
@@ -17,11 +17,11 @@ export default function Overview() {
         }}
         title={lessonOverview.title}
         summary={lessonOverview.description}
-        primaryAction={{ label: "Bắt đầu học", path: "/lesson-33/learn/mo-dau" }}
+        primaryAction={{ label: "Khám phá ngay", path: "/lesson-33/explorer" }}
         secondaryAction={{
-          label: "Khám phá mô hình",
-          path: "/lesson-33/explorer",
-          icon: Play,
+          label: "Chế độ học",
+          path: "/lesson-33/learn/mo-dau",
+          icon: Sparkles,
           variant: "secondary",
         }}
         media={{
