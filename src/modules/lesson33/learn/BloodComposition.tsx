@@ -112,15 +112,12 @@ function BloodTube({
                 key={layer.id}
                 type="button"
                 onClick={() => onSelectLayer(layer.id)}
-                className="absolute left-0 right-0 flex flex-col items-center justify-center transition-all duration-300"
+                className="absolute left-0 right-0 flex flex-col items-center justify-center"
                 style={{
                   bottom: `${currentBottom}%`,
                   height: `${layer.heightPercent}%`,
                   background: layer.color,
-                  filter:
-                    isActive
-                      ? "brightness(1.08) saturate(1.05)"
-                      : "brightness(0.96)",
+                  filter: isActive ? "brightness(1.02)" : "brightness(1)",
                   boxShadow: isActive
                     ? "inset 0 0 0 2px rgba(255,255,255,0.7)"
                     : "none",
@@ -151,7 +148,7 @@ function BloodTube({
           })}
 
         <div
-          className="pointer-events-none absolute -right-16 z-20 transition-all duration-300"
+          className="pointer-events-none absolute -right-16 z-20"
           style={{ bottom: `calc(${activeBottom}% - 0.9rem)` }}
         >
           <div className="flex items-center gap-2">
@@ -300,21 +297,9 @@ export default function BloodComposition() {
         </motion.div>
       </motion.div>
 
-      <motion.div
-        layout
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="min-w-0"
-      >
-        <motion.div
-          key={`tube-${activeLayer.id}`}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-        >
-          <BloodTube activeLayerId={activeLayerId} onSelectLayer={setActiveLayerId} />
-        </motion.div>
-      </motion.div>
+      <div className="min-w-0">
+        <BloodTube activeLayerId={activeLayerId} onSelectLayer={setActiveLayerId} />
+      </div>
     </section>
   );
 }
