@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GameEngine, Food, VIEWPORT_WIDTH, VIEWPORT_HEIGHT } from "./engine/GameEngine";
-import digestiveSystemBg from "../../../assets/img/digestive_system.png";
+import digestiveSystemBg from "../../../assets/img/digestive.jpg";
 
 interface DigestiveGameProps {
   className?: string;

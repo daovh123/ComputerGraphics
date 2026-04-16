@@ -1,7 +1,7 @@
 /**
  * Collision/Obstacle System
  * Supports walls (block movement) and zones (one-way digestion checkpoints).
- * 
+ *
  * - Walls: food cannot pass through
  * - Zones: food can enter, but once it leaves, it cannot re-enter
  *          (simulates one-way digestion flow, no reflux)
@@ -150,6 +150,30 @@ export class CollisionSystem {
   }
 
   /**
+   * Check whether a zone has ever been entered in this run.
+   */
+  hasEnteredZone(zoneId: string): boolean {
+    const zone = this.zones.find((z) => z.id === zoneId);
+    if (!zone) return false;
+
+    return (
+      zone.triggered ||
+      this.currentlyInZones.has(zoneId) ||
+      this.passedZones.has(zoneId)
+    );
+  }
+
+  /**
+   * Check if a circle is currently inside a specific zone.
+   */
+  isInsideZone(zoneId: string, x: number, y: number, radius: number): boolean {
+    const zone = this.zones.find((z) => z.id === zoneId);
+    if (!zone) return false;
+
+    return this.circleRectCollision(x, y, radius, zone);
+  }
+
+  /**
    * Manually mark a zone as passed (used when auto-path completes)
    */
   markZoneAsPassed(zoneId: string) {
@@ -173,7 +197,10 @@ export class CollisionSystem {
 
     // Check passed zones (they become walls after food exits them)
     for (const zone of this.zones) {
-      if (this.passedZones.has(zone.id) && !this.currentlyInZones.has(zone.id)) {
+      if (
+        this.passedZones.has(zone.id) &&
+        !this.currentlyInZones.has(zone.id)
+      ) {
         if (this.circleRectCollision(x, y, radius, zone)) {
           return true;
         }
@@ -186,7 +213,7 @@ export class CollisionSystem {
   /**
    * Update zone tracking based on food position.
    * Call this every frame after moving food.
-   * 
+   *
    * Returns the zone the food just entered (if any), or null.
    */
   updateZoneTracking(x: number, y: number, radius: number): Zone | null {
@@ -218,7 +245,9 @@ export class CollisionSystem {
           this.passedZones.add(zone.id);
 
           if (this.debugMode) {
-            console.log(`🔒 Passed zone: ${zone.name} (${zone.id}) — now blocks backward movement`);
+            console.log(
+              `🔒 Passed zone: ${zone.name} (${zone.id}) — now blocks backward movement`,
+            );
           }
         }
       }
@@ -230,7 +259,7 @@ export class CollisionSystem {
   /**
    * Resolve movement: try to move from (fromX, fromY) to (toX, toY).
    * Returns the valid position after collision resolution.
-   * 
+   *
    * Strategy:
    *  1. First try full movement
    *  2. If blocked, try sliding along X axis only
@@ -242,7 +271,7 @@ export class CollisionSystem {
     fromY: number,
     toX: number,
     toY: number,
-    radius: number
+    radius: number,
   ): { x: number; y: number; blocked: boolean } {
     // Try full movement
     if (!this.isCollidingWithWall(toX, toY, radius)) {
@@ -277,7 +306,7 @@ export class CollisionSystem {
     cx: number,
     cy: number,
     radius: number,
-    rect: { x: number; y: number; width: number; height: number }
+    rect: { x: number; y: number; width: number; height: number },
   ): boolean {
     const closestX = Math.max(rect.x, Math.min(cx, rect.x + rect.width));
     const closestY = Math.max(rect.y, Math.min(cy, rect.y + rect.height));
@@ -315,7 +344,10 @@ export class CollisionSystem {
       let fillColor: string;
       let label: string;
 
-      if (this.passedZones.has(zone.id) && !this.currentlyInZones.has(zone.id)) {
+      if (
+        this.passedZones.has(zone.id) &&
+        !this.currentlyInZones.has(zone.id)
+      ) {
         // Passed zone (now acts as wall)
         strokeColor = "rgba(128, 0, 128, 0.7)";
         fillColor = "rgba(128, 0, 128, 0.15)";
@@ -373,9 +405,9 @@ export class CollisionSystem {
         ctx.beginPath();
         ctx.arc(wp.x, wp.y, isStart || isEnd ? 6 : 4, 0, Math.PI * 2);
         ctx.fillStyle = isStart
-          ? "rgba(0, 255, 100, 0.8)"   // green = start
+          ? "rgba(0, 255, 100, 0.8)" // green = start
           : isEnd
-            ? "rgba(255, 50, 50, 0.8)"  // red = end
+            ? "rgba(255, 50, 50, 0.8)" // red = end
             : "rgba(0, 200, 255, 0.8)"; // cyan = intermediate
         ctx.fill();
         ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
@@ -429,6 +461,9 @@ export const DEFAULT_OBSTACLES: Obstacle[] = [
   { x: 1393, y: 102, width: 201, height: 75, name: "wall_23" },
   { x: 1075, y: 369, width: 75, height: 225, name: "wall_24" },
   { x: 888, y: 1032, width: 285, height: 123, name: "wall_26" },
+  { x: 53, y: 1032, width: 830, height: 123, name: "wall_86" },
+  { x: 53, y: 1548, width: 1050, height: 156, name: "wall_87" },
+  { x: 53, y: 1160, width: 50, height: 380, name: "wall_88" },
   { x: 1095, y: 1548, width: 576, height: 156, name: "wall_27" },
   { x: 1452, y: 1695, width: 183, height: 1614, name: "wall_28" },
   { x: 1827, y: 1818, width: 39, height: 930, name: "wall_29" },
@@ -489,38 +524,63 @@ export const DEFAULT_OBSTACLES: Obstacle[] = [
 export const DEFAULT_ZONES: Zone[] = [
   {
     id: "zone_1",
-    x: 1089, y: 1158, width: 72, height: 400,
+    x: 1089,
+    y: 1158,
+    width: 72,
+    height: 400,
     name: "zone_1",
     triggered: false,
-    onEnter: () => { /* TODO: sự kiện khi vào zone_1 */ },
+    onEnter: () => {
+      /* TODO: sự kiện khi vào zone_1 */
+    },
   },
   {
     id: "zone_2",
-    x: 1977, y: 3282, width: 291, height: 60,
+    x: 1977,
+    y: 3282,
+    width: 291,
+    height: 60,
     name: "zone_2",
     triggered: false,
-    onEnter: () => { /* TODO: sự kiện khi vào zone_2 */ },
+    onEnter: () => {
+      /* TODO: sự kiện khi vào zone_2 */
+    },
   },
   {
     id: "zone_3",
-    x: 1337, y: 4356, width: 189, height: 126,
+    x: 1337,
+    y: 4356,
+    width: 189,
+    height: 126,
     name: "zone_3",
     triggered: false,
-    onEnter: () => { /* TODO: sự kiện khi vào zone_3 */ },
+    onEnter: () => {
+      /* TODO: sự kiện khi vào zone_3 */
+    },
   },
   {
     id: "zone_4",
-    x: 961, y: 4477, width: 150, height: 1046,
+    x: 961,
+    y: 4477,
+    width: 150,
+    height: 1046,
     name: "zone_4",
     triggered: false,
-    onEnter: () => { /* TODO: sự kiện khi vào zone_4 */ },
+    onEnter: () => {
+      /* TODO: sự kiện khi vào zone_4 */
+    },
   },
   {
     id: "zone_5",
-    x: 1613, y: 4229, width: 660, height: 248,
+    x: 1613,
+    y: 4229,
+    width: 660,
+    height: 248,
     name: "zone_5",
     triggered: false,
-    onEnter: () => { /* TODO: sự kiện khi vào zone_5 */ },
+    onEnter: () => {
+      /* TODO: sự kiện khi vào zone_5 */
+    },
   },
 ];
 
@@ -579,5 +639,9 @@ export const DEFAULT_ZONE_PATH_MAPPINGS: ZonePathMapping[] = [
   { zoneIds: ["zone_1"], path: PATH_1, name: "Path 1 (zone_1)" },
   { zoneIds: ["zone_2"], path: PATH_2, name: "Path 2 (zone_2)" },
   { zoneIds: ["zone_3"], path: PATH_3, name: "Path 3 (zone_3)" },
-  { zoneIds: ["zone_4", "zone_5"], path: PATH_4, name: "Path 4 (zone_4/zone_5)" },
+  {
+    zoneIds: ["zone_4", "zone_5"],
+    path: PATH_4,
+    name: "Path 4 (zone_4/zone_5)",
+  },
 ];

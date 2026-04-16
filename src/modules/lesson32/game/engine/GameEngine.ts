@@ -1,7 +1,7 @@
 /**
  * Simple Canvas-based Game Engine
  * Handles game loop, rendering, and input
- * 
+ *
  * Viewport: 800x600 (what the player sees)
  * World: full map size (e.g. 3457x6833)
  * Camera: follows food centered, clamps at world edges
@@ -18,6 +18,7 @@ import {
   DEFAULT_ZONE_PATH_MAPPINGS,
 } from "./CollisionSystem";
 import { CollisionRectEditor } from "./CollisionRectEditor";
+import hamburgerSprite from "../../../../assets/img/hamburger.png";
 
 // ===== VIEWPORT CONSTANTS =====
 export const VIEWPORT_WIDTH = 800;
@@ -41,6 +42,13 @@ export class Food implements GameObject {
   width = 20;
   height = 20;
   speed = 300; // pixels per second
+  private readonly preZoneSpriteWidth = 200;
+  private readonly preZoneSpriteHeight = 200;
+  private hasEnteredZone1 = false;
+
+  // Pre-zone food sprite
+  private spriteImage: HTMLImageElement | null = null;
+  private spriteLoaded = false;
 
   // ── Manual movement state ──
   targetX: number | null = null;
@@ -67,6 +75,19 @@ export class Food implements GameObject {
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
+    this.loadSprite();
+  }
+
+  private loadSprite() {
+    this.spriteImage = new Image();
+    this.spriteImage.onload = () => {
+      this.spriteLoaded = true;
+    };
+    this.spriteImage.onerror = () => {
+      this.spriteLoaded = false;
+      console.error("Failed to load food sprite", hamburgerSprite);
+    };
+    this.spriteImage.src = hamburgerSprite;
   }
 
   /**
@@ -105,11 +126,11 @@ export class Food implements GameObject {
 
   /**
    * Start automated movement along a waypoint path.
-   * 
+   *
    * 1. Finds the closest waypoint in `path` to the food's current position.
    * 2. Snaps the food to that closest point.
    * 3. Begins auto-moving through the remaining waypoints.
-   * 
+   *
    * @param path        Array of waypoints to follow.
    * @param zoneIds     The zone IDs that triggered this path (for locking on completion).
    */
@@ -144,7 +165,7 @@ export class Food implements GameObject {
 
     console.log(
       `🚀 Auto-path started: ${zoneIds.join(", ")} → ${path.length} waypoints ` +
-      `(snapped to #${closestIndex}, moving to #${this.autoPathIndex})`
+        `(snapped to #${closestIndex}, moving to #${this.autoPathIndex})`,
     );
   }
 
@@ -155,7 +176,9 @@ export class Food implements GameObject {
    *  - Lock the triggering zone(s) as walls
    */
   private completeAutoPath() {
-    console.log(`✅ Auto-path completed for zones: ${this.autoTriggerZoneIds.join(", ")}`);
+    console.log(
+      `✅ Auto-path completed for zones: ${this.autoTriggerZoneIds.join(", ")}`,
+    );
 
     // Mark the triggering zones as passed → they become walls
     if (this.collisionSystem) {
@@ -174,10 +197,26 @@ export class Food implements GameObject {
   // ── Update ──────────────────────────────────────────────
 
   update(deltaTime: number) {
+    this.syncZone1VisualState();
+
     if (this.isAutoMoving) {
       this.updateAutoMovement(deltaTime);
     } else {
       this.updateManualMovement(deltaTime);
+    }
+  }
+
+  /**
+   * Keep visual mode synced even if zone enter event is skipped.
+   */
+  private syncZone1VisualState() {
+    if (this.hasEnteredZone1 || !this.collisionSystem) return;
+
+    if (
+      this.collisionSystem.hasEnteredZone("zone_1") ||
+      this.collisionSystem.isInsideZone("zone_1", this.x, this.y, this.width)
+    ) {
+      this.hasEnteredZone1 = true;
     }
   }
 
@@ -205,6 +244,7 @@ export class Food implements GameObject {
       // Update zone tracking even during auto movement
       if (this.collisionSystem) {
         this.collisionSystem.updateZoneTracking(this.x, this.y, this.width);
+        this.syncZone1VisualState();
       }
       return;
     }
@@ -220,6 +260,7 @@ export class Food implements GameObject {
     // Still track zones during auto movement
     if (this.collisionSystem) {
       this.collisionSystem.updateZoneTracking(this.x, this.y, this.width);
+      this.syncZone1VisualState();
     }
   }
 
@@ -284,10 +325,17 @@ export class Food implements GameObject {
     if (!this.collisionSystem) return;
 
     const enteredZone = this.collisionSystem.updateZoneTracking(
-      this.x, this.y, this.width
+      this.x,
+      this.y,
+      this.width,
     );
+    this.syncZone1VisualState();
 
     if (enteredZone) {
+      if (enteredZone.id === "zone_1") {
+        this.hasEnteredZone1 = true;
+      }
+
       // Look up if this zone has an associated path
       const mapping = this.collisionSystem.getPathForZone(enteredZone.id);
       if (mapping) {
@@ -299,15 +347,20 @@ export class Food implements GameObject {
   /**
    * Resolve position through collision system (manual mode only)
    */
-  private resolvePosition(newX: number, newY: number): { x: number; y: number; blocked: boolean } {
+  private resolvePosition(
+    newX: number,
+    newY: number,
+  ): { x: number; y: number; blocked: boolean } {
     if (!this.collisionSystem) {
       return { x: newX, y: newY, blocked: false };
     }
 
     return this.collisionSystem.resolveMovement(
-      this.x, this.y,
-      newX, newY,
-      this.width
+      this.x,
+      this.y,
+      newX,
+      newY,
+      this.width,
     );
   }
 
@@ -338,16 +391,32 @@ export class Food implements GameObject {
       }
     }
 
-    // Main food circle
-    ctx.fillStyle = this.isAutoMoving ? "#00C8FF" : "#FF6B35";
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
-    ctx.fill();
+    const sprite = this.spriteImage;
+    const shouldDrawHamburger =
+      !this.hasEnteredZone1 && sprite !== null && this.spriteLoaded;
 
-    // Border
-    ctx.strokeStyle = this.isAutoMoving ? "#0096D6" : "#FF4500";
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    if (shouldDrawHamburger) {
+      const drawX = this.x - this.preZoneSpriteWidth / 2;
+      const drawY = this.y - this.preZoneSpriteHeight / 2;
+      ctx.drawImage(
+        sprite,
+        drawX,
+        drawY,
+        this.preZoneSpriteWidth,
+        this.preZoneSpriteHeight,
+      );
+    } else {
+      // Main food circle
+      ctx.fillStyle = this.isAutoMoving ? "#00C8FF" : "#FF6B35";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Border
+      ctx.strokeStyle = this.isAutoMoving ? "#0096D6" : "#FF4500";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
 
     // Auto-move indicator text
     if (this.isAutoMoving) {
@@ -397,7 +466,7 @@ export class GameEngine {
     canvas: HTMLCanvasElement,
     worldWidth = 3457,
     worldHeight = 6833,
-    backgroundUrl = ""
+    backgroundUrl = "",
   ) {
     this.canvas = canvas;
     const ctx = canvas.getContext("2d");
@@ -418,7 +487,10 @@ export class GameEngine {
     // Initialize collision system
     this.collisionSystem = new CollisionSystem(true); // Set true to show collision rects
     this.collisionSystem.addObstacles(DEFAULT_OBSTACLES);
-    this.collisionSystem.addZones(DEFAULT_ZONES);
+    // Clone zones to avoid stale triggered state between reloads/runs.
+    this.collisionSystem.setZones(
+      DEFAULT_ZONES.map((zone) => ({ ...zone, triggered: false })),
+    );
     this.collisionSystem.addZonePathMappings(DEFAULT_ZONE_PATH_MAPPINGS);
 
     // Initialize collision rect editor
@@ -437,7 +509,7 @@ export class GameEngine {
     this.backgroundImage = new Image();
     this.backgroundImage.onload = () => {
       console.log(
-        `Background loaded: ${this.backgroundImage?.width}x${this.backgroundImage?.height}`
+        `Background loaded: ${this.backgroundImage?.width}x${this.backgroundImage?.height}`,
       );
     };
     this.backgroundImage.onerror = () => {
@@ -535,8 +607,14 @@ export class GameEngine {
       if (sw > 0 && sh > 0) {
         this.ctx.drawImage(
           this.backgroundImage,
-          sx, sy, sw, sh,
-          dx, dy, dw, dh
+          sx,
+          sy,
+          sw,
+          sh,
+          dx,
+          dy,
+          dw,
+          dh,
         );
       }
     }
@@ -570,7 +648,7 @@ export class GameEngine {
 
   /**
    * Update camera to follow food.
-   * 
+   *
    * The camera tries to keep food centered in the viewport.
    * When food is near a world edge, the camera clamps so it doesn't
    * show anything outside the world. In that case, food is no longer
@@ -610,8 +688,14 @@ export class GameEngine {
     // Clamp food to world bounds
     const food = this.getFood();
     if (food) {
-      food.x = Math.max(food.width, Math.min(food.x, this.worldWidth - food.width));
-      food.y = Math.max(food.height, Math.min(food.y, this.worldHeight - food.height));
+      food.x = Math.max(
+        food.width,
+        Math.min(food.x, this.worldWidth - food.width),
+      );
+      food.y = Math.max(
+        food.height,
+        Math.min(food.y, this.worldHeight - food.height),
+      );
     }
 
     // Update camera
@@ -636,7 +720,12 @@ export class GameEngine {
 
     // Set clipping region to viewport (in world coordinates)
     this.ctx.beginPath();
-    this.ctx.rect(this.cameraX, this.cameraY, this.viewportWidth, this.viewportHeight);
+    this.ctx.rect(
+      this.cameraX,
+      this.cameraY,
+      this.viewportWidth,
+      this.viewportHeight,
+    );
     this.ctx.clip();
 
     // Draw all game objects (only those within or near viewport will be visible)
@@ -694,7 +783,7 @@ export class GameEngine {
       this.ctx.fillText(
         `Food: (${Math.round(food.x)}, ${Math.round(food.y)})  Camera: (${Math.round(this.cameraX)}, ${Math.round(this.cameraY)})${stateLabel}`,
         10,
-        16
+        16,
       );
     }
 
@@ -706,14 +795,32 @@ export class GameEngine {
    * Draw a small minimap showing food position in the world
    */
   private drawMinimap() {
-    const minimapWidth = 60;
-    const minimapHeight = Math.round((minimapWidth / this.worldWidth) * this.worldHeight);
-    const minimapX = this.viewportWidth - minimapWidth - 10;
-    const minimapY = 10;
+    const minimapWidth = 90;
+    const minimapHeight = Math.round(
+      (minimapWidth / this.worldWidth) * this.worldHeight,
+    );
+    const minimapX = this.viewportWidth - minimapWidth - 12;
+    const minimapY = 12;
 
-    // Background
-    this.ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-    this.ctx.fillRect(minimapX, minimapY, minimapWidth, minimapHeight);
+    // Minimap background (use real map image if available)
+    if (this.backgroundImage && this.backgroundImage.complete) {
+      this.ctx.drawImage(
+        this.backgroundImage,
+        0,
+        0,
+        this.backgroundImage.width,
+        this.backgroundImage.height,
+        minimapX,
+        minimapY,
+        minimapWidth,
+        minimapHeight,
+      );
+      this.ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      this.ctx.fillRect(minimapX, minimapY, minimapWidth, minimapHeight);
+    } else {
+      this.ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      this.ctx.fillRect(minimapX, minimapY, minimapWidth, minimapHeight);
+    }
 
     // Viewport rectangle
     const vpX = minimapX + (this.cameraX / this.worldWidth) * minimapWidth;
@@ -721,8 +828,8 @@ export class GameEngine {
     const vpW = (this.viewportWidth / this.worldWidth) * minimapWidth;
     const vpH = (this.viewportHeight / this.worldHeight) * minimapHeight;
 
-    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-    this.ctx.lineWidth = 1;
+    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
+    this.ctx.lineWidth = 1.5;
     this.ctx.strokeRect(vpX, vpY, vpW, vpH);
 
     // Food dot
@@ -733,14 +840,19 @@ export class GameEngine {
 
       this.ctx.fillStyle = food.isAutoMoving ? "#00C8FF" : "#FF6B35";
       this.ctx.beginPath();
-      this.ctx.arc(foodMX, foodMY, 3, 0, Math.PI * 2);
+      this.ctx.arc(foodMX, foodMY, 3.5, 0, Math.PI * 2);
       this.ctx.fill();
     }
 
     // Border
-    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
     this.ctx.lineWidth = 1;
     this.ctx.strokeRect(minimapX, minimapY, minimapWidth, minimapHeight);
+
+    // Title
+    this.ctx.fillStyle = "rgba(255,255,255,0.9)";
+    this.ctx.font = "11px Arial";
+    this.ctx.fillText("Bản đồ", minimapX, minimapY - 4);
   }
 
   /**
