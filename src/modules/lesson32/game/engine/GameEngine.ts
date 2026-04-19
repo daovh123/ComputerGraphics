@@ -19,6 +19,8 @@ import {
 } from "./CollisionSystem";
 import { CollisionRectEditor } from "./CollisionRectEditor";
 import hamburgerSprite from "../../../../assets/img/hamburger.png";
+import inMounthSprite from "../../../../assets/img/In_mounth.png";
+import pipeDegistiveSprite from "../../../../assets/img/Pipe degistive.png";
 
 // ===== VIEWPORT CONSTANTS =====
 export const VIEWPORT_WIDTH = 800;
@@ -42,13 +44,24 @@ export class Food implements GameObject {
   width = 20;
   height = 20;
   speed = 300; // pixels per second
-  private readonly preZoneSpriteWidth = 200;
-  private readonly preZoneSpriteHeight = 200;
-  private hasEnteredZone1 = false;
+  private readonly spriteWidth = 200;
+  private readonly spriteHeight = 200;
+  private readonly pipeScaleDivisor = 2.5;
 
-  // Pre-zone food sprite
-  private spriteImage: HTMLImageElement | null = null;
-  private spriteLoaded = false;
+  // Visual state machine
+  private visualMode: "hamburger" | "in_mounth" | "pipe" | "circle" = "hamburger";
+
+  // Sprite cache
+  private spriteImages: Record<"hamburger" | "in_mounth" | "pipe", HTMLImageElement | null> = {
+    hamburger: null,
+    in_mounth: null,
+    pipe: null,
+  };
+  private spriteLoaded: Record<"hamburger" | "in_mounth" | "pipe", boolean> = {
+    hamburger: false,
+    in_mounth: false,
+    pipe: false,
+  };
 
   // ── Manual movement state ──
   targetX: number | null = null;
@@ -75,19 +88,30 @@ export class Food implements GameObject {
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
-    this.loadSprite();
+    this.loadSprites();
   }
 
-  private loadSprite() {
-    this.spriteImage = new Image();
-    this.spriteImage.onload = () => {
-      this.spriteLoaded = true;
+  private loadImage(
+    key: "hamburger" | "in_mounth" | "pipe",
+    src: string,
+  ) {
+    const img = new Image();
+    this.spriteImages[key] = img;
+
+    img.onload = () => {
+      this.spriteLoaded[key] = true;
     };
-    this.spriteImage.onerror = () => {
-      this.spriteLoaded = false;
-      console.error("Failed to load food sprite", hamburgerSprite);
+    img.onerror = () => {
+      this.spriteLoaded[key] = false;
+      console.error("Failed to load food sprite", src);
     };
-    this.spriteImage.src = hamburgerSprite;
+    img.src = src;
+  }
+
+  private loadSprites() {
+    this.loadImage("hamburger", hamburgerSprite);
+    this.loadImage("in_mounth", inMounthSprite);
+    this.loadImage("pipe", pipeDegistiveSprite);
   }
 
   /**
@@ -163,6 +187,11 @@ export class Food implements GameObject {
     this.autoTriggerZoneIds = [...zoneIds];
     this.isAutoMoving = true;
 
+    // Requested flow: zone_1 auto starts with in_mounth image.
+    if (zoneIds.includes("zone_1") && this.visualMode !== "circle") {
+      this.visualMode = "in_mounth";
+    }
+
     console.log(
       `🚀 Auto-path started: ${zoneIds.join(", ")} → ${path.length} waypoints ` +
         `(snapped to #${closestIndex}, moving to #${this.autoPathIndex})`,
@@ -176,6 +205,8 @@ export class Food implements GameObject {
    *  - Lock the triggering zone(s) as walls
    */
   private completeAutoPath() {
+    const endedZone1Auto = this.autoTriggerZoneIds.includes("zone_1");
+
     console.log(
       `✅ Auto-path completed for zones: ${this.autoTriggerZoneIds.join(", ")}`,
     );
@@ -192,12 +223,17 @@ export class Food implements GameObject {
     this.autoPathIndex = 0;
     this.autoTriggerZoneIds = [];
     this.isAutoMoving = false;
+
+    // Requested flow: after zone_1 auto ends, switch to pipe image until zone_2.
+    if (endedZone1Auto && this.visualMode !== "circle") {
+      this.visualMode = "pipe";
+    }
   }
 
   // ── Update ──────────────────────────────────────────────
 
   update(deltaTime: number) {
-    this.syncZone1VisualState();
+    this.syncVisualStateByZones();
 
     if (this.isAutoMoving) {
       this.updateAutoMovement(deltaTime);
@@ -207,16 +243,17 @@ export class Food implements GameObject {
   }
 
   /**
-   * Keep visual mode synced even if zone enter event is skipped.
+   * Keep visual mode synced even if a zone enter event is skipped.
    */
-  private syncZone1VisualState() {
-    if (this.hasEnteredZone1 || !this.collisionSystem) return;
+  private syncVisualStateByZones() {
+    if (!this.collisionSystem || this.visualMode === "circle") return;
 
+    // Requested flow: once zone_2 is reached, revert to default circle forever.
     if (
-      this.collisionSystem.hasEnteredZone("zone_1") ||
-      this.collisionSystem.isInsideZone("zone_1", this.x, this.y, this.width)
+      this.collisionSystem.hasEnteredZone("zone_2") ||
+      this.collisionSystem.isInsideZone("zone_2", this.x, this.y, this.width)
     ) {
-      this.hasEnteredZone1 = true;
+      this.visualMode = "circle";
     }
   }
 
@@ -244,7 +281,7 @@ export class Food implements GameObject {
       // Update zone tracking even during auto movement
       if (this.collisionSystem) {
         this.collisionSystem.updateZoneTracking(this.x, this.y, this.width);
-        this.syncZone1VisualState();
+        this.syncVisualStateByZones();
       }
       return;
     }
@@ -260,7 +297,7 @@ export class Food implements GameObject {
     // Still track zones during auto movement
     if (this.collisionSystem) {
       this.collisionSystem.updateZoneTracking(this.x, this.y, this.width);
-      this.syncZone1VisualState();
+      this.syncVisualStateByZones();
     }
   }
 
@@ -329,11 +366,11 @@ export class Food implements GameObject {
       this.y,
       this.width,
     );
-    this.syncZone1VisualState();
+    this.syncVisualStateByZones();
 
     if (enteredZone) {
-      if (enteredZone.id === "zone_1") {
-        this.hasEnteredZone1 = true;
+      if (enteredZone.id === "zone_2") {
+        this.visualMode = "circle";
       }
 
       // Look up if this zone has an associated path
@@ -391,19 +428,35 @@ export class Food implements GameObject {
       }
     }
 
-    const sprite = this.spriteImage;
-    const shouldDrawHamburger =
-      !this.hasEnteredZone1 && sprite !== null && this.spriteLoaded;
+    const spriteKey =
+      this.visualMode === "hamburger"
+        ? "hamburger"
+        : this.visualMode === "in_mounth"
+          ? "in_mounth"
+          : this.visualMode === "pipe"
+            ? "pipe"
+            : null;
 
-    if (shouldDrawHamburger) {
-      const drawX = this.x - this.preZoneSpriteWidth / 2;
-      const drawY = this.y - this.preZoneSpriteHeight / 2;
+    const sprite = spriteKey ? this.spriteImages[spriteKey] : null;
+    const shouldDrawSprite =
+      spriteKey !== null && sprite !== null && this.spriteLoaded[spriteKey];
+
+    if (shouldDrawSprite) {
+      const isPipeSprite = spriteKey === "pipe";
+      const drawWidth = isPipeSprite
+        ? this.spriteWidth / this.pipeScaleDivisor
+        : this.spriteWidth;
+      const drawHeight = isPipeSprite
+        ? this.spriteHeight / this.pipeScaleDivisor
+        : this.spriteHeight;
+      const drawX = this.x - drawWidth / 2;
+      const drawY = this.y - drawHeight / 2;
       ctx.drawImage(
         sprite,
         drawX,
         drawY,
-        this.preZoneSpriteWidth,
-        this.preZoneSpriteHeight,
+        drawWidth,
+        drawHeight,
       );
     } else {
       // Main food circle
