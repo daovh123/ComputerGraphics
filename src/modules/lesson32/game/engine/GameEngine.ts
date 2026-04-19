@@ -21,6 +21,7 @@ import { CollisionRectEditor } from "./CollisionRectEditor";
 import hamburgerSprite from "../../../../assets/img/hamburger.png";
 import inMounthSprite from "../../../../assets/img/In_mounth.png";
 import pipeDegistiveSprite from "../../../../assets/img/Pipe degistive.png";
+import stomachSpriteSheet from "../../../../assets/img/stomach_1-removebg-preview.png";
 
 // ===== VIEWPORT CONSTANTS =====
 export const VIEWPORT_WIDTH = 800;
@@ -46,11 +47,17 @@ export class Food implements GameObject {
   speed = 300; // pixels per second
   private readonly spriteWidth = 200;
   private readonly spriteHeight = 200;
+  private readonly stomachDrawWidth = 80;
+  private readonly stomachDrawHeight = 80;
   private readonly pipeScaleDivisor = 2.5;
 
   // Visual state machine
-  private visualMode: "hamburger" | "in_mounth" | "pipe" | "circle" =
-    "hamburger";
+  private visualMode:
+    | "hamburger"
+    | "in_mounth"
+    | "pipe"
+    | "stomach_anim"
+    | "circle" = "hamburger";
 
   // Sprite cache
   private spriteImages: Record<
@@ -66,6 +73,17 @@ export class Food implements GameObject {
     in_mounth: false,
     pipe: false,
   };
+
+  // Stomach animation from one sprite sheet (1 row x 6 columns)
+  private stomachSpriteSheet: HTMLImageElement | null = null;
+  private stomachSpriteSheetLoaded = false;
+  private readonly stomachFrameCount = 6;
+  private stomachAnimationFrameIndex = 0;
+  private stomachAnimationTimer = 0;
+  private readonly stomachFrameDurationSec = 0.45;
+  private autoCompletionsAfterZone2 = 0;
+  private readonly finalStomachFrameAutoCount = 5;
+  private lockFinalStomachFrame = false;
 
   // ── Manual movement state ──
   targetX: number | null = null;
@@ -113,6 +131,21 @@ export class Food implements GameObject {
     this.loadImage("hamburger", hamburgerSprite);
     this.loadImage("in_mounth", inMounthSprite);
     this.loadImage("pipe", pipeDegistiveSprite);
+    this.loadStomachSpriteSheet();
+  }
+
+  private loadStomachSpriteSheet() {
+    const img = new Image();
+    this.stomachSpriteSheet = img;
+
+    img.onload = () => {
+      this.stomachSpriteSheetLoaded = true;
+    };
+    img.onerror = () => {
+      this.stomachSpriteSheetLoaded = false;
+      console.error("Failed to load stomach sprite sheet", stomachSpriteSheet);
+    };
+    img.src = stomachSpriteSheet;
   }
 
   /**
@@ -225,6 +258,15 @@ export class Food implements GameObject {
     this.autoTriggerZoneIds = [];
     this.isAutoMoving = false;
 
+    if (this.visualMode === "stomach_anim") {
+      this.autoCompletionsAfterZone2++;
+      if (this.autoCompletionsAfterZone2 >= this.finalStomachFrameAutoCount) {
+        this.lockFinalStomachFrame = true;
+        this.stomachAnimationFrameIndex = this.stomachFrameCount - 1; // frame #6
+        this.stomachAnimationTimer = 0;
+      }
+    }
+
     // Requested flow: after zone_1 auto ends, switch to pipe image until zone_2.
     if (endedZone1Auto && this.visualMode !== "circle") {
       this.visualMode = "pipe";
@@ -235,6 +277,7 @@ export class Food implements GameObject {
 
   update(deltaTime: number) {
     this.syncVisualStateByZones();
+    this.updateStomachAnimation(deltaTime);
 
     if (this.isAutoMoving) {
       this.updateAutoMovement(deltaTime);
@@ -247,14 +290,40 @@ export class Food implements GameObject {
    * Keep visual mode synced even if a zone enter event is skipped.
    */
   private syncVisualStateByZones() {
-    if (!this.collisionSystem || this.visualMode === "circle") return;
+    if (!this.collisionSystem) return;
 
-    // Requested flow: once zone_2 is reached, revert to default circle forever.
+    // When reaching zone_2, switch to slow stomach frame animation.
     if (
       this.collisionSystem.hasEnteredZone("zone_2") ||
       this.collisionSystem.isInsideZone("zone_2", this.x, this.y, this.width)
     ) {
-      this.visualMode = "circle";
+      this.startStomachAnimationMode();
+    }
+  }
+
+  private startStomachAnimationMode() {
+    if (this.visualMode === "stomach_anim") return;
+    this.visualMode = "stomach_anim";
+    this.stomachAnimationFrameIndex = 0;
+    this.stomachAnimationTimer = 0;
+    this.autoCompletionsAfterZone2 = 0;
+    this.lockFinalStomachFrame = false;
+  }
+
+  private updateStomachAnimation(deltaTime: number) {
+    if (this.visualMode !== "stomach_anim") return;
+    if (!this.stomachSpriteSheetLoaded) return;
+    if (this.lockFinalStomachFrame) return;
+
+    // Advance frames slowly while food is moving.
+    const movingNow = this.isAutoMoving || this.isMoving;
+    if (!movingNow) return;
+
+    this.stomachAnimationTimer += deltaTime;
+    if (this.stomachAnimationTimer >= this.stomachFrameDurationSec) {
+      this.stomachAnimationTimer = 0;
+      this.stomachAnimationFrameIndex =
+        (this.stomachAnimationFrameIndex + 1) % this.stomachFrameCount;
     }
   }
 
@@ -371,7 +440,7 @@ export class Food implements GameObject {
 
     if (enteredZone) {
       if (enteredZone.id === "zone_2") {
-        this.visualMode = "circle";
+        this.startStomachAnimationMode();
       }
 
       // Look up if this zone has an associated path
@@ -442,7 +511,39 @@ export class Food implements GameObject {
     const shouldDrawSprite =
       spriteKey !== null && sprite !== null && this.spriteLoaded[spriteKey];
 
-    if (shouldDrawSprite) {
+    if (this.visualMode === "stomach_anim") {
+      const sheet = this.stomachSpriteSheet;
+
+      if (sheet && this.stomachSpriteSheetLoaded) {
+        const sourceFrameWidth = sheet.width / this.stomachFrameCount;
+        const sourceFrameHeight = sheet.height;
+        const sourceX = sourceFrameWidth * this.stomachAnimationFrameIndex;
+        const sourceY = 0;
+
+        const drawX = this.x - this.stomachDrawWidth / 2;
+        const drawY = this.y - this.stomachDrawHeight / 2;
+        ctx.drawImage(
+          sheet,
+          sourceX,
+          sourceY,
+          sourceFrameWidth,
+          sourceFrameHeight,
+          drawX,
+          drawY,
+          this.stomachDrawWidth,
+          this.stomachDrawHeight,
+        );
+      } else {
+        ctx.fillStyle = this.isAutoMoving ? "#00C8FF" : "#FF6B35";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = this.isAutoMoving ? "#0096D6" : "#FF4500";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    } else if (shouldDrawSprite) {
       const isPipeSprite = spriteKey === "pipe";
       const drawWidth = isPipeSprite
         ? this.spriteWidth / this.pipeScaleDivisor
