@@ -49,10 +49,14 @@ export class Food implements GameObject {
   private readonly pipeScaleDivisor = 2.5;
 
   // Visual state machine
-  private visualMode: "hamburger" | "in_mounth" | "pipe" | "circle" = "hamburger";
+  private visualMode: "hamburger" | "in_mounth" | "pipe" | "circle" =
+    "hamburger";
 
   // Sprite cache
-  private spriteImages: Record<"hamburger" | "in_mounth" | "pipe", HTMLImageElement | null> = {
+  private spriteImages: Record<
+    "hamburger" | "in_mounth" | "pipe",
+    HTMLImageElement | null
+  > = {
     hamburger: null,
     in_mounth: null,
     pipe: null,
@@ -91,10 +95,7 @@ export class Food implements GameObject {
     this.loadSprites();
   }
 
-  private loadImage(
-    key: "hamburger" | "in_mounth" | "pipe",
-    src: string,
-  ) {
+  private loadImage(key: "hamburger" | "in_mounth" | "pipe", src: string) {
     const img = new Image();
     this.spriteImages[key] = img;
 
@@ -451,13 +452,7 @@ export class Food implements GameObject {
         : this.spriteHeight;
       const drawX = this.x - drawWidth / 2;
       const drawY = this.y - drawHeight / 2;
-      ctx.drawImage(
-        sprite,
-        drawX,
-        drawY,
-        drawWidth,
-        drawHeight,
-      );
+      ctx.drawImage(sprite, drawX, drawY, drawWidth, drawHeight);
     } else {
       // Main food circle
       ctx.fillStyle = this.isAutoMoving ? "#00C8FF" : "#FF6B35";
