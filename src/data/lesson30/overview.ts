@@ -16,5 +16,7 @@ export const BODY_LAYERS = ["Da", "Mỡ", "Cơ", "Xương"] as const;
 
 export const DISCUSSION = {
   prompt: "Cơ thể người có mấy phần? Kể tên các phần đó.",
-  answer: "Cơ thể người gồm các phần: đầu, cổ, thân, tay và chân.",
+  answer:
+    "Cơ thể người gồm 5 phần chính: đầu, cổ, thân, tay và chân. Mỗi phần có cấu tạo và chức năng riêng, nhưng chúng phối hợp với nhau để cơ thể hoạt động một cách hiệu quả.",
+
 } as const;
