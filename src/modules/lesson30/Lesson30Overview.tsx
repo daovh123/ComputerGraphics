@@ -119,10 +119,6 @@ export default function Lesson30Overview({
           </div>
 
           <div className="space-y-2">
-            <p className="font-bold text-[#333]">Gợi ý</p>
-            <p className="text-[#666] leading-relaxed">
-              Quan sát mô hình 3D (hoặc tranh) để nhận biết các phần cơ thể.
-            </p>
           </div>
         </div>
       </div>
