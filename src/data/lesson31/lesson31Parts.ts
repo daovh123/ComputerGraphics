@@ -1,4 +1,4 @@
-﻿import type { Lesson31PartItem } from "./types";
+import type { Lesson31PartItem } from "./types";
 
 export const lesson31Parts: Lesson31PartItem[] = [
   {
@@ -110,6 +110,27 @@ export const lesson31Parts: Lesson31PartItem[] = [
     structure: "Đây là xương dài và lớn hơn xương mác, chịu lực chính ở cẳng chân.",
     function: "Nâng đỡ cơ thể khi đứng và đi lại.",
     note: "Phần ống chân phía trước mà em dễ va vào chính là vùng xương chày.",
+  },
+
+  {
+    id: "hand-bones-front",
+    name: "Xương bàn tay và ngón tay",
+    system: "skeleton",
+    side: "front",
+    description: "Xương bàn tay và ngón tay nằm ở phần cuối của cánh tay.",
+    structure: "Gồm nhiều xương nhỏ (xương cổ tay, xương bàn tay và các đốt ngón tay) khớp nối linh hoạt với nhau.",
+    function: "Giúp bàn tay thực hiện các động tác tinh xảo như cầm, nắm, viết và thao tác đồ vật.",
+    note: "Sự khéo léo của con người phần lớn nhờ vào cấu trúc phức tạp của các xương này.",
+  },
+  {
+    id: "foot-bones-front",
+    name: "Xương bàn chân và ngón chân",
+    system: "skeleton",
+    side: "front",
+    description: "Xương bàn chân và ngón chân nằm ở phần cuối cùng của đôi chân.",
+    structure: "Cấu tạo gồm xương cổ chân, xương bàn chân và các đốt ngón chân, tạo thành vòm chân vững chắc.",
+    function: "Chịu toàn bộ sức nặng cơ thể, giữ thăng bằng và tạo lực đẩy khi đi, chạy, nhảy.",
+    note: "Vòm bàn chân đóng vai trò như một bộ phận giảm xóc tự nhiên của cơ thể.",
   },
 
   {

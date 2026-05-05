@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   lesson31Header,
   lesson31ImageMap,
@@ -40,8 +40,8 @@ export default function Lesson31Overview({ initialTab = "overview" }: Lesson31Ov
   );
 
   const selectedPart = useMemo<Lesson31PartItem | null>(
-    () => currentParts.find((part) => part.id === selectedPartId) ?? null,
-    [currentParts, selectedPartId],
+    () => lesson31Parts.find((part) => part.id === selectedPartId) ?? null,
+    [selectedPartId],
   );
 
   useEffect(() => {
