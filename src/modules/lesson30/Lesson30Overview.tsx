@@ -70,7 +70,6 @@ export default function Lesson30Overview({
                 <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-6 pointer-events-none">
                   <div className="text-white space-y-1">
                     <p className="font-bold text-lg">Vùng minh hoạ</p>
-                    <p className="text-sm text-white/80">(Bạn gắn model 3D sau)</p>
                   </div>
                 </div>
               </div>
