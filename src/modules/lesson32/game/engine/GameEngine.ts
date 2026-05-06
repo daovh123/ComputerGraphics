@@ -74,16 +74,22 @@ export class Food implements GameObject {
     pipe: false,
   };
 
-  // Stomach animation from one sprite sheet (1 row x 6 columns)
+  // Digestive animation from one sprite sheet (1 row x 6 columns)
+  // zone_2 uses frames 0, 1, 2
+  // zone_3 uses frames 3, 4, 5
   private stomachSpriteSheet: HTMLImageElement | null = null;
   private stomachSpriteSheetLoaded = false;
   private readonly stomachFrameCount = 6;
+
   private stomachAnimationFrameIndex = 0;
   private stomachAnimationTimer = 0;
   private readonly stomachFrameDurationSec = 0.45;
-  private autoCompletionsAfterZone2 = 0;
-  private readonly finalStomachFrameAutoCount = 5;
-  private lockFinalStomachFrame = false;
+
+  private stomachAnimationStartFrame = 0;
+  private stomachAnimationEndFrame = 2;
+
+  private hasStartedZone2Animation = false;
+  private hasStartedZone3Animation = false;
 
   // ── Manual movement state ──
   targetX: number | null = null;
@@ -258,15 +264,6 @@ export class Food implements GameObject {
     this.autoTriggerZoneIds = [];
     this.isAutoMoving = false;
 
-    if (this.visualMode === "stomach_anim") {
-      this.autoCompletionsAfterZone2++;
-      if (this.autoCompletionsAfterZone2 >= this.finalStomachFrameAutoCount) {
-        this.lockFinalStomachFrame = true;
-        this.stomachAnimationFrameIndex = this.stomachFrameCount - 1; // frame #6
-        this.stomachAnimationTimer = 0;
-      }
-    }
-
     // Requested flow: after zone_1 auto ends, switch to pipe image until zone_2.
     if (endedZone1Auto && this.visualMode !== "circle") {
       this.visualMode = "pipe";
@@ -292,38 +289,59 @@ export class Food implements GameObject {
   private syncVisualStateByZones() {
     if (!this.collisionSystem) return;
 
-    // When reaching zone_2, switch to slow stomach frame animation.
+    // zone_2: stomach / dạ dày → play first 3 frames only
     if (
-      this.collisionSystem.hasEnteredZone("zone_2") ||
-      this.collisionSystem.isInsideZone("zone_2", this.x, this.y, this.width)
+      !this.hasStartedZone2Animation &&
+      (this.collisionSystem.hasEnteredZone("zone_2") ||
+        this.collisionSystem.isInsideZone("zone_2", this.x, this.y, this.width))
     ) {
-      this.startStomachAnimationMode();
+      this.startStomachAnimationMode(0, 2);
+      this.hasStartedZone2Animation = true;
+    }
+
+    // zone_3: intestine / ruột → continue with last 3 frames
+    if (
+      !this.hasStartedZone3Animation &&
+      (this.collisionSystem.hasEnteredZone("zone_3") ||
+        this.collisionSystem.isInsideZone("zone_3", this.x, this.y, this.width))
+    ) {
+      this.startStomachAnimationMode(3, 5);
+      this.hasStartedZone3Animation = true;
     }
   }
 
-  private startStomachAnimationMode() {
-    if (this.visualMode === "stomach_anim") return;
+  private startStomachAnimationMode(startFrame: number, endFrame: number) {
     this.visualMode = "stomach_anim";
-    this.stomachAnimationFrameIndex = 0;
+
+    this.stomachAnimationStartFrame = startFrame;
+    this.stomachAnimationEndFrame = endFrame;
+    this.stomachAnimationFrameIndex = startFrame;
+
     this.stomachAnimationTimer = 0;
-    this.autoCompletionsAfterZone2 = 0;
-    this.lockFinalStomachFrame = false;
   }
 
   private updateStomachAnimation(deltaTime: number) {
     if (this.visualMode !== "stomach_anim") return;
     if (!this.stomachSpriteSheetLoaded) return;
-    if (this.lockFinalStomachFrame) return;
 
-    // Advance frames slowly while food is moving.
+    // Chỉ animate khi Food đang di chuyển.
+    // Khi đứng yên thì giữ nguyên frame hiện tại.
     const movingNow = this.isAutoMoving || this.isMoving;
     if (!movingNow) return;
 
     this.stomachAnimationTimer += deltaTime;
+
     if (this.stomachAnimationTimer >= this.stomachFrameDurationSec) {
       this.stomachAnimationTimer = 0;
-      this.stomachAnimationFrameIndex =
-        (this.stomachAnimationFrameIndex + 1) % this.stomachFrameCount;
+
+      if (this.stomachAnimationFrameIndex < this.stomachAnimationEndFrame) {
+        this.stomachAnimationFrameIndex++;
+      } else {
+        // Loop lại trong nhóm frame hiện tại:
+        // zone_2: 0 → 1 → 2 → 0 → 1 → 2...
+        // zone_3: 3 → 4 → 5 → 3 → 4 → 5...
+        this.stomachAnimationFrameIndex = this.stomachAnimationStartFrame;
+      }
     }
   }
 
@@ -439,8 +457,14 @@ export class Food implements GameObject {
     this.syncVisualStateByZones();
 
     if (enteredZone) {
-      if (enteredZone.id === "zone_2") {
-        this.startStomachAnimationMode();
+      if (enteredZone.id === "zone_2" && !this.hasStartedZone2Animation) {
+        this.startStomachAnimationMode(0, 2);
+        this.hasStartedZone2Animation = true;
+      }
+
+      if (enteredZone.id === "zone_3" && !this.hasStartedZone3Animation) {
+        this.startStomachAnimationMode(3, 5);
+        this.hasStartedZone3Animation = true;
       }
 
       // Look up if this zone has an associated path
@@ -888,10 +912,10 @@ export class GameEngine {
     }
 
     // Draw collision rects (debug)
-    this.collisionSystem.draw(this.ctx);
+    //this.collisionSystem.draw(this.ctx);
 
     // Draw collision editor rects
-    this.collisionEditor.draw();
+    //this.collisionEditor.draw();
 
     // Restore context state
     this.ctx.restore();

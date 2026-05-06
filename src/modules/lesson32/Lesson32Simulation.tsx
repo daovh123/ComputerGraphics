@@ -153,10 +153,9 @@ export default function Lesson32Simulation() {
                 Trò chơi tiêu hóa - Hành trình của thức ăn
               </h2>
               <p className="text-[#5B6470] text-sm leading-relaxed mt-2">
-                Điều khiển thức ăn đi qua các cơ quan tiêu hóa. Sử dụng phím mũi
-                tên hoặc WASD để di chuyển thức ăn từ miệng đến các bộ phận khác
-                của hệ tiêu hóa. Tìm hiểu từng giai đoạn tiêu hóa một cách tương
-                tác!
+                Điều khiển thức ăn đi qua các cơ quan tiêu hóa. Sử dụng chuột
+                để di chuyển thức ăn từ miệng đến các bộ phận khác của hệ
+                tiêu hóa. Tìm hiểu từng giai đoạn tiêu hóa một cách trực quan!
               </p>
             </div>
             <div className="flex justify-center pt-4">

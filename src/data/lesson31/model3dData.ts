@@ -1,6 +1,6 @@
 import coXuongModel from "../../assets/3d/co_xuong.glb";
 import coModel from "../../assets/3d/cơ.glb";
-import heVanDongModel from "../../assets/3d/hệ vận động.glb";
+import heVanDongModel from "../../assets/3d/ct_derived_human_skeleton.glb";
 import type { Lesson31Model3DItem } from "./types";
 
 export const lesson31Model3DData: Lesson31Model3DItem[] = [
